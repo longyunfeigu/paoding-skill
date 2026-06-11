@@ -71,6 +71,21 @@ the brief or voice is still moving. Choose parallel page work only when each
 page maps to a disjoint `content/*.md` file — they do, which is the point of
 the split — and merge by file, never by editing data.js.
 
+## 3.5 Collect real material
+
+Before page writing starts, collect the concrete material the pages will
+need, following the ladder in `references/evidence-collection.md`:
+
+- mine the source package (`examples/`, README images, fixtures) for
+  ready-made specimens and wow material;
+- if the load-bearing artifact has no real instance anywhere, run a slice
+  (跑到第一个承重工件、沿人工检查点切开、产物落盘采集);
+- ablate only the cheap counter-intuitive claims worth upgrading to 实测;
+- whatever stays synthesized must be labeled 模拟样本 in content.
+
+Record in the brief which level each key excerpt came from. Page packets
+then point at collected files instead of asking writers to invent samples.
+
 ## 4. Produce page packets
 
 Each page packet is a self-contained handoff. Do not clone the same packet

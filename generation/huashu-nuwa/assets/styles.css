@@ -1864,3 +1864,38 @@ body[data-page="design-choices"] .scene-why {
 .walkthrough-page .challenges { max-width: 700px; }
 /* apply-it：参考答案面板与骨架面板同版心 */
 .answer-details { max-width: 760px; }
+
+/* v2.8 — 教学具体性改造：术语链接 / 标本区 / 真实产出 */
+.term-link {
+  color: inherit;
+  text-decoration: underline;
+  text-decoration-style: dotted;
+  text-decoration-color: var(--accent, #8b2f1c);
+  text-underline-offset: 3px;
+}
+.term-link:hover { color: var(--accent, #8b2f1c); }
+.artifact-specimen {
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 1px dashed var(--ink-mute, #75654f);
+}
+.artifact-specimen .specimen-label {
+  display: block;
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  color: var(--ink-mute, #75654f);
+  margin-bottom: 8px;
+}
+.stage-output .narrative-quote { font-style: normal; }
+
+/* v2.9 — 行内 markdown 渲染：行内 code */
+.inline-code {
+  font-family: "Menlo", "SF Mono", ui-monospace, monospace;
+  font-size: 0.86em;
+  font-style: normal;
+  background: rgba(0, 0, 0, 0.055);
+  border-radius: 4px;
+  padding: 1px 5px;
+  white-space: nowrap;
+}
+blockquote .inline-code { background: rgba(0, 0, 0, 0.07); }

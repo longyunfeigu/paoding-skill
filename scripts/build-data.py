@@ -329,7 +329,7 @@ def build_overview(path):
     }
 
 
-STAGE_SECTIONS = ["场景再现", "难点", "预测点", "机制与产出", "收尾", "阶段速查"]
+STAGE_SECTIONS = ["场景再现", "难点", "预测点", "机制与产出", "真实产出", "收尾", "阶段速查"]
 QUICKREF_LABELS = {
     "这一步收到什么": "receives", "skill 让我读什么": "reads",
     "我不能直接做什么": "blockedShortcut", "我做什么": "action",
@@ -418,6 +418,7 @@ def build_walkthrough(path):
             "painBehavior": pain_fields["行为难点"],
             "predictBody": predict,
             "mechanismBody": to_blocks(sub["机制与产出"], path),
+            "outputBody": to_blocks(sub.get("真实产出", []), path),
             "reusableMove": closing_fields.get("可偷的招", ""),
             "moveCard": move_card,
             "hookClose": closing_fields.get("下一步靠这个", ""),
@@ -457,7 +458,8 @@ def build_dataflow(path):
         for key, label in label_map.items():
             if label not in fields:
                 err(path, line, f"产物卡 {title} 缺少 **{key}:**")
-        artifacts.append({"path": title.strip("`"), **fields})
+        body = to_blocks([n for n in item_nodes if n["kind"] != "field"], path)
+        artifacts.append({"path": title.strip("`"), **fields, "body": body})
     return {
         "flowDiagramId": front.get("flowDiagram", ""),
         "intro": front.get("intro", ""),
@@ -604,7 +606,8 @@ def build_apply(path):
 def build_glossary(path):
     _, nodes = tokenize(path)
     label_map = {
-        "定义": "definition", "它在哪个 stage 出现": "whereItAppears",
+        "定义": "definition", "例": "example",
+        "它在哪个 stage 出现": "whereItAppears",
         "它解决什么问题": "solvedProblem", "我怎么用它": "howToUse",
         "容易误解": "commonMisread",
     }

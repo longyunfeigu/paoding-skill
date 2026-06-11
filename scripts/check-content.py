@@ -52,7 +52,7 @@ def iter_blocks(handbook):
         for b in ov.get(name, []):
             yield f"overview.{name}", b
     for i, stage in enumerate(handbook.get("walkthrough", []), 1):
-        for name in ("sceneBody", "predictBody", "mechanismBody"):
+        for name in ("sceneBody", "predictBody", "mechanismBody", "outputBody"):
             for b in stage.get(name, []):
                 yield f"walkthrough.{stage.get('id', i)}.{name}", b
     ap = handbook.get("applyIt", {})
@@ -135,7 +135,12 @@ def check_stages(handbook):
             if not any(b.get("kind") in ("quote", "code") for b in mech):
                 error(f"{sid} 的机制小节没有任何引用块或代码块——机制必须贴原文（H2）")
         if not any(b.get("kind") in ("quote", "code") for b in stage.get("sceneBody", [])):
-            warn(f"{sid} 的场景再现没有实物片段（代码块或引用块）")
+            error(f"{sid} 的场景再现没有实物片段（代码块或引用块）——光点文件名不算实物")
+        output = stage.get("outputBody", [])
+        if not any(b.get("kind") in ("quote", "code") for b in output):
+            # TODO(升级): 女娲手册回填「真实产出」小节后，把这条升为 error。
+            warn(f"{sid} 缺少带实物片段的「真实产出」小节——"
+                 f"只有字段名没有值的 schema 不算产出（来源规则见 references/evidence-collection.md）")
         move = stage.get("reusableMove", "").strip()
         if not move:
             warn(f"{sid} 没有可偷的招")
@@ -177,6 +182,34 @@ def check_archive(handbook):
         warn("难点档案没有残渣也没有盲区——全量对账通常会留下点什么，确认不是漏写")
 
 
+def check_glossary(handbook):
+    for t in handbook.get("glossary", []):
+        term = t.get("term", "?")
+        if not str(t.get("example", "")).strip():
+            error(f"术语「{term}」缺少 **例:**——没有实例的定义看了等于没看")
+
+
+def _normalize(text):
+    return re.sub(r"[\s，。、；：「」『』（）()\"'：:！？!?·…—\-]", "", text)
+
+
+def check_altitude_dedup(handbook):
+    """三高度复读粗查：预览卡的「坑」和它指向的档案卡「症状」不许近乎逐字。"""
+    import difflib
+    cards = {c.get("id"): c for c in handbook.get("archive", {}).get("cards", [])}
+    for p in handbook.get("overview", {}).get("painPreview", []):
+        card = cards.get(p.get("goDeeperCard", ""))
+        if not card:
+            continue
+        a, b = _normalize(p.get("pit", "")), _normalize(card.get("symptom", ""))
+        if not a or not b:
+            continue
+        ratio = difflib.SequenceMatcher(None, a, b).ratio()
+        if ratio > 0.6:
+            warn(f"预览卡「{p.get('title')}」的坑与档案卡 {card.get('id')} 症状"
+                 f"相似度 {ratio:.0%}——三高度各自要加自己那一层，不是复制粘贴")
+
+
 def check_term_density(handbook):
     """H6 粗查：同一段落里首次出现 >=2 个 glossary 术语。"""
     terms = [t.get("term", "") for t in handbook.get("glossary", []) if t.get("term")]
@@ -207,6 +240,8 @@ def main():
     check_diagrams(handbook, target)
     check_stages(handbook)
     check_archive(handbook)
+    check_glossary(handbook)
+    check_altitude_dedup(handbook)
     check_term_density(handbook)
 
     for w in warnings:

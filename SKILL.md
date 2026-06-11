@@ -61,6 +61,11 @@ For web handbooks, write the full `ordinary-view pain scan` described in
 `references/handbook-spec.md`. For shorter reviews, fold the same thinking into
 the findings.
 
+When a claim needs evidence beyond the package text, or a handbook needs
+real artifact excerpts, follow the collection ladder in
+`references/evidence-collection.md` (mine `examples/` → slice-run →
+targeted ablation).
+
 ### 3. Read Like a Skill Designer
 
 Preserve three layers:
@@ -137,6 +142,9 @@ Before finishing, check:
   implementation notes to references or assets.
 - Do not rely on examples as specification.
 - Do not treat generated `generation/` output as reusable skill material.
+- Collect concrete material per `references/evidence-collection.md`; any
+  synthesized artifact excerpt in a handbook is labeled 模拟样本 — the
+  honesty rule applies to the handbook itself.
 - Use scripts/assets for repeatable mechanics instead of re-explaining them in
   prose.
 - For web handbooks: data.js 是构建产物，禁止手写 — write `content/*.md` and
@@ -148,6 +156,8 @@ Before finishing, check:
 
 - `references/pain-dimensions.md` — the six-source dimension taxonomy, the
   three-question pain test, evidence grades, and the item-driven sweep.
+- `references/evidence-collection.md` — the evidence collection ladder
+  (mine examples / slice-run / targeted ablation) and specimen rules.
 - `references/handbook-spec.md` — content contract for multi-page handbooks
   (五章 + 附录) and the ordinary-view pain scan format.
 - `references/web-production-flow.md` — concise web production flow: scaffold,

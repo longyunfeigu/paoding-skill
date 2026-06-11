@@ -31,6 +31,23 @@ a concrete excerpt — a source excerpt, a prompt sent to the user, a command or
 output trace, or a Markdown / JSON sample showing the artifact shape. Naming a
 file is not enough.
 
+The same applies to the stage's reading material: when the skill makes the
+agent read a file (「读 style.md 把口味载入脑子」), excerpt the part that
+does the behavior change — the token table, the contract lines — so the
+reader can simulate the reading. One cherry-picked line is a teaser, not an
+excerpt.
+
+## 真实产出：real values, sourced
+
+`### 真实产出` is its own section after 机制与产出. It shows what this stage
+hands over **with real values** — a filled artifact instance, a command
+trace, a presented checkpoint message. Schema field names without values do
+not qualify. Source the excerpt per the ladder in
+`references/evidence-collection.md` and label synthesized ones 模拟样本 in
+the introducing sentence. If the artifact has a dataflow specimen, show a
+compact slice here and let the specimen carry the field-level annotation —
+do not paste the full annotated instance twice.
+
 The metadata rows (receives / reads / output / freedom / nextConsumer) belong
 in a collapsible "阶段速查" panel below the narrative. The default reading
 path is the story plus evidence.
@@ -74,8 +91,13 @@ execution narrative.
 
 ## 机制：quote, then map
 
-Quote the actual rule, gate text, or script lines — not a paraphrase. Then map
-each quoted piece to which half of the pain it blocks:
+Quote the actual rule, gate text, or script lines — not a paraphrase. This
+applies to **every enumeration of the skill's own rules anywhere in the
+stage**, not just the 机制 section: a paraphrased checklist drifts (counts
+go wrong, items merge) the moment it leaves the source. If you must compress
+a quoted list, keep the quote visible and compress around it.
+
+Then map each quoted piece to which half of the pain it blocks:
 
 ```markdown
 skill 的处理是 <机制>：<文件 / 规则 / 脚本> 先钉住 <维度>，
@@ -84,6 +106,11 @@ skill 的处理是 <机制>：<文件 / 规则 / 脚本> 先钉住 <维度>，
 
 Put the quote and its explanation side by side. Do not make the reader jump to
 another chapter to understand a load-bearing mechanism.
+
+When the verbatim text is a one-line prose schema or field list, do not leave
+it as inline code inside the quote — render the shape as a fenced code block
+(`jsonc` for object schemas) next to it, noting 「原文为一行散文式 schema」.
+Fidelity stays in the quote; readability lives in the block.
 
 ## Explain terms before names
 
@@ -195,8 +222,11 @@ Use 3-4 concrete questions from real edge cases:
 - Is every pain an observable symptom with an evidence grade, pulled from the
   brief?
 - Does every pain-carrying stage have a predict point before its mechanism?
-- Is the mechanism quoted, not paraphrased, and explained in place?
-- Are input and output backed by real material?
+- Is the mechanism quoted, not paraphrased, and explained in place — and is
+  every enumeration of skill rules a quote rather than a paraphrase?
+- Are input, reading material, and output backed by real material?
+- Does every stage have a 真实产出 section with real values, each excerpt
+  sourced per the evidence ladder (synthesized ones labeled 模拟样本)?
 - Are important terms explained before use?
 - Does the narrative use first-person execution voice without repeating
   "我作为 AI"?

@@ -44,6 +44,12 @@ Four constructs, nothing else:
    - `!diagram(id)` alone on a line → `{kind: "diagram", id}` (id must exist
      in meta.md's diagram registry)
 
+Inline markup: paragraphs, quotes, list items, and field values support
+`**加粗**` and backtick `code` (the renderer renders both; everything else
+is literal text). **Structured shapes — schemas, JSON objects, field lists —
+go in fenced code blocks with a language tag, never as inline code inside a
+quote**: a one-line schema in backticks renders as unreadable italic prose.
+
 Evidence grades ride inline at the end of a field value:
 `...症状描述（证据：作者证词）`. Allowed grades: 实测 / 作者证词 / 结构推断 /
 假设. The parser strips the marker into an `evidence` field.
@@ -122,7 +128,12 @@ sections in skeleton order:
                  pains are 确无)
 
 ### 机制与产出   (blocks — quote the actual rule/script, map it to the
-                 symptom, then show the real output excerpt)
+                 symptom)
+
+### 真实产出    (blocks — what this stage hands over, with real values;
+                 must contain at least one code or quote block; sourcing
+                 rules in references/evidence-collection.md, synthesized
+                 samples labeled 模拟样本)
 
 ### 收尾
 **可偷的招:** 当〔触发条件〕→ 〔动作一句话〕   (条件起手，纯动作不合格)
@@ -149,6 +160,10 @@ Frontmatter keys: `flowDiagram`, `intro` (one-sentence total task).
 **它不管什么:** ...
 **为什么长这样:** ...     (mandatory; the counter-intuitive-shape question)
 **写错会坏什么:** ...
+
+（可选标本区：字段行之后可以跟自由 blocks——通常是一个真实实例的代码块
+＋逐字段注释段。glossary 收录的承重工件必须带标本；来源与「模拟样本」
+标注规则见 references/evidence-collection.md。）
 ```
 
 ## archive.md
@@ -230,6 +245,9 @@ Frontmatter keys: none.
 ```markdown
 ### <术语>
 **定义:** ...
+**例:** ...               (mandatory; a real instance with values, not a
+                          re-description — if the term has a dataflow
+                          specimen, this is its compressed form)
 **它在哪个 stage 出现:** ...
 **它解决什么问题:** ...
 **我怎么用它:** ...
@@ -237,6 +255,9 @@ Frontmatter keys: none.
 ```
 
 3-8 terms. More terms means in-place explanations are failing their job.
+The renderer auto-links each term's first occurrence per page to its
+glossary anchor — write terms exactly as their card headings so the link
+matcher can find them.
 
 ## Build and check
 

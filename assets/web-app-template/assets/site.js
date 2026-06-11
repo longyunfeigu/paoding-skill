@@ -13,6 +13,14 @@
       .replaceAll("'", "&#039;");
   }
 
+  // 行内 markdown：先转义，再渲染 `code`（先做，防止 code 内星号被加粗）和 **加粗**。
+  function renderInline(value = "") {
+    let s = escapeHtml(value);
+    s = s.replace(/`([^`]+)`/g, '<code class="inline-code">$1</code>');
+    s = s.replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>");
+    return s;
+  }
+
   function slugify(value = "") {
     return String(value)
       .toLowerCase()
@@ -117,13 +125,35 @@
     `;
   }
 
+  // 术语首次出现自动链到 glossary 锚点（每页一次；glossary 页自身不链）。
+  const glossaryTerms = (handbook.glossary || [])
+    .map((t) => t.term)
+    .filter(Boolean)
+    .sort((a, b) => b.length - a.length);
+  const seenTerms = new Set();
+
+  function linkTerms(escaped) {
+    if ((document.body.dataset.page || "") === "glossary") return escaped;
+    let out = escaped;
+    for (const term of glossaryTerms) {
+      if (seenTerms.has(term)) continue;
+      const needle = escapeHtml(term);
+      const idx = out.indexOf(needle);
+      if (idx === -1) continue;
+      const link = `<a class="term-link" href="${root}pages/glossary.html#${slugify(term)}" title="术语 · 点击查附录">${needle}</a>`;
+      out = out.slice(0, idx) + link + out.slice(idx + needle.length);
+      seenTerms.add(term);
+    }
+    return out;
+  }
+
   function renderNarrativeBlock(block) {
     if (!block || !block.kind) return "";
     if (block.kind === "para") {
-      return `<p>${escapeHtml(block.text || "")}</p>`;
+      return `<p>${linkTerms(renderInline(block.text || ""))}</p>`;
     }
     if (block.kind === "list") {
-      const items = (block.items || []).map((item) => `<li>${escapeHtml(item)}</li>`).join("");
+      const items = (block.items || []).map((item) => `<li>${renderInline(item)}</li>`).join("");
       return `<ul class="narrative-list">${items}</ul>`;
     }
     if (block.kind === "code") {
@@ -132,7 +162,7 @@
       return `<div class="code-block"><div class="code-chrome"><span class="code-dots"><i></i><i></i><i></i></span><span class="code-lang">${langLabel}</span></div><pre${lang}><code>${escapeHtml(block.text || "")}</code></pre></div>`;
     }
     if (block.kind === "quote") {
-      return `<blockquote class="narrative-quote">${escapeHtml(block.text || "")}</blockquote>`;
+      return `<blockquote class="narrative-quote">${renderInline(block.text || "")}</blockquote>`;
     }
     if (block.kind === "diagram") {
       return diagramBlock(findDiagram(block.id));
@@ -196,23 +226,23 @@
     const predictHtml = overview.predictPrompt
       ? `<aside class="predict-block">
           <span class="predict-label">写下你的猜测</span>
-          <p>${escapeHtml(overview.predictPrompt)}</p>
+          <p>${renderInline(overview.predictPrompt)}</p>
         </aside>`
       : "";
 
     const baselineHtml = handbook.meta?.baseline
       ? `<aside class="baseline-block">
           <span class="baseline-label">本书的基线</span>
-          <p>${escapeHtml(handbook.meta.baseline)}</p>
+          <p>${renderInline(handbook.meta.baseline)}</p>
           <small>后面每一个"难点"，说的都是这个基线会怎么坏，不是说你会怎么坏。</small>
         </aside>`
       : "";
 
     const primerHtml = renderBlocks(overview.primerBeats);
 
-    const wowSetupHtml = overview.wowSetup ? `<p class="wow-setup">${escapeHtml(overview.wowSetup)}</p>` : "";
+    const wowSetupHtml = overview.wowSetup ? `<p class="wow-setup">${renderInline(overview.wowSetup)}</p>` : "";
     const wowDiagramHtml = overview.wowDiagramId ? diagramBlock(findDiagram(overview.wowDiagramId)) : "";
-    const wowMomentHtml = overview.wowMoment ? `<p class="wow-moment">${escapeHtml(overview.wowMoment)}</p>` : "";
+    const wowMomentHtml = overview.wowMoment ? `<p class="wow-moment">${renderInline(overview.wowMoment)}</p>` : "";
 
     const previewHtml = (overview.painPreview || []).map((card) => {
       const links = [];
@@ -228,12 +258,12 @@
           <h4>${escapeHtml(card.title)}<span class="status-pill">${escapeHtml(card.dimension || "")}</span></h4>
           <div class="bad-default">
             <span class="ba-label">坑 · 你会掉进去的样子</span>
-            <p>${escapeHtml(card.pit)}</p>
+            <p>${renderInline(card.pit)}</p>
           </div>
           <div class="bad-arrow">↓</div>
           <div class="bad-intercept">
             <span class="ba-label">这个 skill 最值得学的一招</span>
-            <p>${escapeHtml(card.hook || "")}</p>
+            <p>${renderInline(card.hook || "")}</p>
           </div>
           <p class="preview-godeeper">深入 → ${links.join(" ／ ")}</p>
         </article>
@@ -245,7 +275,7 @@
     const chapterLogicHtml = (overview.chapterLogic || []).map((c) => `
       <li>
         <span class="logic-chapter">${escapeHtml(c.chapter)}</span>
-        <span class="logic-why">${escapeHtml(c.why)}</span>
+        <span class="logic-why">${renderInline(c.why)}</span>
       </li>
     `).join("");
 
@@ -296,15 +326,15 @@
           <div class="example-grid">
             <article class="example-card">
               <h4>用户请求</h4>
-              <p>${escapeHtml(example.userRequest || "")}</p>
+              <p>${renderInline(example.userRequest || "")}</p>
             </article>
             <article class="example-card">
               <h4>为什么挑这个例子</h4>
-              <p>${escapeHtml(example.whyThisExample || "")}</p>
+              <p>${renderInline(example.whyThisExample || "")}</p>
             </article>
             <article class="example-card">
               <h4>预期产出</h4>
-              <p>${escapeHtml(example.expectedOutput || "")}</p>
+              <p>${renderInline(example.expectedOutput || "")}</p>
             </article>
           </div>
           <aside class="example-callout">这个例子会贯穿整本手册——后面 Walkthrough 的每一阶段都用它落地，中途不换。</aside>
@@ -363,7 +393,7 @@
       if (pain.text === "确无") {
         return `<div class="pain-row pain-none"><span class="pain-label">${escapeHtml(label)}</span><p>确无——这一站没有这类难点。</p></div>`;
       }
-      return `<div class="pain-row"><span class="pain-label">${escapeHtml(label)}</span><p>${escapeHtml(pain.text || "")} ${evidencePill(pain.evidence)}</p></div>`;
+      return `<div class="pain-row"><span class="pain-label">${escapeHtml(label)}</span><p>${renderInline(pain.text || "")} ${evidencePill(pain.evidence)}</p></div>`;
     }
 
     function part(no, label, inner) {
@@ -388,8 +418,8 @@
           }).filter(Boolean).join(`<span class="bc-sep">→</span>`)}</div>`
         : "";
 
-      const hookOpen = stage.hookOpen ? `<p class="hook hook-open"><strong>${index === 0 ? "从这里开始：" : "接上一步："}</strong>${escapeHtml(stage.hookOpen)}</p>` : "";
-      const hookClose = stage.hookClose ? `<p class="hook hook-close"><strong>${index === stages.length - 1 ? "这里把账结清：" : "下一步靠这个："}</strong>${escapeHtml(stage.hookClose)}</p>` : "";
+      const hookOpen = stage.hookOpen ? `<p class="hook hook-open"><strong>${index === 0 ? "从这里开始：" : "接上一步："}</strong>${renderInline(stage.hookOpen)}</p>` : "";
+      const hookClose = stage.hookClose ? `<p class="hook hook-close"><strong>${index === stages.length - 1 ? "这里把账结清：" : "下一步靠这个："}</strong>${renderInline(stage.hookClose)}</p>` : "";
 
       const sceneHtml = Array.isArray(stage.sceneBody) && stage.sceneBody.length
         ? part("Ⅰ", "场景再现", `<div class="narrative stage-scene">${renderBlocks(stage.sceneBody)}</div>`)
@@ -418,14 +448,18 @@
         ? part("Ⅳ", "skill 实际怎么防 · 贴原文", `<div class="narrative stage-mechanism">${renderBlocks(stage.mechanismBody)}</div>`)
         : "";
 
+      const outputHtml = Array.isArray(stage.outputBody) && stage.outputBody.length
+        ? part("Ⅴ", "真实产出 · 这一站交出什么", `<div class="narrative stage-output">${renderBlocks(stage.outputBody)}</div>`)
+        : "";
+
       const moveCardLink = stage.moveCard
         ? `<a class="move-card-link" href="archive.html#${escapeHtml(stage.moveCard.toLowerCase())}">什么时候用、什么时候太重 → 档案 ${escapeHtml(stage.moveCard)}</a>`
         : "";
       const moveHtml = stage.reusableMove
-        ? part("Ⅴ", "这里能偷的招", `
+        ? part("Ⅵ", "这里能偷的招", `
         <div class="move">
           <span class="move-quote">"</span>
-          <p>${escapeHtml(stage.reusableMove)}</p>
+          <p>${renderInline(stage.reusableMove)}</p>
           ${moveCardLink}
         </div>`)
         : "";
@@ -449,7 +483,7 @@
             ${quickRefRows.map(([label, value]) => `
               <div class="qr-row">
                 <span class="qr-label">${escapeHtml(label)}</span>
-                <span class="qr-body">${escapeHtml(value)}</span>
+                <span class="qr-body">${renderInline(value)}</span>
               </div>
             `).join("")}
           </div>
@@ -461,7 +495,7 @@
           <h4>你的练习</h4>
           <p class="challenges-sub">不是 AI 的内心独白——是给读这本手册的你的题。先想再读下一阶段。</p>
           <ol class="challenges-list">
-            ${stage.challenges.map((c) => `<li>${escapeHtml(c)}</li>`).join("")}
+            ${stage.challenges.map((c) => `<li>${renderInline(c)}</li>`).join("")}
           </ol>
         </section>` : "";
 
@@ -472,7 +506,7 @@
             <div class="stage-meta">
               <span class="stage-kicker">${escapeHtml(stage.kicker || "")}</span>
               <h3 class="stage-title">${escapeHtml(stage.title || "")}</h3>
-              <p class="stage-summary">${escapeHtml(stage.summary || "")}</p>
+              <p class="stage-summary">${renderInline(stage.summary || "")}</p>
             </div>
           </header>
           ${breadcrumbHtml}
@@ -481,6 +515,7 @@
           ${painsHtml}
           ${predictHtml}
           ${mechanismHtml}
+          ${outputHtml}
           ${moveHtml}
           ${quickRefHtml}
           ${hookClose}
@@ -530,7 +565,7 @@
         <header class="wt-hero">
           <p class="eyebrow">中间产物与数据流 · 章 03</p>
           <h1>跟着数据走</h1>
-          <p class="lede">${escapeHtml(dataflow.intro || "")} 这一章不按目录列文件——按数据流走：用户输入进来，每一站交出什么中间产物，最后变成交付。每个产物卡都要回答一个问题：它为什么长这样，而不是更直觉的样子。反直觉的中间产物背后，通常就是这个 skill 对任务本质的理解。</p>
+          <p class="lede">${renderInline(dataflow.intro || "")} 这一章不按目录列文件——按数据流走：用户输入进来，每一站交出什么中间产物，最后变成交付。每个产物卡都要回答一个问题：它为什么长这样，而不是更直觉的样子。反直觉的中间产物背后，通常就是这个 skill 对任务本质的理解。</p>
           <span class="hero-rule"></span>
         </header>
         ${flow ? `<section class="section">${diagramBlock(flow)}</section>` : ""}
@@ -540,12 +575,13 @@
             ${artifacts.map((f) => `
               <article class="card filemap-card" id="${slugify(f.path)}">
                 <h3>${escapeHtml(f.path)}</h3>
-                <div class="card-row"><span class="label">谁写它</span><p>${escapeHtml(f.writtenBy || "")}</p></div>
-                <div class="card-row"><span class="label">谁读它</span><p>${escapeHtml(f.readBy || "")}</p></div>
-                <div class="card-row"><span class="label">它管什么</span><p>${escapeHtml(f.owns || "")}</p></div>
-                <div class="card-row"><span class="label">它不管什么</span><p>${escapeHtml(f.doesNotOwn || "")}</p></div>
-                <div class="card-row why-shape"><span class="label">为什么长这样</span><p>${escapeHtml(f.whyThisShape || "")}</p></div>
-                <div class="card-row"><span class="label">写错会坏什么</span><p>${escapeHtml(f.failureIfWrong || "")}</p></div>
+                <div class="card-row"><span class="label">谁写它</span><p>${renderInline(f.writtenBy || "")}</p></div>
+                <div class="card-row"><span class="label">谁读它</span><p>${renderInline(f.readBy || "")}</p></div>
+                <div class="card-row"><span class="label">它管什么</span><p>${renderInline(f.owns || "")}</p></div>
+                <div class="card-row"><span class="label">它不管什么</span><p>${renderInline(f.doesNotOwn || "")}</p></div>
+                <div class="card-row why-shape"><span class="label">为什么长这样</span><p>${renderInline(f.whyThisShape || "")}</p></div>
+                <div class="card-row"><span class="label">写错会坏什么</span><p>${renderInline(f.failureIfWrong || "")}</p></div>
+                ${Array.isArray(f.body) && f.body.length ? `<div class="artifact-specimen"><span class="specimen-label">标本 · 逐字段看门道</span>${renderBlocks(f.body)}</div>` : ""}
               </article>
             `).join("")}
           </div>
@@ -577,22 +613,22 @@
         <table class="mini-table contrast-table">
           <thead><tr><th>没有这个机制</th><th>有这个机制</th></tr></thead>
           <tbody><tr>
-            <td>${escapeHtml(c.contrast.without || "")}</td>
-            <td>${escapeHtml(c.contrast.with || "")}</td>
+            <td>${renderInline(c.contrast.without || "")}</td>
+            <td>${renderInline(c.contrast.with || "")}</td>
           </tr></tbody>
         </table>` : "";
 
       const quoteHtml = c.mechanismQuote
-        ? `<blockquote class="narrative-quote mech-quote">${escapeHtml(c.mechanismQuote)}</blockquote>`
+        ? `<blockquote class="narrative-quote mech-quote">${renderInline(c.mechanismQuote)}</blockquote>`
         : "";
 
       const transferHtml = c.transferability === "高" ? `
-        <div class="card-row"><span class="label">什么时候用</span><p>${escapeHtml(c.useWhen || "")}</p></div>
-        <div class="card-row"><span class="label">什么时候太重</span><p>${escapeHtml(c.tooHeavyWhen || "")}</p></div>
-        <div class="card-row"><span class="label">反例（看着像但不是这招）</span><p>${escapeHtml(c.antiExample || "")}</p></div>
-        <div class="card-row"><span class="label">在哪几个 skill 里见过</span><p>${escapeHtml(c.seenIn || "")}</p></div>
+        <div class="card-row"><span class="label">什么时候用</span><p>${renderInline(c.useWhen || "")}</p></div>
+        <div class="card-row"><span class="label">什么时候太重</span><p>${renderInline(c.tooHeavyWhen || "")}</p></div>
+        <div class="card-row"><span class="label">反例（看着像但不是这招）</span><p>${renderInline(c.antiExample || "")}</p></div>
+        <div class="card-row"><span class="label">在哪几个 skill 里见过</span><p>${renderInline(c.seenIn || "")}</p></div>
       ` : `
-        <div class="card-row"><span class="label">为什么搬不走</span><p>${escapeHtml(c.lowReason || "")}</p></div>
+        <div class="card-row"><span class="label">为什么搬不走</span><p>${renderInline(c.lowReason || "")}</p></div>
       `;
 
       const scenesHtml = Array.isArray(c.counterScenarios) && c.counterScenarios.length ? `
@@ -601,9 +637,9 @@
           <tbody>
             ${c.counterScenarios.map((s) => `
               <tr data-effect="${escapeHtml(s.effect || "")}">
-                <td>${escapeHtml(s.when || "")}</td>
+                <td>${renderInline(s.when || "")}</td>
                 <td class="effect-cell">${escapeHtml(s.effect || "")}</td>
-                <td>${escapeHtml(s.why || "")}</td>
+                <td>${renderInline(s.why || "")}</td>
               </tr>
             `).join("")}
           </tbody>
@@ -630,19 +666,19 @@
       return `
         <article class="card pattern-card archive-card" id="${escapeHtml((c.id || "").toLowerCase())}">
           <h3><span class="p-num">${escapeHtml(c.id || "")}</span>${escapeHtml(c.title || "")}<span class="status-pill">${escapeHtml(c.dimension || "")}</span></h3>
-          <div class="card-row pattern-problem"><span class="label">症状 · 基线会怎么坏</span><p>${escapeHtml(c.symptom || "")} ${evidencePill(c.evidence)}</p></div>
+          <div class="card-row pattern-problem"><span class="label">症状 · 基线会怎么坏</span><p>${renderInline(c.symptom || "")} ${evidencePill(c.evidence)}</p></div>
           ${contrastHtml}
           <div class="pattern-therefore">
             <span class="pt-divider">❖ &nbsp; ❖ &nbsp; ❖</span>
             <div class="pt-body">
               <span class="pt-label">Therefore</span>
-              <p>${escapeHtml(c.therefore || "")}</p>
+              <p>${renderInline(c.therefore || "")}</p>
             </div>
             <span class="pt-divider">❖ &nbsp; ❖ &nbsp; ❖</span>
           </div>
           <div class="card-row"><span class="label">skill 怎么解 · 贴原文</span></div>
           ${quoteHtml}
-          <div class="card-row"><p>${escapeHtml(c.mechanismNote || "")}</p></div>
+          <div class="card-row"><p>${renderInline(c.mechanismNote || "")}</p></div>
           <div class="card-row"><span class="label">解法层次</span><p>${escapeHtml(c.solutionLayer || "")}</p></div>
           <div class="card-row"><span class="label">可迁移性</span><p>${escapeHtml(c.transferability || "")}</p></div>
           ${transferHtml}
@@ -659,7 +695,7 @@
           ${(archive.residue || []).map((r) => `
             <article class="card residue-card">
               <h3>${escapeHtml(r.item || "")}<span class="status-pill">${escapeHtml(r.verdict || "")}</span></h3>
-              <div class="card-row"><span class="label">理由</span><p>${escapeHtml(r.reason || "")}</p></div>
+              <div class="card-row"><span class="label">理由</span><p>${renderInline(r.reason || "")}</p></div>
             </article>
           `).join("")}
         </div>
@@ -671,7 +707,7 @@
         <h2>诚实账：它没覆盖的难点</h2>
         <article class="card">
           <ul class="narrative-list">
-            ${(archive.blindSpots || []).map((b) => `<li>${escapeHtml(b)}</li>`).join("")}
+            ${(archive.blindSpots || []).map((b) => `<li>${renderInline(b)}</li>`).join("")}
           </ul>
         </article>
       </section>` : "";
@@ -708,16 +744,16 @@
   function applyItPage() {
     const apply = handbook.applyIt || {};
     const scenarioHtml = renderBlocks(apply.scenario);
-    const tasksHtml = (apply.tasks || []).map((t) => `<li>${escapeHtml(t)}</li>`).join("");
+    const tasksHtml = (apply.tasks || []).map((t) => `<li>${renderInline(t)}</li>`).join("");
     const answerHtml = renderBlocks(apply.referenceAnswer);
-    const authorHtml = (apply.nextSteps?.author || []).map((s) => `<li>${escapeHtml(s)}</li>`).join("");
-    const thiefHtml = (apply.nextSteps?.thief || []).map((s) => `<li>${escapeHtml(s)}</li>`).join("");
+    const authorHtml = (apply.nextSteps?.author || []).map((s) => `<li>${renderInline(s)}</li>`).join("");
+    const thiefHtml = (apply.nextSteps?.thief || []).map((s) => `<li>${renderInline(s)}</li>`).join("");
     layout("Apply It", `
       <article class="page">
         <header class="wt-hero">
           <p class="eyebrow">Apply It · 章 05</p>
           <h1>${escapeHtml(apply.h1 || "拿这套招，自己画一个骨架")}</h1>
-          <p class="lede">${escapeHtml(apply.summary || "")} 这一章不是总结——是练习。下面给你一个新场景，你从难点档案里选卡、组合，画出一个 mini-skill 的骨架。先做，再看参考答案。</p>
+          <p class="lede">${renderInline(apply.summary || "")} 这一章不是总结——是练习。下面给你一个新场景，你从难点档案里选卡、组合，画出一个 mini-skill 的骨架。先做，再看参考答案。</p>
           <span class="hero-rule"></span>
         </header>
         <section class="section" id="skeleton">
@@ -774,7 +810,7 @@
         <header class="wt-hero">
           <p class="eyebrow">Glossary · 附录</p>
           <h1>概念词典</h1>
-          <p class="lede">${terms.length} 个核心术语，查阅用。正文里每个术语都已经就地解释过——这一页不在主线阅读路径上，给想系统过一遍术语的人用。每条 5 个字段：定义 / 出现场景 / 解决什么问题 / 我怎么用 / 容易误解。</p>
+          <p class="lede">${terms.length} 个核心术语，查阅用。正文里每个术语都已经就地解释过——这一页不在主线阅读路径上，给想系统过一遍术语的人用。每条 6 个字段：定义 / 例 / 出现场景 / 解决什么问题 / 我怎么用 / 容易误解。</p>
           <span class="hero-rule"></span>
         </header>
         <section class="section">
@@ -782,11 +818,12 @@
             ${terms.map((t) => `
               <article class="card glossary-card" id="${slugify(t.term)}">
                 <h3>${escapeHtml(t.term)}</h3>
-                <div class="card-row"><span class="label">定义</span><p>${escapeHtml(t.definition || "")}</p></div>
-                <div class="card-row"><span class="label">它在哪个 stage 出现</span><p>${escapeHtml(t.whereItAppears || "")}</p></div>
-                <div class="card-row"><span class="label">它解决什么问题</span><p>${escapeHtml(t.solvedProblem || "")}</p></div>
-                <div class="card-row"><span class="label">我怎么用它</span><p>${escapeHtml(t.howToUse || "")}</p></div>
-                <div class="card-row"><span class="label">容易误解</span><p>${escapeHtml(t.commonMisread || "")}</p></div>
+                <div class="card-row"><span class="label">定义</span><p>${renderInline(t.definition || "")}</p></div>
+                <div class="card-row term-example"><span class="label">例</span><p>${renderInline(t.example || "")}</p></div>
+                <div class="card-row"><span class="label">它在哪个 stage 出现</span><p>${renderInline(t.whereItAppears || "")}</p></div>
+                <div class="card-row"><span class="label">它解决什么问题</span><p>${renderInline(t.solvedProblem || "")}</p></div>
+                <div class="card-row"><span class="label">我怎么用它</span><p>${renderInline(t.howToUse || "")}</p></div>
+                <div class="card-row"><span class="label">容易误解</span><p>${renderInline(t.commonMisread || "")}</p></div>
               </article>
             `).join("")}
           </div>

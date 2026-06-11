@@ -24,6 +24,9 @@ python3 "$ROOT/scripts/build-data.py" "$OUT" >/dev/null || fail "build-data.py f
 node --check "$OUT/assets/data.js" >/dev/null || fail "generated data.js has a syntax error"
 grep -q '"painDomain"' "$OUT/assets/data.js" || fail "stage pains missing from data.js"
 grep -q '"transferability": "低"' "$OUT/assets/data.js" || fail "low-transferability card missing"
+grep -q '"example"' "$OUT/assets/data.js" || fail "glossary example field missing from data.js"
+grep -q '"outputBody"' "$OUT/assets/data.js" || fail "stage outputBody missing from data.js"
+grep -q 'interview-1995' "$OUT/assets/data.js" || fail "dataflow specimen block missing from data.js"
 
 # check-content：缺 SVG 时必须失败
 if python3 "$ROOT/scripts/check-content.py" "$OUT" >/dev/null 2>&1; then
@@ -32,6 +35,13 @@ fi
 printf '<svg xmlns="http://www.w3.org/2000/svg" width="10" height="10"/>' \
   > "$OUT/assets/diagrams/main-flow.svg"
 python3 "$ROOT/scripts/check-content.py" "$OUT" >/dev/null || fail "check-content.py failed on valid fixture"
+
+# 报错路径：glossary 缺「例」字段 -> 构建必须失败
+sed '/^\*\*例:\*\*/d' "$FIXTURE/glossary.md" > "$OUT/content/glossary.md"
+if python3 "$ROOT/scripts/build-data.py" "$OUT" >/dev/null 2>&1; then
+  fail "build-data.py should reject a glossary term without an example field"
+fi
+cp "$FIXTURE/glossary.md" "$OUT/content/glossary.md"
 
 # 报错路径：症状缺证据标记 -> 构建必须失败并报出文件名
 sed 's/（证据：作者证词）//' "$FIXTURE/archive.md" > "$OUT/content/archive.md"
@@ -62,8 +72,9 @@ const siteSrc = fs.readFileSync(process.argv[1] + "/assets/site.js", "utf8");
 const checks = {
   index: ["五章 + 一个附录"],
   overview: ["本书的基线", "流水线全景"],
-  walkthrough: ["这一站的难点", "先猜一遍", "确无——这一站没有这类难点"],
-  dataflow: ["为什么长这样"],
+  walkthrough: ["这一站的难点", "先猜一遍", "确无——这一站没有这类难点", "真实产出", "term-link",
+                "<strong>必须先建目录</strong>", "inline-code"],
+  dataflow: ["为什么长这样", "标本", "interview-1995"],
   archive: ["没有这个机制", "残渣与砍掉候选", "盲区"],
   "apply-it": ["展开参考答案"],
   glossary: ["附录"]
@@ -75,6 +86,9 @@ for (const [page, markers] of Object.entries(checks)) {
   new Function("window", "document", dataSrc + "\n" + siteSrc)(win, doc);
   const missing = markers.filter((m) => !app.innerHTML.includes(m));
   if (missing.length) { console.error(`render check failed on ${page}: ${missing}`); process.exit(1); }
+  if (page === "walkthrough" && app.innerHTML.includes("**必须先建目录**")) {
+    console.error("inline bold rendered literally on walkthrough"); process.exit(1);
+  }
 }
 ' "$OUT" || fail "rendered pages are missing expected blocks"
 

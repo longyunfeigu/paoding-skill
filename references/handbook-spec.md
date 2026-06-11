@@ -14,6 +14,10 @@ The handbook answers:
 它克服的难点是什么，用什么手段克服的，哪些手段值得搬走？
 ```
 
+Evidence and concrete material are collected per
+`references/evidence-collection.md` (mine `examples/` → slice-run →
+targeted ablation); synthesized artifact excerpts are labeled 模拟样本.
+
 Before answering from inside the skill, answer from outside it:
 
 ```text
@@ -76,7 +80,11 @@ answering three different reader questions:
   什么时候失效？"
 
 Repetition across the three altitudes is intended; each pass must add its
-own layer, never paste the same prose.
+own layer, never paste the same prose. The preview card's 坑 and the archive
+card's 症状 describing the same pain must be written at different altitudes
+(preview = shorter, hookier; archive = stageable scene) — near-verbatim
+overlap between them is checked by machine and means one altitude is not
+doing its job.
 
 Do not paste the table as reader-facing prose.
 
@@ -165,7 +173,9 @@ Each stage follows a fixed skeleton, in order:
 
 1. **我在哪：** mini-map or breadcrumb locating this stage in the panorama.
 2. **场景再现：** what I hold entering this stage (real input excerpt) and
-   what I must hand over.
+   what I must hand over. When the behavior change comes from reading a
+   package file, excerpt enough of it for the reader to simulate that
+   reading — naming the file (or quoting one teaser line) is not enough.
 3. **难点：** two questions, each answerable as "确无" but never skipped:
    - 领域难点：这一站克服的任务固有难点（工程或认知）；
    - 行为难点：默认 agent 在这会怎么坏。
@@ -176,7 +186,9 @@ Each stage follows a fixed skeleton, in order:
 5. **机制：** the skill's concrete countermeasure, quoting the actual rule,
    gate text, or script lines, each mapped to which half of the pain it
    blocks.
-6. **真实产出：** an excerpt of what this stage hands over.
+6. **真实产出：** its own `### 真实产出` section (machine-checked): what
+   this stage hands over, with real values — a schema with field names but
+   no values is not a 产出. Sourcing per the evidence ladder.
 7. **可偷的招 + 交接：** one reusable move, then the handoff to the next
    stage.
 
@@ -204,6 +216,12 @@ For each important artifact:
 The "为什么长这样" field is where 领域-认知 insights usually live (the
 counter-intuitive intermediate artifact heuristic). An artifact card without
 it is a directory listing row.
+
+Every artifact that also earns a glossary card gets a **标本** on its
+artifact card: one real-valued instance (code block after the field lines)
+plus field-level annotation — what design decision each field encodes, what
+breaks downstream when written badly. The instance lives here only;
+walkthrough and glossary reference it instead of re-pasting it.
 
 ## 难点档案 standard
 
@@ -245,8 +263,11 @@ Glossary is a lookup utility, off the main path. In prose, every term is
 already explained in place before use (hard gate); Glossary only expands the
 3-8 terms that carry design weight across chapters.
 
-Each term card needs: concrete example value; stage where it appears; problem
-or confusion it prevents; how the agent uses it; easy-to-confuse contrast.
+Each term card needs: concrete example value (the `**例:**` field — a real
+instance, not a re-description; machine-checked); stage where it appears;
+problem or confusion it prevents; how the agent uses it; easy-to-confuse
+contrast. If the term names an artifact that has a dataflow specimen, the
+例 is a compressed form of that specimen, not a third description.
 
 ## Visual layer
 
