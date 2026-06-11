@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 400" font-family="'Noto Serif SC','Source Han Serif SC','Songti SC',Georgia,serif">
+  <defs>
+    <marker id="harr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#8a1c0f"/>
+    </marker>
+  </defs>
+
+  <!-- 纸面 -->
+  <rect width="1200" height="400" fill="#f6f1e6"/>
+  <rect x="14" y="14" width="1172" height="372" fill="none" stroke="#d8cdb6" stroke-width="1"/>
+  <rect x="20" y="20" width="1160" height="360" fill="none" stroke="#d8cdb6" stroke-width="0.6"/>
+
+  <!-- 左：主标题 -->
+  <text x="84" y="178" font-size="120" font-weight="900" fill="#1a1410" letter-spacing="6">庖丁</text>
+  <text x="372" y="178" font-size="44" font-style="italic" fill="#8a1c0f" font-family="Georgia,serif">.skill</text>
+  <line x1="86" y1="208" x2="500" y2="208" stroke="#1a1410" stroke-width="2.5"/>
+  <text x="86" y="248" font-size="21" fill="#4a3f33" letter-spacing="2">把任何 skill 解成一本解剖手册</text>
+
+  <!-- 题词 -->
+  <text x="86" y="312" font-size="16" font-style="italic" fill="#75654f" letter-spacing="1">「看懂一个 skill 的最好方式，是把它解开。」</text>
+  <text x="86" y="344" font-size="13" fill="#75654f" font-family="'PingFang SC','Microsoft YaHei',sans-serif" letter-spacing="3">目 无 全 牛 · 以 无 厚 入 有 间</text>
+
+  <!-- 右：解剖图 —— 一份 SKILL.md 被解开成三层 -->
+  <!-- 原始卡（顶部，待解） -->
+  <g>
+    <rect x="760" y="56" width="180" height="54" rx="3" fill="#fff" stroke="#1a1410" stroke-width="1.4"/>
+    <text x="850" y="80" text-anchor="middle" font-size="15" font-family="'JetBrains Mono',Menlo,monospace" fill="#1a1410">SKILL.md</text>
+    <text x="850" y="99" text-anchor="middle" font-size="11" fill="#75654f" font-family="sans-serif">某个效果惊艳的 skill</text>
+  </g>
+
+  <!-- 刀痕 -->
+  <path d="M 700 90 Q 850 140 1010 118" fill="none" stroke="#8a1c0f" stroke-width="2" stroke-dasharray="1 7" stroke-linecap="round"/>
+  <line x1="850" y1="110" x2="850" y2="148" stroke="#8a1c0f" stroke-width="1.6" marker-end="url(#harr)"/>
+
+  <!-- 三层解剖层 -->
+  <g font-family="'PingFang SC','Microsoft YaHei',sans-serif">
+    <rect x="700" y="156" width="300" height="50" rx="3" fill="#8a1c0f" fill-opacity="0.07" stroke="#8a1c0f" stroke-width="1.1"/>
+    <text x="722" y="178" font-size="14" font-weight="700" fill="#8a1c0f">好在哪</text>
+    <text x="722" y="196" font-size="11.5" fill="#4a3f33">它防住了哪些难点 · 症状 · 证据分级</text>
+
+    <rect x="716" y="218" width="300" height="50" rx="3" fill="#fff" stroke="#94701f" stroke-width="1.1"/>
+    <text x="738" y="240" font-size="14" font-weight="700" fill="#94701f">怎么解的</text>
+    <text x="738" y="258" font-size="11.5" fill="#4a3f33">机制贴原文 · 最小对照 · 你先猜再揭晓</text>
+
+    <rect x="732" y="280" width="300" height="50" rx="3" fill="#2d6e4e" fill-opacity="0.06" stroke="#2d6e4e" stroke-width="1.1"/>
+    <text x="754" y="302" font-size="14" font-weight="700" fill="#2d6e4e">什么能偷</text>
+    <text x="754" y="320" font-size="11.5" fill="#4a3f33">条件化的招 · 何时太重 · 骨架模式</text>
+  </g>
+
+  <!-- 维度签 -->
+  <g font-family="'PingFang SC','Microsoft YaHei',sans-serif" font-size="10.5" fill="#75654f">
+    <text x="700" y="362">领域-工程 · 领域-认知 · 行为 · 编排 · 品味 · 需求 · 平台</text>
+  </g>
+
+  <!-- 角落印 -->
+  <text x="1116" y="370" font-size="12" fill="#8a1c0f" font-style="italic" font-family="Georgia,serif">est. 2026</text>
+</svg>

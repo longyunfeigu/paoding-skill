@@ -1,0 +1,69 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 980 300" font-family="'PingFang SC','Microsoft YaHei',sans-serif">
+  <defs>
+    <marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#8a7a66"/>
+    </marker>
+  </defs>
+  <rect width="980" height="300" fill="#f6f1e6"/>
+
+  <!-- input -->
+  <rect x="20" y="120" width="120" height="60" rx="4" fill="#ede6d4" stroke="#d8cdb6"/>
+  <text x="80" y="145" text-anchor="middle" font-size="13" fill="#4a3f33">用户一句话</text>
+  <text x="80" y="164" text-anchor="middle" font-size="11" fill="#8a7a66">「做一个乔布斯 skill」</text>
+
+  <!-- stage 1 -->
+  <rect x="170" y="120" width="110" height="60" rx="4" fill="#fff" stroke="#8a1c0f" stroke-width="1.2"/>
+  <text x="225" y="143" text-anchor="middle" font-size="13" font-weight="600" fill="#1a1410">① 分流澄清</text>
+  <text x="225" y="162" text-anchor="middle" font-size="10.5" fill="#8a7a66">人名 or 模糊需求</text>
+
+  <!-- stage 2 -->
+  <rect x="310" y="120" width="110" height="60" rx="4" fill="#fff" stroke="#8a1c0f" stroke-width="1.2"/>
+  <text x="365" y="143" text-anchor="middle" font-size="13" font-weight="600" fill="#1a1410">② 建目录</text>
+  <text x="365" y="162" text-anchor="middle" font-size="10.5" fill="#8a7a66">先有住址再有居民</text>
+
+  <!-- stage 3 -->
+  <rect x="450" y="105" width="120" height="90" rx="4" fill="#fff" stroke="#8a1c0f" stroke-width="1.2"/>
+  <text x="510" y="130" text-anchor="middle" font-size="13" font-weight="600" fill="#1a1410">③ 六维取证</text>
+  <text x="510" y="149" text-anchor="middle" font-size="10.5" fill="#8a7a66">6 个并行 agent</text>
+  <text x="510" y="166" text-anchor="middle" font-size="10.5" fill="#8a7a66">著作·对话·表达</text>
+  <text x="510" y="182" text-anchor="middle" font-size="10.5" fill="#8a7a66">他评·决策·时间线</text>
+
+  <!-- checkpoint 1 (diamond) -->
+  <polygon points="640,150 680,115 720,150 680,185" fill="#fbf8f0" stroke="#94701f" stroke-width="1.4"/>
+  <text x="680" y="146" text-anchor="middle" font-size="11.5" font-weight="600" fill="#94701f">检查点①</text>
+  <text x="680" y="162" text-anchor="middle" font-size="9.5" fill="#94701f">调研质量</text>
+
+  <!-- stage 5 -->
+  <rect x="750" y="120" width="110" height="60" rx="4" fill="#fff" stroke="#8a1c0f" stroke-width="1.2"/>
+  <text x="805" y="143" text-anchor="middle" font-size="13" font-weight="600" fill="#1a1410">⑤ 提炼</text>
+  <text x="805" y="162" text-anchor="middle" font-size="10.5" fill="#8a7a66">三重验证筛模型</text>
+
+  <!-- checkpoint 2 -->
+  <polygon points="805,230 845,265 805,300 765,265" transform="translate(0,-35)" fill="#fbf8f0" stroke="#94701f" stroke-width="1.4"/>
+  <text x="805" y="226" text-anchor="middle" font-size="11.5" font-weight="600" fill="#94701f">检查点②</text>
+  <text x="805" y="241" text-anchor="middle" font-size="9.5" fill="#94701f">提炼方向</text>
+
+  <!-- stage 6 -->
+  <rect x="560" y="225" width="160" height="60" rx="4" fill="#fff" stroke="#8a1c0f" stroke-width="1.2"/>
+  <text x="640" y="248" text-anchor="middle" font-size="13" font-weight="600" fill="#1a1410">⑥ 构建 · 验证 · 精炼</text>
+  <text x="640" y="266" text-anchor="middle" font-size="10.5" fill="#8a7a66">子 agent 独立测试</text>
+
+  <!-- output -->
+  <rect x="370" y="225" width="150" height="60" rx="4" fill="#2d6e4e" fill-opacity="0.08" stroke="#2d6e4e" stroke-width="1.2"/>
+  <text x="445" y="248" text-anchor="middle" font-size="12.5" font-weight="600" fill="#2d6e4e">steve-jobs-perspective/</text>
+  <text x="445" y="266" text-anchor="middle" font-size="10.5" fill="#2d6e4e">自包含、可激活、有边界</text>
+
+  <!-- arrows -->
+  <line x1="140" y1="150" x2="166" y2="150" stroke="#8a7a66" stroke-width="1.3" marker-end="url(#arr)"/>
+  <line x1="280" y1="150" x2="306" y2="150" stroke="#8a7a66" stroke-width="1.3" marker-end="url(#arr)"/>
+  <line x1="420" y1="150" x2="446" y2="150" stroke="#8a7a66" stroke-width="1.3" marker-end="url(#arr)"/>
+  <line x1="570" y1="150" x2="636" y2="150" stroke="#8a7a66" stroke-width="1.3" marker-end="url(#arr)"/>
+  <line x1="720" y1="150" x2="746" y2="150" stroke="#8a7a66" stroke-width="1.3" marker-end="url(#arr)"/>
+  <line x1="805" y1="180" x2="805" y2="191" stroke="#8a7a66" stroke-width="1.3" marker-end="url(#arr)"/>
+  <line x1="765" y1="230" x2="724" y2="245" stroke="#8a7a66" stroke-width="1.3" marker-end="url(#arr)"/>
+  <line x1="560" y1="255" x2="524" y2="255" stroke="#8a7a66" stroke-width="1.3" marker-end="url(#arr)"/>
+
+  <!-- loop back annotation -->
+  <text x="680" y="98" text-anchor="middle" font-size="10" fill="#94701f">不够 → 补充调研</text>
+  <text x="906" y="208" text-anchor="middle" font-size="10" fill="#94701f">方向错 → 回到提炼</text>
+</svg>

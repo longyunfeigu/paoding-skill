@@ -1,0 +1,51 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+
+fail() {
+  echo "FAIL: $*" >&2
+  exit 1
+}
+
+assert_grep() {
+  local pattern="$1"
+  local file="$2"
+  grep -Eq "$pattern" "$file" || fail "expected pattern '$pattern' in $file"
+}
+
+assert_not_grep() {
+  local pattern="$1"
+  local file="$2"
+  if grep -Eq "$pattern" "$file"; then
+    fail "unexpected pattern '$pattern' in $file"
+  fi
+}
+
+assert_max_lines() {
+  local file="$1"
+  local max="$2"
+  local lines
+  lines="$(wc -l < "$file" | tr -d ' ')"
+  [[ "$lines" -le "$max" ]] || fail "$file has $lines lines; expected <= $max"
+}
+
+cd "$ROOT"
+
+assert_grep '^name: paoding-skill' SKILL.md
+assert_grep '^description: Use when studying, reverse-engineering, comparing, reviewing, or learning from AI skill packages' SKILL.md
+assert_grep 'Markdown report, structured pattern notes, or multi-page web handbook' SKILL.md
+assert_grep '庖丁' SKILL.md
+# generation/ 样例已是 README 展示资产，允许入库（旧断言要求不入库，政策已变更）
+
+assert_max_lines references/web-app-visuals.md 120
+assert_max_lines references/web-production-flow.md 220
+assert_max_lines references/stage-writing.md 300
+assert_max_lines references/pain-dimensions.md 240
+assert_max_lines references/content-format.md 280
+assert_max_lines references/handbook-spec.md 300
+
+assert_grep 'data.js 是构建产物' SKILL.md
+assert_grep 'pain-dimensions' SKILL.md
+
+echo "skill structure tests passed"

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Skill Pattern Extractor"
+  short_description: "Review AI skills and extract reusable design patterns."
+  default_prompt: "Study this skill package, explain how it changes agent behavior, identify what to keep or cut, and extract reusable design patterns."

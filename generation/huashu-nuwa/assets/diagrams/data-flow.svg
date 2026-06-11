@@ -1,0 +1,64 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 980 360" font-family="'PingFang SC','Microsoft YaHei',sans-serif">
+  <defs>
+    <marker id="darr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#8a7a66"/>
+    </marker>
+  </defs>
+  <rect width="980" height="360" fill="#f6f1e6"/>
+
+  <text x="30" y="40" font-size="12" fill="#8a7a66" letter-spacing="2">数据流：每个箭头都是一次文件交接，不走对话上下文</text>
+
+  <!-- inputs -->
+  <rect x="30" y="70" width="130" height="52" rx="4" fill="#ede6d4" stroke="#d8cdb6"/>
+  <text x="95" y="92" text-anchor="middle" font-size="12" fill="#4a3f33">用户请求 + 本地素材</text>
+  <text x="95" y="110" text-anchor="middle" font-size="10" fill="#8a7a66">PDF / 字幕 / 文章</text>
+
+  <rect x="30" y="160" width="130" height="52" rx="4" fill="#ede6d4" stroke="#d8cdb6"/>
+  <text x="95" y="182" text-anchor="middle" font-size="12" fill="#4a3f33">网络搜索</text>
+  <text x="95" y="200" text-anchor="middle" font-size="10" fill="#8a7a66">黑名单过滤后</text>
+
+  <!-- sources -->
+  <rect x="230" y="70" width="160" height="52" rx="4" fill="#fff" stroke="#8a1c0f" stroke-width="1.2"/>
+  <text x="310" y="92" text-anchor="middle" font-size="12.5" font-weight="600" fill="#1a1410">sources/</text>
+  <text x="310" y="110" text-anchor="middle" font-size="10" fill="#8a7a66">一手素材，权重最高</text>
+
+  <!-- research -->
+  <rect x="230" y="160" width="160" height="80" rx="4" fill="#fff" stroke="#8a1c0f" stroke-width="1.2"/>
+  <text x="310" y="184" text-anchor="middle" font-size="12.5" font-weight="600" fill="#1a1410">research/01-06.md</text>
+  <text x="310" y="202" text-anchor="middle" font-size="10" fill="#8a7a66">证据 + 来源 + 可信度</text>
+  <text x="310" y="218" text-anchor="middle" font-size="10" fill="#8a7a66">只存证据，不下结论</text>
+
+  <!-- 提炼结果 -->
+  <rect x="470" y="160" width="170" height="80" rx="4" fill="#fff" stroke="#8a1c0f" stroke-width="1.2"/>
+  <text x="555" y="184" text-anchor="middle" font-size="12.5" font-weight="600" fill="#1a1410">提炼结果</text>
+  <text x="555" y="202" text-anchor="middle" font-size="10" fill="#8a7a66">心智模型 · 启发式 · DNA</text>
+  <text x="555" y="218" text-anchor="middle" font-size="10" fill="#8a7a66">张力 · 诚实边界</text>
+
+  <!-- template -->
+  <rect x="470" y="60" width="170" height="52" rx="4" fill="#fbf8f0" stroke="#94701f" stroke-width="1.2" stroke-dasharray="4 3"/>
+  <text x="555" y="82" text-anchor="middle" font-size="12" font-weight="600" fill="#94701f">skill-template.md</text>
+  <text x="555" y="100" text-anchor="middle" font-size="10" fill="#94701f">结构契约，随包只读</text>
+
+  <!-- final -->
+  <rect x="730" y="150" width="210" height="100" rx="4" fill="#2d6e4e" fill-opacity="0.08" stroke="#2d6e4e" stroke-width="1.3"/>
+  <text x="835" y="178" text-anchor="middle" font-size="13" font-weight="600" fill="#2d6e4e">SKILL.md</text>
+  <text x="835" y="198" text-anchor="middle" font-size="10.5" fill="#2d6e4e">模型 + 回答工作流 + 边界</text>
+  <text x="835" y="216" text-anchor="middle" font-size="10.5" fill="#2d6e4e">是程序，不是文档</text>
+  <text x="835" y="234" text-anchor="middle" font-size="10.5" fill="#2d6e4e">quality_check.py 可机检</text>
+
+  <!-- arrows -->
+  <line x1="160" y1="96" x2="226" y2="96" stroke="#8a7a66" stroke-width="1.3" marker-end="url(#darr)"/>
+  <line x1="160" y1="186" x2="226" y2="194" stroke="#8a7a66" stroke-width="1.3" marker-end="url(#darr)"/>
+  <line x1="310" y1="122" x2="310" y2="156" stroke="#8a7a66" stroke-width="1.3" marker-end="url(#darr)"/>
+  <text x="318" y="143" font-size="9.5" fill="#8a7a66">六个 agent 消化</text>
+  <line x1="390" y1="200" x2="466" y2="200" stroke="#8a7a66" stroke-width="1.3" marker-end="url(#darr)"/>
+  <text x="428" y="190" text-anchor="middle" font-size="9.5" fill="#8a7a66">三重验证</text>
+  <line x1="555" y1="112" x2="555" y2="156" stroke="#94701f" stroke-width="1.3" marker-end="url(#darr)"/>
+  <text x="563" y="138" font-size="9.5" fill="#94701f">定结构</text>
+  <line x1="640" y1="200" x2="726" y2="200" stroke="#8a7a66" stroke-width="1.3" marker-end="url(#darr)"/>
+  <text x="683" y="190" text-anchor="middle" font-size="9.5" fill="#8a7a66">逐 section 填充</text>
+
+  <!-- research feeds final citations -->
+  <path d="M 310 240 L 310 300 L 835 300 L 835 254" fill="none" stroke="#8a7a66" stroke-width="1.1" stroke-dasharray="3 3" marker-end="url(#darr)"/>
+  <text x="572" y="292" text-anchor="middle" font-size="9.5" fill="#8a7a66">「调研来源」section 引用汇总（一手/二手分列）</text>
+</svg>
