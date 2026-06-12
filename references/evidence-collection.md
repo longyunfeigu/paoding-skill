@@ -23,7 +23,35 @@ Climb a level only when it pays: **证据提升 × 教学价值 ÷ 复现成本*
 handbook that never leaves level 1 is legal but must say so (the brief's
 风险/缺证据 section); a handbook that skips level 2 while the source
 package ships an `examples/` directory is a collection failure, not a
-budget decision.
+budget decision. Executable artifacts are the exception to "climb only
+when it pays" — they have their own mandatory rule below.
+
+## 可执行工件必跑（mandatory, not budget-gated）
+
+Scripts and machine gates are the one artifact class where 实测 is nearly
+free and reading is structurally blind: text review cannot see runtime
+behavior, and the run costs minutes. So this is a rule, not a judgment
+call:
+
+**当源包带可执行脚本、且包内存在该脚本的合法输入（examples/、fixtures、
+源包自带的成品）时，逐个真跑，结果记录进 brief。**
+
+- Run each script against the package's own shipped artifacts. The
+  highest-yield single move: run the package's own checker against the
+  package's own shipped example — 出厂示例跑不过出厂检查器 is a finding
+  reading can never produce.
+- A script with no valid in-package input (needs network, a live URL, a
+  file the package doesn't ship) is recorded as 没跑 with the reason —
+  do not fabricate inputs to tick the box.
+- The brief's 证据采集记录 lists every shipped script as a checklist
+  row: 脚本名 ／ 跑了或没跑 ／ 输入用的什么或为什么跑不了 ／ 一句结果。
+  A prose paragraph that doesn't enumerate the scripts does not satisfy
+  this rule.
+
+This rule deliberately does NOT extend to LLM-behavioral claims: a single
+run of a stochastic behavior is weak evidence, and a forced "≥1 实测"
+quota invites token runs. Behavioral claims stay on the conditional
+ladder below.
 
 ## Level 2 · 标本采集 (mine before you make)
 

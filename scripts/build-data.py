@@ -113,9 +113,15 @@ def tokenize(path):
         if stripped.startswith("> "):
             quote = []
             while i < n and lines[i].strip().startswith(">"):
-                quote.append(lines[i].strip().lstrip(">").strip())
+                inner = lines[i].strip()
+                inner = inner[1:] if inner.startswith(">") else inner
+                if inner.startswith(" "):
+                    inner = inner[1:]
+                quote.append(inner.rstrip())
                 i += 1
-            nodes.append({"kind": "quote", "line": lineno, "text": "\n".join(q for q in quote)})
+            nodes.append({"kind": "quote", "line": lineno,
+                          "text": "\n".join(q.strip() for q in quote),
+                          "blocks": quote_subblocks(quote)})
             continue
 
         m = FIELD_RE.match(stripped)
@@ -149,6 +155,71 @@ def tokenize(path):
 
 
 # ---------------------------------------------------------------- helpers
+
+HEADING_RE = re.compile(r"^#{1,6}\s+(.*)$")
+
+
+def quote_subblocks(qlines):
+    """Parse the inside of a quote into structured sub-blocks.
+
+    Quoted source text often carries tables, lists, fenced code, and
+    headings. Flattening them into one string renders as raw pipes and
+    hashes; this keeps the structure so the renderer can show it.
+    Sub-block kinds: para, list, table, code.
+    """
+    blocks = []
+    i, n = 0, len(qlines)
+    while i < n:
+        s = qlines[i].strip()
+        if not s:
+            i += 1
+            continue
+        if s.startswith("```"):
+            lang = s[3:].strip()
+            body = []
+            i += 1
+            while i < n and not qlines[i].strip().startswith("```"):
+                body.append(qlines[i])
+                i += 1
+            i += 1  # closing fence (or end of quote)
+            block = {"kind": "code", "text": "\n".join(body)}
+            if lang:
+                block["lang"] = lang
+            blocks.append(block)
+            continue
+        if s.startswith("|"):
+            rows = []
+            while i < n and qlines[i].strip().startswith("|"):
+                cells = [c.strip() for c in qlines[i].strip().strip("|").split("|")]
+                rows.append(cells)
+                i += 1
+            rows = [r for r in rows if not all(set(c) <= set("-: ") for c in r)]
+            blocks.append({"kind": "table", "rows": rows})
+            continue
+        if s.startswith("- ") or s.startswith("* "):
+            items = []
+            while i < n and (qlines[i].strip().startswith("- ")
+                             or qlines[i].strip().startswith("* ")):
+                items.append(qlines[i].strip()[2:].strip())
+                i += 1
+            blocks.append({"kind": "list", "items": items})
+            continue
+        m = HEADING_RE.match(s)
+        if m:
+            blocks.append({"kind": "para", "text": f"**{m.group(1).strip()}**"})
+            i += 1
+            continue
+        para = [s]
+        i += 1
+        while i < n:
+            nxt = qlines[i].strip()
+            if not nxt or nxt.startswith(("#", "```", "|", "- ", "* ")):
+                break
+            para.append(nxt)
+            i += 1
+        blocks.append({"kind": "para", "text": "\n".join(para)})
+    return blocks
+
 
 def split_sections(nodes):
     """Group nodes by h2 heading -> {title: [nodes]} preserving order."""
@@ -189,13 +260,14 @@ def to_blocks(nodes, path):
                 block["lang"] = node["lang"]
             blocks.append(block)
         elif node["kind"] == "quote":
-            blocks.append({"kind": "quote", "text": node["text"]})
+            blocks.append({"kind": "quote", "text": node["text"],
+                           "blocks": node.get("blocks", [])})
         elif node["kind"] == "diagram":
             blocks.append({"kind": "diagram", "id": node["id"]})
         elif node["kind"] == "field":
             err(path, node["line"], f"此区块不接受字段行: **{node['name']}:**")
         elif node["kind"] == "table":
-            err(path, node["line"], "此区块不接受表格")
+            blocks.append({"kind": "table", "rows": node["rows"]})
     return blocks
 
 
@@ -513,6 +585,7 @@ def build_archive(path):
             elif name == "机制原文":
                 quote = next_node_of(item_nodes, idx, "quote", path, node["line"], name)
                 card["mechanismQuote"] = quote["text"]
+                card["mechanismQuoteBlocks"] = quote.get("blocks", [])
             elif name == "力度对比":
                 table = next_node_of(item_nodes, idx, "table", path, node["line"], name)
                 card["counterScenarios"] = [

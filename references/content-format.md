@@ -24,7 +24,7 @@ All seven files are required. Build fails on a missing file.
 
 ## Shared syntax
 
-Four constructs, nothing else:
+Five constructs, nothing else:
 
 1. **Frontmatter** — flat `key: value` lines between `---` fences at the top
    of a file. No nesting, no YAML lists, one line per value.
@@ -39,10 +39,19 @@ Four constructs, nothing else:
    to narrative blocks:
    - paragraph → `{kind: "para"}`
    - `- ` list → `{kind: "list"}`
+   - markdown table → `{kind: "table", rows}` (first row renders as header)
    - fenced code (```lang) → `{kind: "code", lang}`
    - `> ` quote → `{kind: "quote"}`
    - `!diagram(id)` alone on a line → `{kind: "diagram", id}` (id must exist
      in meta.md's diagram registry)
+5. **Structure inside quotes** — a `> ` quote may carry markdown tables,
+   `- ` lists, fenced code, and `###` headings (each line still prefixed
+   with `> `). The parser keeps them as nested sub-blocks and the renderer
+   shows real tables/lists/code inside the blockquote — quoting a source
+   skill's table verbatim is safe. Headings inside quotes render as bold
+   lines. This applies to free-block quotes and to archive 机制原文 quotes
+   alike. Numbered lists (`1.`) inside quotes are joined as plain paragraph
+   text — prefer `- ` lists when quoting list-shaped source text.
 
 Inline markup: paragraphs, quotes, list items, and field values support
 `**加粗**` and backtick `code` (the renderer renders both; everything else

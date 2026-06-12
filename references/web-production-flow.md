@@ -78,13 +78,17 @@ need, following the ladder in `references/evidence-collection.md`:
 
 - mine the source package (`examples/`, README images, fixtures) for
   ready-made specimens and wow material;
+- run every shipped script that has a valid in-package input
+  (mandatory — see 可执行工件必跑 in `references/evidence-collection.md`);
 - if the load-bearing artifact has no real instance anywhere, run a slice
   (跑到第一个承重工件、沿人工检查点切开、产物落盘采集);
 - ablate only the cheap counter-intuitive claims worth upgrading to 实测;
 - whatever stays synthesized must be labeled 模拟样本 in content.
 
-Record in the brief which level each key excerpt came from. Page packets
-then point at collected files instead of asking writers to invent samples.
+Record in the brief which level each key excerpt came from, and include
+the script checklist (every shipped script: 跑了/没跑 + 理由 + 一句结果).
+Page packets then point at collected files instead of asking writers to
+invent samples.
 
 ## 4. Produce page packets
 

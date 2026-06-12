@@ -35,7 +35,9 @@ Treat the input as a single `SKILL.md`, a skill directory, or a folder of skills
 - Note `references/`, `scripts/`, `assets/`, `examples/`, `tests/`, and metadata.
 - Read the entry `SKILL.md` first.
 - Read referenced files only when they explain the skill's design.
-- Inspect scripts to see which fragile jobs they take away from the agent.
+- Inspect scripts to see which fragile jobs they take away from the agent —
+  and run every script that has a valid in-package input (mandatory; see
+  可执行工件必跑 in `references/evidence-collection.md`).
 
 For a batch, analyze representative skills first, then scan the rest for
 repeated structures.
