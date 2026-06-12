@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 980 420" font-family="-apple-system, 'PingFang SC', 'Noto Sans CJK SC', sans-serif">
+  <style>
+    .col { fill: #ffffff; stroke: #c9cdd4; }
+    .colbad { fill: #fdf4f4; stroke: #c97a7a; }
+    .colgood { fill: #f0f7f2; stroke: #3d9a5f; }
+    .hd { font-size: 14px; font-weight: 700; fill: #1f2329; }
+    .tag { font-size: 11px; fill: #9097a3; }
+    .t { font-size: 12.5px; fill: #2a2f36; }
+    .q { font-size: 13px; fill: #1f2329; font-weight: 600; }
+    .note { font-size: 11px; fill: #b04a4a; }
+    .notegood { font-size: 11px; fill: #2e7d4f; }
+  </style>
+
+  <text class="q" x="490" y="34" text-anchor="middle">同一个问题:「Solana 生态最近怎么样?值得关注吗?」</text>
+
+  <!-- left: default agent -->
+  <rect class="colbad" x="30" y="60" width="440" height="330" rx="10"/>
+  <text class="hd" x="50" y="92">默认 agent 拼出来的「孙宇晨」</text>
+  <text class="tag" x="50" y="112">(模拟样本,基线行为)</text>
+  <text class="t" x="50" y="148">「Solana 是一个很有潜力的高性能公链,</text>
+  <text class="t" x="50" y="170">TVL 大概在 10 亿美元左右,生态发展不错。</text>
+  <text class="t" x="50" y="192">作为投资者要注意风险,建议综合评估,</text>
+  <text class="t" x="50" y="214">理性投资。我看好长期价值!」</text>
+  <text class="note" x="50" y="262">· TVL 数字来自训练语料,早已过时——而且你看不出来</text>
+  <text class="note" x="50" y="286">· 「注意风险、理性投资」——孙宇晨从不这么说话</text>
+  <text class="note" x="50" y="310">· 没有立场,没有他的判断框架,只有礼貌的中庸</text>
+  <text class="note" x="50" y="334">· 像一个套了名字的通用 AI</text>
+
+  <!-- right: nuwa skill -->
+  <rect class="colgood" x="510" y="60" width="440" height="330" rx="10"/>
+  <text class="hd" x="530" y="92">女娲蒸馏的孙宇晨</text>
+  <text class="tag" x="530" y="112">(来源:源包 sun-yuchen-perspective/SKILL.md 示例)</text>
+  <text class="t" x="530" y="148">先动手:WebSearch 最新 TVL、日活地址、</text>
+  <text class="t" x="530" y="170">DEX 交易量、meme 币热潮、机构动向——</text>
+  <text class="t" x="530" y="192">然后才开口:</text>
+  <text class="t" x="530" y="222">「Solana 很好,但 TRON 链上 USDT 850 亿。</text>
+  <text class="t" x="530" y="244">你告诉我谁是老大?🚀」</text>
+  <text class="notegood" x="530" y="286">· 数字是刚搜到的真数据,不是旧语料</text>
+  <text class="notegood" x="530" y="310">· 用的是他的判断框架:注意力在哪、谁在套利</text>
+  <text class="notegood" x="530" y="334">· 结尾是宣言不是分析——这是从原话里量出来的风格规则</text>
+</svg>

@@ -147,6 +147,33 @@
     return out;
   }
 
+  function renderTableBlock(rows) {
+    if (!Array.isArray(rows) || !rows.length) return "";
+    const header = rows[0] || [];
+    const body = rows.slice(1);
+    const ths = header.map((c) => `<th>${renderInline(c)}</th>`).join("");
+    const trs = body.map((r) => `<tr>${r.map((c) => `<td>${renderInline(c)}</td>`).join("")}</tr>`).join("");
+    return `<div class="md-table-wrap"><table class="mini-table md-table"><thead><tr>${ths}</tr></thead><tbody>${trs}</tbody></table></div>`;
+  }
+
+  function renderQuoteInner(block) {
+    const subs = Array.isArray(block.blocks) ? block.blocks : [];
+    if (subs.length) {
+      return subs.map((sub) => {
+        if (sub.kind === "table") return renderTableBlock(sub.rows);
+        if (sub.kind === "list") {
+          const items = (sub.items || []).map((item) => `<li>${renderInline(item)}</li>`).join("");
+          return `<ul class="narrative-list">${items}</ul>`;
+        }
+        if (sub.kind === "code") {
+          return `<pre class="quote-code"><code>${escapeHtml(sub.text || "")}</code></pre>`;
+        }
+        return `<p>${renderInline(sub.text || "")}</p>`;
+      }).join("");
+    }
+    return `<p>${renderInline(block.text || "")}</p>`;
+  }
+
   function renderNarrativeBlock(block) {
     if (!block || !block.kind) return "";
     if (block.kind === "para") {
@@ -156,13 +183,16 @@
       const items = (block.items || []).map((item) => `<li>${renderInline(item)}</li>`).join("");
       return `<ul class="narrative-list">${items}</ul>`;
     }
+    if (block.kind === "table") {
+      return renderTableBlock(block.rows);
+    }
     if (block.kind === "code") {
       const lang = block.lang ? ` data-lang="${escapeHtml(block.lang)}"` : "";
       const langLabel = block.lang ? escapeHtml(block.lang.toUpperCase()) : "TEXT";
       return `<div class="code-block"><div class="code-chrome"><span class="code-dots"><i></i><i></i><i></i></span><span class="code-lang">${langLabel}</span></div><pre${lang}><code>${escapeHtml(block.text || "")}</code></pre></div>`;
     }
     if (block.kind === "quote") {
-      return `<blockquote class="narrative-quote">${renderInline(block.text || "")}</blockquote>`;
+      return `<blockquote class="narrative-quote">${renderQuoteInner(block)}</blockquote>`;
     }
     if (block.kind === "diagram") {
       return diagramBlock(findDiagram(block.id));
@@ -348,7 +378,8 @@
 
         <section class="section shape" id="shape">
           <p class="eyebrow">Why this shape · 章节排序的依据</p>
-          <h2>${escapeHtml(overview.shapeReason || "按读者意图排，不按源文件顺序")}</h2>
+          <h2>章节为什么这么排</h2>
+          <p class="shape-reason">${renderInline(overview.shapeReason || "按读者意图排，不按源文件顺序")}</p>
           <ol class="chapter-logic">
             ${chapterLogicHtml}
           </ol>
@@ -619,7 +650,7 @@
         </table>` : "";
 
       const quoteHtml = c.mechanismQuote
-        ? `<blockquote class="narrative-quote mech-quote">${renderInline(c.mechanismQuote)}</blockquote>`
+        ? `<blockquote class="narrative-quote mech-quote">${renderQuoteInner({ text: c.mechanismQuote, blocks: c.mechanismQuoteBlocks })}</blockquote>`
         : "";
 
       const transferHtml = c.transferability === "高" ? `

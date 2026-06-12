@@ -1,13 +1,15 @@
 # apply-it.packet
-**Page job:** 读者用高可迁移卡，自己画一个「公司尽调顾问 skill」的骨架。
-**Reader state:** 读完档案，手痒。
-**Voice:** 出题人，少说多让做。
-**Page-specific standard:** 参考答案折叠；任务让读者选卡组卡，不是读总结。
-**Evidence shape:** 新场景叙事 + 任务清单 + 折叠参考答案。
-**Failure mode:** 变成励志总结。
-**Pain scan rows used:** 间接全部。
-**Inputs:** archive 高可迁移卡。
-**Must include:** 起手 prompt；作者/偷招两列下一步。
-**Must avoid:** 直接给答案。
-**Packet output:** content/apply-it.md
-**Self-check:** handbook-spec Apply it standard。
+
+**Page job:** 把女娲的组合形状蒸馏成一个可搬走的骨架公式,然后给读者一个异域新场景做迁移练习,参考答案折叠在后。
+**Reader state:** 读完档案,手里有 11 张高迁移卡;想自己造 skill。
+**Voice:** 出题人;任务清单具体可做。
+**Page-specific standard:** 骨架模式是组合级(公式+不变量),不重列卡片;新场景必须换领域(不再是「蒸馏人物」);参考答案给 entry 文件骨架+关键 gate+中间产物清单。
+**Evidence shape:** 公式文本块;任务列表;参考答案代码块。
+**Failure mode:** 写成全书总结或鸡汤(「记住:诚实比完美重要」)。
+**Pain scan rows used:** 间接消费 A1/A2/A3/A6/A7/A8(高迁移卡)。
+**Inputs:** brief 档案卡表(高迁移子集);骨架公式素材:取证落盘→门槛筛选→模板组装→外部验证,不变量:落盘、降级、检查点前置、验证权外移。
+**新场景设定:** 「公司技术博客代笔 skill」——让 AI 模仿公司 CTO 的技术写作风格代笔博客。同样有取证(旧文章)、提炼(风格/立场)、验证(像不像)的结构,但领域完全不同。
+**Must include:** 骨架模式;新场景;任务列表(选卡→组合→画 mini-skill 骨架);折叠参考答案;下一步(作者/偷招的人两个列表)。
+**Must avoid:** 重新解释卡片内容;参考答案直接替读者做完练习以外的扩展。
+**Packet output:** `content/apply-it.md`。
+**Self-check:** 读者是否必须动手才能继续读?参考答案是否真的用了≥4 张档案卡并标了卡号?

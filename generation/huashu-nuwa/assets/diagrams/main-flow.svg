@@ -1,69 +1,83 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 980 300" font-family="'PingFang SC','Microsoft YaHei',sans-serif">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 980 430" font-family="-apple-system, 'PingFang SC', 'Noto Sans CJK SC', sans-serif">
   <defs>
-    <marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
-      <path d="M0,0 L10,5 L0,10 z" fill="#8a7a66"/>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#8a8f98"/>
     </marker>
   </defs>
-  <rect width="980" height="300" fill="#f6f1e6"/>
+  <style>
+    .box { fill: #f6f7f9; stroke: #c9cdd4; }
+    .stage { fill: #eef2ff; stroke: #6473c8; }
+    .gate { fill: #fff7e6; stroke: #d99a2b; }
+    .out { fill: #e9f7ef; stroke: #3d9a5f; }
+    .lbl { font-size: 14px; fill: #1f2329; font-weight: 600; }
+    .sub { font-size: 11px; fill: #5c6370; }
+    .edge { stroke: #8a8f98; stroke-width: 1.6; fill: none; marker-end: url(#arrow); }
+    .gatelbl { font-size: 12px; fill: #8a5a10; font-weight: 600; }
+  </style>
 
-  <!-- input -->
-  <rect x="20" y="120" width="120" height="60" rx="4" fill="#ede6d4" stroke="#d8cdb6"/>
-  <text x="80" y="145" text-anchor="middle" font-size="13" fill="#4a3f33">用户一句话</text>
-  <text x="80" y="164" text-anchor="middle" font-size="11" fill="#8a7a66">「做一个乔布斯 skill」</text>
+  <!-- Row 1: input + stages 1-4 -->
+  <rect class="box" x="20" y="40" width="120" height="70" rx="8"/>
+  <text class="lbl" x="80" y="70" text-anchor="middle">用户输入</text>
+  <text class="sub" x="80" y="90" text-anchor="middle">「蒸馏孙宇晨」</text>
 
-  <!-- stage 1 -->
-  <rect x="170" y="120" width="110" height="60" rx="4" fill="#fff" stroke="#8a1c0f" stroke-width="1.2"/>
-  <text x="225" y="143" text-anchor="middle" font-size="13" font-weight="600" fill="#1a1410">① 分流澄清</text>
-  <text x="225" y="162" text-anchor="middle" font-size="10.5" fill="#8a7a66">人名 or 模糊需求</text>
+  <rect class="stage" x="180" y="40" width="160" height="70" rx="8"/>
+  <text class="lbl" x="260" y="63" text-anchor="middle">① 入口分流</text>
+  <text class="sub" x="260" y="82" text-anchor="middle">人名 → 直接路径</text>
+  <text class="sub" x="260" y="97" text-anchor="middle">困惑 → 诊断推荐</text>
 
-  <!-- stage 2 -->
-  <rect x="310" y="120" width="110" height="60" rx="4" fill="#fff" stroke="#8a1c0f" stroke-width="1.2"/>
-  <text x="365" y="143" text-anchor="middle" font-size="13" font-weight="600" fill="#1a1410">② 建目录</text>
-  <text x="365" y="162" text-anchor="middle" font-size="10.5" fill="#8a7a66">先有住址再有居民</text>
+  <rect class="stage" x="380" y="40" width="160" height="70" rx="8"/>
+  <text class="lbl" x="460" y="63" text-anchor="middle">② 目录先行</text>
+  <text class="sub" x="460" y="82" text-anchor="middle">建自包含 skill 目录</text>
+  <text class="sub" x="460" y="97" text-anchor="middle">定死 6 个落盘文件名</text>
 
-  <!-- stage 3 -->
-  <rect x="450" y="105" width="120" height="90" rx="4" fill="#fff" stroke="#8a1c0f" stroke-width="1.2"/>
-  <text x="510" y="130" text-anchor="middle" font-size="13" font-weight="600" fill="#1a1410">③ 六维取证</text>
-  <text x="510" y="149" text-anchor="middle" font-size="10.5" fill="#8a7a66">6 个并行 agent</text>
-  <text x="510" y="166" text-anchor="middle" font-size="10.5" fill="#8a7a66">著作·对话·表达</text>
-  <text x="510" y="182" text-anchor="middle" font-size="10.5" fill="#8a7a66">他评·决策·时间线</text>
+  <rect class="stage" x="580" y="30" width="170" height="90" rx="8"/>
+  <text class="lbl" x="665" y="53" text-anchor="middle">③ 六路取证</text>
+  <text class="sub" x="665" y="72" text-anchor="middle">著作 · 对话 · 表达</text>
+  <text class="sub" x="665" y="87" text-anchor="middle">他者 · 决策 · 时间线</text>
+  <text class="sub" x="665" y="105" text-anchor="middle">6 个并行 agent 各写一份档案</text>
 
-  <!-- checkpoint 1 (diamond) -->
-  <polygon points="640,150 680,115 720,150 680,185" fill="#fbf8f0" stroke="#94701f" stroke-width="1.4"/>
-  <text x="680" y="146" text-anchor="middle" font-size="11.5" font-weight="600" fill="#94701f">检查点①</text>
-  <text x="680" y="162" text-anchor="middle" font-size="9.5" fill="#94701f">调研质量</text>
+  <rect class="stage" x="790" y="30" width="170" height="90" rx="8"/>
+  <text class="lbl" x="875" y="53" text-anchor="middle">④ 三重验证提炼</text>
+  <text class="sub" x="875" y="72" text-anchor="middle">跨域复现 · 生成力 · 排他性</text>
+  <text class="sub" x="875" y="87" text-anchor="middle">三筛全过才算心智模型</text>
+  <text class="sub" x="875" y="105" text-anchor="middle">矛盾保留为张力</text>
 
-  <!-- stage 5 -->
-  <rect x="750" y="120" width="110" height="60" rx="4" fill="#fff" stroke="#8a1c0f" stroke-width="1.2"/>
-  <text x="805" y="143" text-anchor="middle" font-size="13" font-weight="600" fill="#1a1410">⑤ 提炼</text>
-  <text x="805" y="162" text-anchor="middle" font-size="10.5" fill="#8a7a66">三重验证筛模型</text>
+  <!-- Gates under stage 3 and 4 -->
+  <rect class="gate" x="580" y="160" width="170" height="56" rx="8"/>
+  <text class="gatelbl" x="665" y="183" text-anchor="middle">⏸ 检查点 1.5</text>
+  <text class="sub" x="665" y="201" text-anchor="middle">调研摘要表 → 用户确认</text>
 
-  <!-- checkpoint 2 -->
-  <polygon points="805,230 845,265 805,300 765,265" transform="translate(0,-35)" fill="#fbf8f0" stroke="#94701f" stroke-width="1.4"/>
-  <text x="805" y="226" text-anchor="middle" font-size="11.5" font-weight="600" fill="#94701f">检查点②</text>
-  <text x="805" y="241" text-anchor="middle" font-size="9.5" fill="#94701f">提炼方向</text>
+  <rect class="gate" x="790" y="160" width="170" height="56" rx="8"/>
+  <text class="gatelbl" x="875" y="183" text-anchor="middle">⏸ 检查点 2.5</text>
+  <text class="sub" x="875" y="201" text-anchor="middle">提炼摘要 → 用户确认</text>
 
-  <!-- stage 6 -->
-  <rect x="560" y="225" width="160" height="60" rx="4" fill="#fff" stroke="#8a1c0f" stroke-width="1.2"/>
-  <text x="640" y="248" text-anchor="middle" font-size="13" font-weight="600" fill="#1a1410">⑥ 构建 · 验证 · 精炼</text>
-  <text x="640" y="266" text-anchor="middle" font-size="10.5" fill="#8a7a66">子 agent 独立测试</text>
+  <!-- Row 2: stages 5-6 + output -->
+  <rect class="stage" x="180" y="290" width="180" height="80" rx="8"/>
+  <text class="lbl" x="270" y="315" text-anchor="middle">⑤ 组装人格</text>
+  <text class="sub" x="270" y="334" text-anchor="middle">按 skill-template 填充</text>
+  <text class="sub" x="270" y="349" text-anchor="middle">从心智模型推导 Agentic Protocol</text>
 
-  <!-- output -->
-  <rect x="370" y="225" width="150" height="60" rx="4" fill="#2d6e4e" fill-opacity="0.08" stroke="#2d6e4e" stroke-width="1.2"/>
-  <text x="445" y="248" text-anchor="middle" font-size="12.5" font-weight="600" fill="#2d6e4e">steve-jobs-perspective/</text>
-  <text x="445" y="266" text-anchor="middle" font-size="10.5" fill="#2d6e4e">自包含、可激活、有边界</text>
+  <rect class="stage" x="400" y="290" width="200" height="80" rx="8"/>
+  <text class="lbl" x="500" y="315" text-anchor="middle">⑥ 三面测试与精炼</text>
+  <text class="sub" x="500" y="334" text-anchor="middle">独立子agent:已知 / 边缘 / 风格</text>
+  <text class="sub" x="500" y="349" text-anchor="middle">quality_check.py + 双Agent精炼</text>
 
-  <!-- arrows -->
-  <line x1="140" y1="150" x2="166" y2="150" stroke="#8a7a66" stroke-width="1.3" marker-end="url(#arr)"/>
-  <line x1="280" y1="150" x2="306" y2="150" stroke="#8a7a66" stroke-width="1.3" marker-end="url(#arr)"/>
-  <line x1="420" y1="150" x2="446" y2="150" stroke="#8a7a66" stroke-width="1.3" marker-end="url(#arr)"/>
-  <line x1="570" y1="150" x2="636" y2="150" stroke="#8a7a66" stroke-width="1.3" marker-end="url(#arr)"/>
-  <line x1="720" y1="150" x2="746" y2="150" stroke="#8a7a66" stroke-width="1.3" marker-end="url(#arr)"/>
-  <line x1="805" y1="180" x2="805" y2="191" stroke="#8a7a66" stroke-width="1.3" marker-end="url(#arr)"/>
-  <line x1="765" y1="230" x2="724" y2="245" stroke="#8a7a66" stroke-width="1.3" marker-end="url(#arr)"/>
-  <line x1="560" y1="255" x2="524" y2="255" stroke="#8a7a66" stroke-width="1.3" marker-end="url(#arr)"/>
+  <rect class="out" x="640" y="290" width="200" height="80" rx="8"/>
+  <text class="lbl" x="740" y="315" text-anchor="middle">人物 SKILL.md</text>
+  <text class="sub" x="740" y="334" text-anchor="middle">心智模型 + 启发式 + 表达DNA</text>
+  <text class="sub" x="740" y="349" text-anchor="middle">+ 诚实边界 + 调研来源附录</text>
 
-  <!-- loop back annotation -->
-  <text x="680" y="98" text-anchor="middle" font-size="10" fill="#94701f">不够 → 补充调研</text>
-  <text x="906" y="208" text-anchor="middle" font-size="10" fill="#94701f">方向错 → 回到提炼</text>
+  <!-- edges row 1 -->
+  <path class="edge" d="M140 75 H178"/>
+  <path class="edge" d="M340 75 H378"/>
+  <path class="edge" d="M540 75 H578"/>
+  <path class="edge" d="M750 75 H788"/>
+  <!-- stage3 -> gate1.5, stage4 -> gate2.5 -->
+  <path class="edge" d="M665 120 V158"/>
+  <path class="edge" d="M875 120 V158"/>
+  <!-- gate2.5 -> stage5 (wrap to row 2 via free lane y=253) -->
+  <path class="edge" d="M875 216 V253 H140 V330 H178"/>
+  <!-- stage5 -> stage6 -> output -->
+  <path class="edge" d="M360 330 H398"/>
+  <path class="edge" d="M600 330 H638"/>
 </svg>
