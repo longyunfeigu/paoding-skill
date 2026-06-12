@@ -68,6 +68,12 @@ real artifact excerpts, follow the collection ladder in
 `references/evidence-collection.md` (mine `examples/` → slice-run →
 targeted ablation).
 
+The pain sweep finds what the skill defends; it systematically misses
+pure craft knowledge (数值表、对照表、验法、话术、命名). For web
+handbooks, also run the steal scan in `references/steal-scan.md` — six
+lenses, two tiers — and mark qualified candidates in place with `!steal`
+callouts.
+
 ### 3. Read Like a Skill Designer
 
 Preserve three layers:
@@ -160,6 +166,8 @@ Before finishing, check:
   three-question pain test, evidence grades, and the item-driven sweep.
 - `references/evidence-collection.md` — the evidence collection ladder
   (mine examples / slice-run / targeted ablation) and specimen rules.
+- `references/steal-scan.md` — the six-lens carry-away scan, two tiers,
+  the `!steal` callout, and the auto-aggregated 带走工具箱 appendix.
 - `references/handbook-spec.md` — content contract for multi-page handbooks
   (五章 + 附录) and the ordinary-view pain scan format.
 - `references/web-production-flow.md` — concise web production flow: scaffold,

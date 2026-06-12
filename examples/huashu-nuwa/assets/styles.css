@@ -1929,3 +1929,144 @@ body[data-page="design-choices"] .scene-why {
   white-space: nowrap;
 }
 blockquote .inline-code { background: rgba(0, 0, 0, 0.07); }
+
+/* ===== 📌 可带走 callout（通用招现场标记）＋ 带走工具箱 ===== */
+.steal-callout {
+  margin: 28px 0;
+  padding: 18px 22px 16px;
+  background: linear-gradient(0deg, rgba(232, 200, 90, 0.16), rgba(232, 200, 90, 0.16)), var(--paper);
+  border: 1px solid rgba(148, 112, 31, 0.45);
+  border-left: 5px solid var(--amber);
+  border-radius: 4px;
+  box-shadow: 2px 3px 0 rgba(148, 112, 31, 0.12);
+  font-family: var(--sans);
+}
+.steal-callout.tier-idea {
+  background: linear-gradient(0deg, rgba(45, 110, 78, 0.08), rgba(45, 110, 78, 0.08)), var(--paper);
+  border-color: rgba(45, 110, 78, 0.4);
+  border-left-color: var(--green);
+  box-shadow: 2px 3px 0 rgba(45, 110, 78, 0.1);
+}
+.steal-head {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.steal-badge {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--amber);
+  white-space: nowrap;
+}
+.tier-idea .steal-badge { color: var(--green); }
+.steal-name {
+  font-family: var(--serif);
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--ink);
+}
+.steal-tier {
+  margin-left: auto;
+  font-size: 11.5px;
+  font-weight: 600;
+  padding: 2px 10px;
+  border-radius: 999px;
+  background: var(--highlight);
+  color: var(--ink-2);
+  white-space: nowrap;
+}
+.tier-idea .steal-tier { background: var(--green-soft); color: var(--green); border: 1px solid rgba(45, 110, 78, 0.3); }
+.steal-scene {
+  margin: 6px 0 10px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink-2);
+  letter-spacing: 0.02em;
+}
+.steal-body {
+  font-family: var(--serif);
+  font-size: 15.5px;
+  line-height: 1.85;
+  color: var(--ink);
+}
+.steal-body p { margin: 0 0 10px; }
+.steal-body p:last-child { margin-bottom: 0; }
+.steal-body ul.narrative-list { margin: 8px 0 10px; padding-left: 20px; }
+.steal-body .quote-code { background: var(--night); color: var(--night-text); border-radius: 4px; padding: 12px 14px; overflow-x: auto; font-family: var(--mono); font-size: 13px; }
+.steal-toolbox-link {
+  display: inline-block;
+  margin-top: 10px;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--amber);
+  border-bottom: 1px dashed rgba(148, 112, 31, 0.5);
+}
+.tier-idea .steal-toolbox-link { color: var(--green); border-bottom-color: rgba(45, 110, 78, 0.5); }
+.steal-toolbox-link:hover { opacity: 0.75; }
+
+.toolbox-list { display: flex; flex-direction: column; gap: 18px; }
+.toolbox-item { margin: 0; }
+.toolbox-item:target { outline: 2px solid var(--amber); outline-offset: 3px; }
+.steal-callout:target { outline: 2px solid var(--amber); outline-offset: 3px; }
+
+/* ===== 长叙事段内的二级路标（content 里的 #### 小节标） ===== */
+.narrative .beat-head {
+  margin: 40px 0 14px;
+  padding-left: 14px;
+  border-left: 3px solid var(--accent);
+  font-family: var(--sans);
+  font-size: 14.5px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: var(--ink);
+  counter-increment: beat;
+}
+.narrative .beat-head::before {
+  content: counter(beat, decimal-leading-zero);
+  margin-right: 10px;
+  font-family: var(--mono);
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--accent);
+}
+.narrative { counter-reset: beat; }
+.narrative .beat-head:first-child { margin-top: 8px; }
+
+/* ===== 引用块的文献卡感：贴原文要一眼可辨 ===== */
+.narrative-quote {
+  position: relative;
+  margin: 22px 0;
+  padding: 16px 22px 14px 46px;
+  background: var(--paper-2);
+  border-left: 3px solid var(--accent-line);
+  border-radius: 0 4px 4px 0;
+  font-size: 15.5px;
+  line-height: 1.85;
+  color: var(--ink-2);
+}
+.narrative-quote::before {
+  content: "❝";
+  position: absolute;
+  left: 14px;
+  top: 10px;
+  font-size: 26px;
+  line-height: 1;
+  color: var(--accent);
+  opacity: 0.55;
+  font-family: Georgia, serif;
+}
+.narrative-quote p strong { color: var(--ink); }
+
+/* ===== 表格表头与正文块呼吸感 ===== */
+.md-table thead th {
+  background: var(--paper-2);
+  font-family: var(--sans);
+  font-size: 12.5px;
+  letter-spacing: 0.05em;
+  color: var(--ink-2);
+}
+.md-table-wrap { margin: 20px 0; }
+.narrative > p + .narrative-quote,
+.narrative > p + .md-table-wrap { margin-top: 16px; }

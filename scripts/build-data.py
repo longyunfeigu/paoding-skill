@@ -15,7 +15,9 @@ from pathlib import Path
 EVIDENCE_RE = re.compile(r"（证据：(实测|作者证词|结构推断|假设)）\s*$")
 FIELD_RE = re.compile(r"^\*\*(.+?):?\s*[:：]\*\*\s*(.*)$")
 DIAGRAM_REF_RE = re.compile(r"^!diagram\((.+?)\)\s*$")
+STEAL_REF_RE = re.compile(r"^!steal\((.+?)\)\s*$")
 DIMENSIONS = ["领域-工程", "领域-认知", "行为", "编排", "品味", "需求", "平台"]
+STEAL_TIERS = ["直接抄走", "思路带走"]
 
 
 class BuildError(Exception):
@@ -64,6 +66,10 @@ def tokenize(path):
             i += 1
             continue
 
+        if stripped.startswith("#### "):
+            nodes.append({"kind": "h4", "line": lineno, "text": stripped[5:].strip()})
+            i += 1
+            continue
         if stripped.startswith("### "):
             nodes.append({"kind": "h3", "line": lineno, "text": stripped[4:].strip()})
             i += 1
@@ -89,6 +95,12 @@ def tokenize(path):
         m = DIAGRAM_REF_RE.match(stripped)
         if m:
             nodes.append({"kind": "diagram", "line": lineno, "id": m.group(1).strip()})
+            i += 1
+            continue
+
+        m = STEAL_REF_RE.match(stripped)
+        if m:
+            nodes.append({"kind": "steal", "line": lineno, "header": m.group(1).strip()})
             i += 1
             continue
 
@@ -132,7 +144,7 @@ def tokenize(path):
             while i < n:
                 nxt = lines[i].strip()
                 if (not nxt or nxt.startswith(("#", "```", "|", "- ", "> ", "**"))
-                        or DIAGRAM_REF_RE.match(nxt)):
+                        or DIAGRAM_REF_RE.match(nxt) or STEAL_REF_RE.match(nxt)):
                     break
                 value_lines.append(nxt)
                 i += 1
@@ -145,7 +157,7 @@ def tokenize(path):
         while i < n:
             nxt = lines[i].strip()
             if (not nxt or nxt.startswith(("#", "```", "|", "- ", "> ", "**"))
-                    or DIAGRAM_REF_RE.match(nxt)):
+                    or DIAGRAM_REF_RE.match(nxt) or STEAL_REF_RE.match(nxt)):
                 break
             para.append(nxt)
             i += 1
@@ -249,7 +261,9 @@ def split_items(nodes):
 
 def to_blocks(nodes, path):
     blocks = []
-    for node in nodes:
+    i = 0
+    while i < len(nodes):
+        node = nodes[i]
         if node["kind"] == "para":
             blocks.append({"kind": "para", "text": node["text"]})
         elif node["kind"] == "list":
@@ -262,12 +276,32 @@ def to_blocks(nodes, path):
         elif node["kind"] == "quote":
             blocks.append({"kind": "quote", "text": node["text"],
                            "blocks": node.get("blocks", [])})
+        elif node["kind"] == "h4":
+            blocks.append({"kind": "h4", "text": node["text"]})
         elif node["kind"] == "diagram":
             blocks.append({"kind": "diagram", "id": node["id"]})
+        elif node["kind"] == "steal":
+            parts = [p.strip() for p in re.split(r"[｜|]", node["header"])]
+            if len(parts) != 3 or not all(parts):
+                err(path, node["line"],
+                    "!steal 头需要 `名字 ｜ 档位 ｜ 用在哪` 三段: " f"{node['header']!r}")
+            name, tier, scene = parts
+            if tier not in STEAL_TIERS:
+                err(path, node["line"],
+                    f"!steal 档位 {tier!r} 不合法（合法：{'、'.join(STEAL_TIERS)}）")
+            if i + 1 >= len(nodes) or nodes[i + 1]["kind"] != "quote":
+                err(path, node["line"],
+                    "!steal(...) 后面必须紧跟一个 > 引用块作为正文（第二人称：你将来怎么用）")
+            body = nodes[i + 1]
+            blocks.append({"kind": "steal", "name": name, "tier": tier,
+                           "scene": scene, "text": body["text"],
+                           "blocks": body.get("blocks", [])})
+            i += 1  # consume the quote body
         elif node["kind"] == "field":
             err(path, node["line"], f"此区块不接受字段行: **{node['name']}:**")
         elif node["kind"] == "table":
             blocks.append({"kind": "table", "rows": node["rows"]})
+        i += 1
     return blocks
 
 
@@ -694,6 +728,40 @@ def build_glossary(path):
     return terms
 
 
+# ---------------------------------------------------------------- toolbox
+
+def collect_toolbox(handbook):
+    """Walk every narrative block list, give each steal block a stable anchor,
+    and aggregate them into handbook["toolbox"] (带走工具箱 is a build
+    artifact — single source of truth stays in the page content)."""
+    items = []
+
+    def walk(blocks, page, where):
+        for b in blocks or []:
+            if b.get("kind") != "steal":
+                continue
+            b["anchor"] = f"steal-{len(items) + 1}"
+            items.append({
+                "anchor": b["anchor"], "name": b["name"], "tier": b["tier"],
+                "scene": b["scene"], "page": page, "where": where,
+                "text": b.get("text", ""), "blocks": b.get("blocks", []),
+            })
+
+    ov = handbook.get("overview", {})
+    walk(ov.get("openingScene"), "overview", "Overview · 开场")
+    walk(ov.get("primerBeats"), "overview", "Overview · Primer")
+    for stage in handbook.get("walkthrough", []):
+        where = f"{stage.get('id', '')} {stage.get('title', '')}".strip()
+        for key in ("sceneBody", "predictBody", "mechanismBody", "outputBody"):
+            walk(stage.get(key), "walkthrough", where)
+    for art in handbook.get("dataflow", {}).get("artifacts", []):
+        walk(art.get("body"), "dataflow", f"产物卡 · {art.get('path', '')}")
+    ap = handbook.get("applyIt", {})
+    for key in ("skeleton", "scenario", "referenceAnswer"):
+        walk(ap.get(key), "apply-it", "Apply It")
+    return items
+
+
 # ---------------------------------------------------------------- main
 
 REQUIRED_FILES = ["meta.md", "overview.md", "walkthrough.md", "dataflow.md",
@@ -731,6 +799,8 @@ def main():
         print(f"构建失败 — {exc}", file=sys.stderr)
         return 1
 
+    handbook["toolbox"] = collect_toolbox(handbook)
+
     out = target / "assets" / "data.js"
     out.parent.mkdir(parents=True, exist_ok=True)
     payload = json.dumps(handbook, ensure_ascii=False, indent=2)
@@ -742,7 +812,8 @@ def main():
     stages = len(handbook["walkthrough"])
     cards = len(handbook["archive"]["cards"])
     print(f"OK {out} （{stages} 个 stage / {cards} 张难点卡 / "
-          f"{len(handbook['glossary'])} 个术语 / {len(diagrams)} 张图）")
+          f"{len(handbook['glossary'])} 个术语 / {len(diagrams)} 张图 / "
+          f"{len(handbook['toolbox'])} 个可带走点）")
     return 0
 
 

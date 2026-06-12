@@ -34,16 +34,21 @@
       stages: (handbook.walkthrough || []).length,
       artifacts: (handbook.dataflow?.artifacts || []).length,
       cards: (handbook.archive?.cards || []).length,
-      glossary: (handbook.glossary || []).length
+      glossary: (handbook.glossary || []).length,
+      toolbox: (handbook.toolbox || []).length
     };
-    return [
+    const chapters = [
       { num: "01", label: "Overview", sub: "失败场景 · 基线 · 全景图", href: `${root}pages/overview.html`, slug: "overview" },
       { num: "02", label: "Walkthrough", sub: `运行轨迹 · ${counts.stages} 个 stage`, href: `${root}pages/walkthrough.html`, slug: "walkthrough" },
       { num: "03", label: "中间产物与数据流", sub: `跟着数据走 · ${counts.artifacts} 个产物`, href: `${root}pages/dataflow.html`, slug: "dataflow" },
       { num: "04", label: "难点档案", sub: `症状 · 机制 · 可迁移性 · ${counts.cards} 张卡`, href: `${root}pages/archive.html`, slug: "archive" },
       { num: "05", label: "Apply It", sub: "迁移练习 · 画你自己的骨架", href: `${root}pages/apply-it.html`, slug: "apply-it" },
-      { num: "附", label: "Glossary", sub: `查阅用 · ${counts.glossary} 个术语`, href: `${root}pages/glossary.html`, slug: "glossary" }
+      { num: counts.toolbox ? "附1" : "附", label: "Glossary", sub: `查阅用 · ${counts.glossary} 个术语`, href: `${root}pages/glossary.html`, slug: "glossary" }
     ];
+    if (counts.toolbox) {
+      chapters.push({ num: "附2", label: "带走工具箱", sub: `📌 正文标过的可带走点 · ${counts.toolbox} 个`, href: `${root}pages/toolbox.html`, slug: "toolbox" });
+    }
+    return chapters;
   }
 
   function skillName() {
@@ -98,6 +103,11 @@
         return (handbook.glossary || []).map((g) => ({
           anchor: slugify(g.term),
           label: g.term
+        }));
+      case "toolbox":
+        return (handbook.toolbox || []).map((t) => ({
+          anchor: t.anchor,
+          label: `${t.tier === "直接抄走" ? "抄" : "思"} · ${t.name}`
         }));
       default:
         return [];
@@ -179,6 +189,9 @@
     if (block.kind === "para") {
       return `<p>${linkTerms(renderInline(block.text || ""))}</p>`;
     }
+    if (block.kind === "h4") {
+      return `<h4 class="beat-head">${renderInline(block.text || "")}</h4>`;
+    }
     if (block.kind === "list") {
       const items = (block.items || []).map((item) => `<li>${renderInline(item)}</li>`).join("");
       return `<ul class="narrative-list">${items}</ul>`;
@@ -196,6 +209,21 @@
     }
     if (block.kind === "diagram") {
       return diagramBlock(findDiagram(block.id));
+    }
+    if (block.kind === "steal") {
+      const tierClass = block.tier === "直接抄走" ? "tier-copy" : "tier-idea";
+      const anchor = block.anchor ? ` id="${escapeHtml(block.anchor)}"` : "";
+      return `
+        <aside class="steal-callout ${tierClass}"${anchor}>
+          <div class="steal-head">
+            <span class="steal-badge">📌 可带走</span>
+            <span class="steal-name">${escapeHtml(block.name || "")}</span>
+            <span class="steal-tier">${escapeHtml(block.tier || "")}</span>
+          </div>
+          <p class="steal-scene">用在：${escapeHtml(block.scene || "")}</p>
+          <div class="steal-body">${renderQuoteInner(block)}</div>
+          <a class="steal-toolbox-link" href="${root}pages/toolbox.html${block.anchor ? `#${escapeHtml(block.anchor)}` : ""}">全部可带走的点，集中在「带走工具箱」→</a>
+        </aside>`;
     }
     return "";
   }
@@ -863,6 +891,61 @@
     `);
   }
 
+  // ===== 带走工具箱 (附录 2，构建期从正文 callout 自动聚合) =====
+  function toolboxPage() {
+    const items = handbook.toolbox || [];
+    const pageLabel = {
+      overview: "Overview",
+      walkthrough: "Walkthrough",
+      dataflow: "中间产物与数据流",
+      "apply-it": "Apply It"
+    };
+
+    function itemBlock(t) {
+      const tierClass = t.tier === "直接抄走" ? "tier-copy" : "tier-idea";
+      const backHref = `${root}pages/${t.page}.html#${escapeHtml(t.anchor)}`;
+      return `
+        <article class="steal-callout toolbox-item ${tierClass}" id="${escapeHtml(t.anchor)}">
+          <div class="steal-head">
+            <span class="steal-badge">📌</span>
+            <span class="steal-name">${escapeHtml(t.name || "")}</span>
+            <span class="steal-tier">${escapeHtml(t.tier || "")}</span>
+          </div>
+          <p class="steal-scene">用在：${escapeHtml(t.scene || "")}</p>
+          <div class="steal-body">${renderQuoteInner(t)}</div>
+          <a class="steal-toolbox-link" href="${backHref}">回它的现场 → ${escapeHtml(pageLabel[t.page] || t.page)} · ${escapeHtml(t.where || "")}</a>
+        </article>`;
+    }
+
+    function tierSection(tier, intro) {
+      const list = items.filter((t) => t.tier === tier);
+      if (!list.length) return "";
+      return `
+        <section class="section" id="${tier === "直接抄走" ? "tier-copy" : "tier-idea"}">
+          <p class="eyebrow">${escapeHtml(tier)} · ${list.length} 个</p>
+          <p class="intro-prose">${escapeHtml(intro)}</p>
+          <div class="toolbox-list">${list.map(itemBlock).join("")}</div>
+        </section>`;
+    }
+
+    layout("带走工具箱", `
+      <article class="page">
+        <header class="wt-hero">
+          <p class="eyebrow">带走工具箱 · 附录 2</p>
+          <h1>📌 ${items.length} 个可带走的点</h1>
+          <p class="lede">这一页是机器从正文自动聚合的——每一条都在某个章节的现场标过「可带走」。和难点档案的区别：档案回答「这个 skill 为什么长这样」，这里只回答「你明天干活能拿走什么」。赶时间就从这页挑，想懂来龙去脉就点「回它的现场」。</p>
+          <span class="hero-rule"></span>
+        </header>
+        ${tierSection("直接抄走", "清单、数值、对照表——原样复制就能用，不需要懂这个 skill 的其它部分。")}
+        ${tierSection("思路带走", "原则和做法——换个领域要自己适配，但思路直接搬。")}
+        <div class="end-mark">
+          <span class="end-mark-glyph">❖ &nbsp; ❖ &nbsp; ❖</span>
+          <span class="end-mark-text">附录 2 / 带走工具箱 — 完</span>
+        </div>
+      </article>
+    `);
+  }
+
   function indexPage() {
     const overview = handbook.overview || {};
     const chapters = buildChapters();
@@ -876,7 +959,7 @@
         </header>
         <section class="section">
           <p class="eyebrow">章节</p>
-          <h2>五章 + 一个附录</h2>
+          <h2>五章 + ${(handbook.toolbox || []).length ? "两个附录" : "一个附录"}</h2>
           <div class="chapter-grid">
             ${chapters.map((ch) => `
               <a class="chapter-card" href="${ch.href}">
@@ -902,7 +985,8 @@
     dataflow: dataflowPage,
     archive: archivePage,
     "apply-it": applyItPage,
-    glossary: glossaryPage
+    glossary: glossaryPage,
+    toolbox: toolboxPage
   };
 
   const page = document.body.dataset.page || "index";

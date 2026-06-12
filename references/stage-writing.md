@@ -202,6 +202,18 @@ First stage uses `**从这里开始：**`. Last stage uses `**这里把账结清
 The closing handoff for stage N and the opening handoff for stage N+1 should
 say the same thing from two sides.
 
+## Mark carry-away craft with `!steal`
+
+When a stage's mechanism is itself reusable craft outside the source
+skill's task domain（一张清单、一组数值、一个验法——判据见
+`references/steal-scan.md`），mark it in place with a `!steal` callout
+right after the mechanism quote. The callout speaks to the reader in
+second person（「下次你写…可以直接拿…」), gives the minimal usable form,
+and names a scene outside the task domain. Max 3 per stage. It does not
+replace 可偷的招 — that line stays the stage's design move (条件→动作,
+for skill authors); the callout hands over domain craft (for
+practitioners). Same point, two angles, never the same prose.
+
 ## End with reader challenges
 
 Challenges are for the human reader as a future skill author. Put them in a

@@ -36,14 +36,16 @@ assert_grep '^name: paoding-skill' SKILL.md
 assert_grep '^description: Use when studying, reverse-engineering, comparing, reviewing, or learning from AI skill packages' SKILL.md
 assert_grep 'Markdown report, structured pattern notes, or multi-page web handbook' SKILL.md
 assert_grep '庖丁' SKILL.md
-# generation/ 样例已是 README 展示资产，允许入库（旧断言要求不入库，政策已变更）
+# 政策：generation/ 是工作产出目录（gitignore，不入库），精选样例搬到 examples/ 入库
+assert_grep '^generation/' .gitignore
+[[ -f examples/huashu-nuwa/index.html ]] || fail "expected sample handbook at examples/huashu-nuwa/"
 
 assert_max_lines references/web-app-visuals.md 120
 assert_max_lines references/web-production-flow.md 220
 assert_max_lines references/stage-writing.md 300
 assert_max_lines references/pain-dimensions.md 240
-assert_max_lines references/content-format.md 280
-assert_max_lines references/handbook-spec.md 300
+assert_max_lines references/content-format.md 290
+assert_max_lines references/handbook-spec.md 310
 
 assert_grep 'data.js 是构建产物' SKILL.md
 assert_grep 'pain-dimensions' SKILL.md

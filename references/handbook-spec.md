@@ -17,6 +17,10 @@ The handbook answers:
 Evidence and concrete material are collected per
 `references/evidence-collection.md` (mine `examples/` → slice-run →
 targeted ablation); synthesized artifact excerpts are labeled 模拟样本.
+Alongside the pain sweep, run the steal scan
+(`references/steal-scan.md`): six lenses over the package for what a
+practitioner can carry away, marked in place with `!steal` callouts and
+auto-aggregated into the 带走工具箱 appendix.
 
 Before answering from inside the skill, answer from outside it:
 
@@ -110,7 +114,8 @@ depends on concepts established by earlier chapters.
 | 3 | 中间产物与数据流 (dataflow) | follow the data: user input -> intermediate artifacts -> delivery; for each artifact, who writes, who reads, why this shape | directory listing, or ownership rows with no "why this shape" |
 | 4 | 难点档案 (archive) | every pain as a card: symptom, baseline, evidence, mechanism, transferability; plus residue and cut candidates | generic best practices, or patterns as renamed section headings |
 | 5 | Apply it | transfer exercises: the reader picks cards, combines them, sketches a mini-skill skeleton | motivational advice, or a summary disguised as exercises |
-| 附录 | Glossary | lookup utility for design-heavy terms, off the main reading path | a chapter-sized dictionary interrupting the narrative |
+| 附录 1 | Glossary | lookup utility for design-heavy terms, off the main reading path | a chapter-sized dictionary interrupting the narrative |
+| 附录 2 | 带走工具箱 | auto-aggregated from in-context `!steal` callouts (see `references/steal-scan.md`); grouped by tier, each item links back to its spot | hand-writing the page (a second copy that drifts), or marking so many callouts the highlight stops meaning anything |
 
 Whole-before-parts is enforced at two levels:
 

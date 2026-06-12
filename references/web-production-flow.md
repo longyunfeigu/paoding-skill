@@ -43,6 +43,9 @@ brief is source material, not page copy. Include:
 - source path, package map, and the baseline declaration;
 - the ordinary-view pain scan table (dimension + evidence columns) from
   `references/handbook-spec.md`;
+- the 带走候选清单 table from the steal scan
+  (`references/steal-scan.md` — six lenses, two tiers; at least lenses
+  2-6 must have run, the pain sweep alone misses pure craft knowledge);
 - the 全量盘点附录: intermediate-artifact inventory, risk mitigations,
   residue, blind spots;
 - one running example;
@@ -151,6 +154,14 @@ it done.
 Fix blocking issues. Do not report them as unresolved work unless the user
 explicitly asked for a review only. If an independent reviewer is available
 and appropriate, use it for high-exposure fields only.
+
+The gate is NOT a banned-word grep. Its hard half is the read-aloud /
+Feynman pass, and that pass must leave a trace: per page, pick 5 random
+narrative paragraphs, run them through 「念出来像人话吗？没读过源 skill 的
+人能跟上吗？」, and record in the brief which paragraphs were sampled and
+what changed. A voice-gate step with no recorded samples and zero rewrites
+is presumed not to have run — the same 「查了不改等于没查」 rule the
+handbooks themselves teach.
 
 ## 7. Editor pass
 

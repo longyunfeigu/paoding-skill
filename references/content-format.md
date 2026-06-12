@@ -29,8 +29,9 @@ Five constructs, nothing else:
 1. **Frontmatter** — flat `key: value` lines between `---` fences at the top
    of a file. No nesting, no YAML lists, one line per value.
 2. **Headings** — `##` opens a section, `###` opens an item (stage, card,
-   term, artifact). Section and item names are part of the contract; the
-   parser matches them exactly.
+   term, artifact); names are matched exactly. In free-block areas `####`
+   opens an auto-numbered road-sign sub-heading (`{kind: "h4"}`): skeleton
+   for a long section (3+ units), plain-word titles, none when short.
 3. **Field lines** — `**字段名:** 值` inside an item or section. The value
    runs to the end of the paragraph (single newlines join, blank line ends).
    Field names are looked up in the per-file label tables below; an unknown
@@ -44,6 +45,10 @@ Five constructs, nothing else:
    - `> ` quote → `{kind: "quote"}`
    - `!diagram(id)` alone on a line → `{kind: "diagram", id}` (id must exist
      in meta.md's diagram registry)
+   - `!steal(名字 ｜ 档位 ｜ 用在哪)` + a following `> ` quote body →
+     `{kind: "steal"}`. 档位 is 直接抄走 or 思路带走; the body addresses 你.
+     Steal blocks aggregate into the auto-generated 带走工具箱 appendix
+     (never hand-written). See `references/steal-scan.md`.
 5. **Structure inside quotes** — a `> ` quote may carry markdown tables,
    `- ` lists, fenced code, and `###` headings (each line still prefixed
    with `> `). The parser keeps them as nested sub-blocks and the renderer

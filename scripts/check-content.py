@@ -228,6 +228,54 @@ def check_term_density(handbook):
                  f"H6 要求一段最多引入一个新术语（粗查，人工复核）")
 
 
+PLUS_FORMULA_RE = re.compile(r"[^\s＋+]{2,}\s*[＋+]\s*[^\s＋+]{2,}\s*[＋+]\s*[^\s＋+]{2,}")
+PAREN_DUMP_RE = re.compile(r"[（(][^）)]*、[^）)]*、[^）)]*、[^）)]*[）)]")
+
+
+def check_voice_compression(handbook):
+    """声纹粗查（类 4 / 类 10 的机器半边）：正文段落里的加号公式
+    （「A + B + C」念出来像伪代码）和括号名词堆叠（一个括号塞 ≥3 个顿号）。
+    只查 para；引用块里的源 skill 原文不查（原文长什么样是证据）。"""
+    for loc, block in iter_blocks(handbook):
+        if block.get("kind") != "para":
+            continue
+        text = block.get("text", "")
+        if PLUS_FORMULA_RE.search(text):
+            warn(f"{loc} 出现加号公式（「A + B + C」式压缩）——展开成场景，"
+                 f"见 voice-gate-examples.md 类 10")
+        if PAREN_DUMP_RE.search(text):
+            warn(f"{loc} 一个括号里塞了 ≥4 个并列项——正文不堆名词，"
+                 f"给一个例子、其余交给表格或卡片（类 4）")
+
+
+def check_toolbox(handbook):
+    """带走工具箱粗查：每站 callout 密度 ≤3（满屏荧光笔等于没有荧光笔）；
+    相邻两个 callout 之间至少隔一个正文块（连发会稀释高亮）；
+    工具箱条目本体由 build 校验（档位合法、正文必须是引用块）。"""
+    prev = None
+    for loc, block in iter_blocks(handbook):
+        if block.get("kind") == "steal" and prev and prev[1].get("kind") == "steal" \
+                and prev[0] == loc:
+            warn(f"{loc} 有两个相邻的可带走 callout（「{prev[1].get('name')}」→"
+                 f"「{block.get('name')}」）——中间至少隔一个正文块，连发稀释高亮")
+        prev = (loc, block)
+
+    items = handbook.get("toolbox", [])
+    per_where = {}
+    for it in items:
+        key = (it.get("page"), it.get("where"))
+        per_where[key] = per_where.get(key, 0) + 1
+    for (page, where), count in per_where.items():
+        if count > 3:
+            warn(f"{page} 的「{where}」有 {count} 个可带走 callout——"
+                 f"每站最多 3 个，挑最值钱的，其余收进档案")
+    for it in items:
+        body = (it.get("text") or "").strip()
+        if body and not any(w in body for w in ("你", "你的")):
+            warn(f"可带走「{it.get('name')}」正文没有出现第二人称——"
+                 f"callout 是对读者说话的块，写法见 references/steal-scan.md")
+
+
 def main():
     if len(sys.argv) != 2:
         print(__doc__.strip(), file=sys.stderr)
@@ -243,6 +291,8 @@ def main():
     check_glossary(handbook)
     check_altitude_dedup(handbook)
     check_term_density(handbook)
+    check_voice_compression(handbook)
+    check_toolbox(handbook)
 
     for w in warnings:
         print(f"warning: {w}")
