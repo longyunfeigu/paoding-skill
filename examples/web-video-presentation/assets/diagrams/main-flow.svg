@@ -1,0 +1,92 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 980 470" font-family="-apple-system, 'PingFang SC', 'Noto Sans CJK SC', sans-serif">
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#8a8f98"/>
+    </marker>
+  </defs>
+  <style>
+    .box { fill: #f6f7f9; stroke: #c9cdd4; }
+    .stage { fill: #eef2ff; stroke: #6473c8; }
+    .gate { fill: #fff7e6; stroke: #d99a2b; }
+    .out { fill: #e9f7ef; stroke: #3d9a5f; }
+    .opt { fill: #f6f7f9; stroke: #c9cdd4; stroke-dasharray: 5 4; }
+    .lbl { font-size: 14px; fill: #1f2329; font-weight: 600; }
+    .sub { font-size: 11px; fill: #5c6370; }
+    .edge { stroke: #8a8f98; stroke-width: 1.6; fill: none; marker-end: url(#arrow); }
+    .gatelbl { font-size: 12px; fill: #8a5a10; font-weight: 600; }
+    .gatesub { font-size: 10.5px; fill: #8a5a10; }
+  </style>
+
+  <!-- Row 1 -->
+  <rect class="box" x="20" y="50" width="130" height="70" rx="8"/>
+  <text class="lbl" x="85" y="80" text-anchor="middle">用户输入</text>
+  <text class="sub" x="85" y="100" text-anchor="middle">一篇文章 / 口播稿</text>
+
+  <rect class="stage" x="190" y="40" width="180" height="90" rx="8"/>
+  <text class="lbl" x="280" y="65" text-anchor="middle">① 一次产出</text>
+  <text class="sub" x="280" y="85" text-anchor="middle">script.md 口播稿（三层自检）</text>
+  <text class="sub" x="280" y="101" text-anchor="middle">outline.md 开发计划＋信息池</text>
+  <text class="sub" x="280" y="117" text-anchor="middle">article.md 保留不删</text>
+
+  <rect class="gate" x="410" y="40" width="170" height="90" rx="8"/>
+  <text class="gatelbl" x="495" y="65" text-anchor="middle">◆ Checkpoint Plan</text>
+  <text class="gatesub" x="495" y="84" text-anchor="middle">一次对齐 5 件事：</text>
+  <text class="gatesub" x="495" y="99" text-anchor="middle">稿子 / outline / 主题</text>
+  <text class="gatesub" x="495" y="114" text-anchor="middle">素材 / 开发模式</text>
+
+  <rect class="stage" x="620" y="50" width="150" height="70" rx="8"/>
+  <text class="lbl" x="695" y="75" text-anchor="middle">② 脚手架</text>
+  <text class="sub" x="695" y="95" text-anchor="middle">scaffold.sh＋主题 tokens</text>
+
+  <rect class="stage" x="810" y="40" width="150" height="90" rx="8"/>
+  <text class="lbl" x="885" y="65" text-anchor="middle">③ 第 1 章</text>
+  <text class="sub" x="885" y="84" text-anchor="middle">主线程完整做</text>
+  <text class="sub" x="885" y="99" text-anchor="middle">用户硬验收</text>
+  <text class="sub" x="885" y="114" text-anchor="middle">＝风格锚点</text>
+
+  <!-- Row 2 (right to left) -->
+  <rect class="stage" x="810" y="220" width="150" height="90" rx="8"/>
+  <text class="lbl" x="885" y="245" text-anchor="middle">④ 第 2~N 章</text>
+  <text class="sub" x="885" y="264" text-anchor="middle">A 逐章 / B 顺序 / C 并行</text>
+  <text class="sub" x="885" y="279" text-anchor="middle">每章重读指引</text>
+  <text class="sub" x="885" y="294" text-anchor="middle">完工自检→修复→交付</text>
+
+  <rect class="gate" x="600" y="225" width="160" height="80" rx="8"/>
+  <text class="gatelbl" x="680" y="252" text-anchor="middle">◆ Checkpoint Audio</text>
+  <text class="gatesub" x="680" y="271" text-anchor="middle">要不要合成口播音频？</text>
+  <text class="gatesub" x="680" y="286" text-anchor="middle">不合成 → 直接录屏</text>
+
+  <rect class="opt" x="390" y="225" width="160" height="80" rx="8"/>
+  <text class="lbl" x="470" y="252" text-anchor="middle">⑤ 音频合成（可选）</text>
+  <text class="sub" x="470" y="271" text-anchor="middle">narrations → segments</text>
+  <text class="sub" x="470" y="286" text-anchor="middle">→ mmx 串行 → mp3</text>
+
+  <rect class="stage" x="190" y="225" width="150" height="80" rx="8"/>
+  <text class="lbl" x="265" y="252" text-anchor="middle">⑥ 录屏</text>
+  <text class="sub" x="265" y="271" text-anchor="middle">?auto=1＋Space</text>
+  <text class="sub" x="265" y="286" text-anchor="middle">一镜到底</text>
+
+  <rect class="out" x="20" y="230" width="120" height="70" rx="8"/>
+  <text class="lbl" x="80" y="260" text-anchor="middle">成片 mp4</text>
+  <text class="sub" x="80" y="280" text-anchor="middle">音视频天然同步</text>
+
+  <!-- Edges row 1 -->
+  <path class="edge" d="M 150 85 L 184 85"/>
+  <path class="edge" d="M 370 85 L 404 85"/>
+  <path class="edge" d="M 580 85 L 614 85"/>
+  <path class="edge" d="M 770 85 L 804 85"/>
+
+  <!-- Turn down -->
+  <path class="edge" d="M 885 130 L 885 214"/>
+  <text class="sub" x="900" y="178">验收 OK</text>
+
+  <!-- Edges row 2 -->
+  <path class="edge" d="M 810 265 L 766 265"/>
+  <path class="edge" d="M 600 265 L 556 265"/>
+  <path class="edge" d="M 390 265 L 346 265"/>
+  <path class="edge" d="M 190 265 L 146 265"/>
+
+  <!-- Skip-audio bypass -->
+  <path class="edge" d="M 680 305 C 680 360, 340 360, 268 311"/>
+  <text class="sub" x="475" y="352" text-anchor="middle">不合成：跳过 ⑤，手动录屏＋后期配音</text>
+</svg>

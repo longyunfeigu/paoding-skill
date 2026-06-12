@@ -1,0 +1,92 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 980 560" font-family="-apple-system, 'PingFang SC', 'Noto Sans CJK SC', sans-serif">
+  <defs>
+    <marker id="arrow2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#8a8f98"/>
+    </marker>
+  </defs>
+  <style>
+    .file { fill: #fdeef2; stroke: #c2557e; }
+    .proj { fill: #eef2ff; stroke: #6473c8; }
+    .build { fill: #fff7e6; stroke: #d99a2b; }
+    .out { fill: #e9f7ef; stroke: #3d9a5f; }
+    .lbl { font-size: 13.5px; fill: #1f2329; font-weight: 600; }
+    .sub { font-size: 11px; fill: #5c6370; }
+    .edge { stroke: #8a8f98; stroke-width: 1.6; fill: none; marker-end: url(#arrow2); }
+    .elbl { font-size: 10.5px; fill: #5c6370; }
+    .legend { font-size: 11px; fill: #5c6370; }
+  </style>
+
+  <!-- Layer 1: user-editable plan files -->
+  <rect class="file" x="20" y="40" width="150" height="64" rx="8"/>
+  <text class="lbl" x="95" y="66" text-anchor="middle">article.md</text>
+  <text class="sub" x="95" y="86" text-anchor="middle">原文，保留不删</text>
+
+  <rect class="file" x="20" y="150" width="150" height="64" rx="8"/>
+  <text class="lbl" x="95" y="176" text-anchor="middle">script.md</text>
+  <text class="sub" x="95" y="196" text-anchor="middle">口播稿，--- 切节拍</text>
+
+  <rect class="file" x="20" y="260" width="150" height="64" rx="8"/>
+  <text class="lbl" x="95" y="286" text-anchor="middle">outline.md</text>
+  <text class="sub" x="95" y="306" text-anchor="middle">章节×step＋信息池</text>
+
+  <!-- Layer 2: project code -->
+  <rect class="proj" x="280" y="100" width="190" height="90" rx="8"/>
+  <text class="lbl" x="375" y="126" text-anchor="middle">narrations.ts ×N 章</text>
+  <text class="sub" x="375" y="146" text-anchor="middle">step 数＋口播文本</text>
+  <text class="sub" x="375" y="162" text-anchor="middle">唯一真相源</text>
+
+  <rect class="proj" x="280" y="240" width="190" height="74" rx="8"/>
+  <text class="lbl" x="375" y="266" text-anchor="middle">Chapter.tsx / .css ×N</text>
+  <text class="sub" x="375" y="286" text-anchor="middle">if (step === N) 整屏画面</text>
+
+  <rect class="proj" x="280" y="360" width="190" height="64" rx="8"/>
+  <text class="lbl" x="375" y="386" text-anchor="middle">tokens.css＋chapters.ts</text>
+  <text class="sub" x="375" y="404" text-anchor="middle">主题 token / 章节注册表</text>
+
+  <!-- Layer 3: audio pipeline -->
+  <rect class="build" x="570" y="100" width="180" height="80" rx="8"/>
+  <text class="lbl" x="660" y="126" text-anchor="middle">audio-segments.json</text>
+  <text class="sub" x="660" y="146" text-anchor="middle">extract-narrations 产出</text>
+  <text class="sub" x="660" y="162" text-anchor="middle">合成前给用户扫一眼</text>
+
+  <rect class="build" x="570" y="240" width="180" height="70" rx="8"/>
+  <text class="lbl" x="660" y="266" text-anchor="middle">public/audio/&lt;id&gt;/N.mp3</text>
+  <text class="sub" x="660" y="286" text-anchor="middle">每 step 一个，1-indexed</text>
+
+  <!-- Layer 4: delivery -->
+  <rect class="out" x="820" y="170" width="140" height="80" rx="8"/>
+  <text class="lbl" x="890" y="200" text-anchor="middle">录屏成片</text>
+  <text class="sub" x="890" y="220" text-anchor="middle">?auto=1 一镜到底</text>
+
+  <!-- Edges -->
+  <path class="edge" d="M 170 72 C 220 72, 220 165, 170 172"/>
+  <text class="elbl" x="218" y="118">转口播（保留度≥60%）</text>
+  <path class="edge" d="M 170 182 C 230 182, 230 285, 174 292"/>
+  <text class="elbl" x="232" y="238">按 --- 切章切步</text>
+
+  <path class="edge" d="M 170 175 L 274 140"/>
+  <text class="elbl" x="180" y="142">文本逐节拍填入</text>
+  <path class="edge" d="M 170 292 L 274 272"/>
+  <text class="elbl" x="190" y="270">每章计划＋信息池</text>
+  <path class="edge" d="M 95 104 C 95 345, 180 400, 274 330 "/>
+  <text class="elbl" x="105" y="350">画面细节回原文抽</text>
+
+  <path class="edge" d="M 470 140 L 564 140"/>
+  <text class="elbl" x="478" y="132">npm run extract</text>
+  <path class="edge" d="M 660 180 L 660 234"/>
+  <text class="elbl" x="668" y="212">mmx 串行合成</text>
+
+  <path class="edge" d="M 750 275 C 800 275, 800 235, 814 225"/>
+  <path class="edge" d="M 470 277 C 530 277, 700 340, 814 240"/>
+  <text class="elbl" x="560" y="332">浏览器渲染 1920×1080 舞台</text>
+
+  <!-- Legend -->
+  <rect class="file" x="20" y="480" width="16" height="16" rx="4"/>
+  <text class="legend" x="44" y="493">计划层：用户可直接编辑</text>
+  <rect class="proj" x="240" y="480" width="16" height="16" rx="4"/>
+  <text class="legend" x="264" y="493">工程层：章节代码＋注册表</text>
+  <rect class="build" x="470" y="480" width="16" height="16" rx="4"/>
+  <text class="legend" x="494" y="493">构建产物：脚本生成</text>
+  <rect class="out" x="680" y="480" width="16" height="16" rx="4"/>
+  <text class="legend" x="704" y="493">最终交付</text>
+</svg>

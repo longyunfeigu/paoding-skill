@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 980 440" font-family="-apple-system, 'PingFang SC', 'Noto Sans CJK SC', sans-serif">
+  <defs>
+    <marker id="arrow3" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#8a8f98"/>
+    </marker>
+  </defs>
+  <style>
+    .hub { fill: #fdeef2; stroke: #c2557e; stroke-width: 2; }
+    .node { fill: #eef2ff; stroke: #6473c8; }
+    .ghost { fill: #f6f7f9; stroke: #c9cdd4; stroke-dasharray: 5 4; }
+    .lbl { font-size: 13.5px; fill: #1f2329; font-weight: 600; }
+    .sub { font-size: 11px; fill: #5c6370; }
+    .edge { stroke: #8a8f98; stroke-width: 1.6; fill: none; marker-end: url(#arrow3); }
+    .elbl { font-size: 10.5px; fill: #5c6370; }
+    .warn { font-size: 11.5px; fill: #a04545; }
+  </style>
+
+  <!-- Hub -->
+  <rect class="hub" x="390" y="170" width="200" height="90" rx="10"/>
+  <text class="lbl" x="490" y="200" text-anchor="middle">narrations.ts</text>
+  <text class="sub" x="490" y="220" text-anchor="middle">string[]，每元素＝一个 step 的口播</text>
+  <text class="sub" x="490" y="238" text-anchor="middle">唯一真相源</text>
+
+  <!-- Upstream -->
+  <rect class="ghost" x="60" y="40" width="180" height="64" rx="8"/>
+  <text class="lbl" x="150" y="66" text-anchor="middle">script.md</text>
+  <text class="sub" x="150" y="86" text-anchor="middle">口播文本的来源（语义一致）</text>
+
+  <rect class="ghost" x="60" y="320" width="180" height="64" rx="8"/>
+  <text class="lbl" x="150" y="346" text-anchor="middle">outline.md 的 step 数</text>
+  <text class="sub" x="150" y="366" text-anchor="middle">只是初始预估，以这边为准</text>
+
+  <!-- Consumers -->
+  <rect class="node" x="700" y="30" width="230" height="70" rx="8"/>
+  <text class="lbl" x="815" y="56" text-anchor="middle">章节代码 if (step === N)</text>
+  <text class="sub" x="815" y="76" text-anchor="middle">最大 N＋1 必须 ＝ 数组长度</text>
+
+  <rect class="node" x="700" y="130" width="230" height="64" rx="8"/>
+  <text class="lbl" x="815" y="156" text-anchor="middle">chapters.ts 注册表</text>
+  <text class="sub" x="815" y="176" text-anchor="middle">不写 totalSteps，直接引数组</text>
+
+  <rect class="node" x="700" y="230" width="230" height="64" rx="8"/>
+  <text class="lbl" x="815" y="256" text-anchor="middle">audio-segments.json → mp3</text>
+  <text class="sub" x="815" y="276" text-anchor="middle">逐元素生成，空串跳过</text>
+
+  <rect class="node" x="700" y="330" width="230" height="64" rx="8"/>
+  <text class="lbl" x="815" y="356" text-anchor="middle">Auto 模式推进</text>
+  <text class="sub" x="815" y="376" text-anchor="middle">mp3 播完＋200ms → next()</text>
+
+  <!-- Edges -->
+  <path class="edge" d="M 240 80 C 320 90, 350 150, 386 178"/>
+  <text class="elbl" x="268" y="124">填入（可为 TTS 微调标点）</text>
+  <path class="edge" d="M 240 348 C 320 340, 350 290, 386 252"/>
+  <text class="elbl" x="262" y="318">实现后回头同步</text>
+
+  <path class="edge" d="M 594 188 C 650 160, 660 90, 694 70"/>
+  <text class="elbl" x="612" y="116">长度约束（人工自检）</text>
+  <path class="edge" d="M 594 200 C 640 195, 650 170, 694 164"/>
+  <path class="edge" d="M 594 230 C 640 235, 650 255, 694 260"/>
+  <text class="elbl" x="608" y="252">extract 脚本读</text>
+  <path class="edge" d="M 594 244 C 650 270, 660 330, 694 352"/>
+  <text class="elbl" x="600" y="312">运行时按 index 找 mp3</text>
+
+  <text class="warn" x="490" y="420" text-anchor="middle">改 step？只改这一个文件——五个消费方跟着对齐，不存在第二份要手动同步的副本</text>
+</svg>

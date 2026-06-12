@@ -190,7 +190,9 @@ paoding/
 │   └── ...
 ├── scripts/                      # scaffold / 构建 / 机器 gate
 ├── assets/web-app-template/      # 编辑杂志体模板（纸色 + 单一深红 + 暗色代码反差）
-├── examples/huashu-nuwa/         # ⭐ 样例：女娲的完整解剖手册
+├── examples/
+│   ├── huashu-nuwa/              # ⭐ 样例：女娲的完整解剖手册
+│   └── web-video-presentation/   # ⭐ 样例：网页视频 skill 的解剖手册（14 个可带走点）
 └── tests/                        # 全链路回归
 ```
 
