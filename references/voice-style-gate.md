@@ -269,6 +269,17 @@ Watch for "一句话总结", "说白了", "归根结底", "形成闭环", "赋�
 If three consecutive sentences use the same rhythm, keep the sentence with real
 information and replace the rest with a scene, table, or before/after pair.
 
+### 12. 「总结字段」是金句病高发区
+
+模板里那些要求「收一句」的位置——难点卡的 Therefore、产物卡的「为什么长
+这样」收尾、预览卡的「最值得学的一招」、stage 的「可偷的招」——最容易把
+解释写成对仗金句：「不是X而是Y」「与其不如」「这是『……』」。这三种句式
+是 AI 假深刻的高频形态，一篇里反复出现就是供词。这些字段的正确写法是直接
+说做法和后果，不要再包一层抽象判断。写完这类字段，回头问一句：这是在解释，
+还是在表演？叙事段反而少踩这个坑，因为叙事在讲一件正在发生的事，没有「收
+一句」的压力——所以独立 review 要把火力集中在这些总结位置（见
+`references/web-production-flow.md` §6 的独立 reviewer 必跑规则）。
+
 ## Read-aloud test
 
 Read the paragraph aloud. It passes when:

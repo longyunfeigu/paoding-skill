@@ -152,8 +152,39 @@ it done.
 - `references/voice-gate-examples.md` — high-exposure field scan.
 
 Fix blocking issues. Do not report them as unresolved work unless the user
-explicitly asked for a review only. If an independent reviewer is available
-and appropriate, use it for high-exposure fields only.
+explicitly asked for a review only.
+
+**作者自查是第一道，不是最后一道。必须再派一个独立 subagent 审高曝光字段——
+这一步不是 optional。** 作者对自己的文字脸盲：他读到的是「我当时想表达的
+意思」，不是纸面上真实的句子，所以自查会系统性放水。独立 subagent 没有
+「这是我写的」的包袱，只读字面，能扫出作者自己看不见的 AI 味。
+
+独立 reviewer 的任务轮廓：读 `references/voice-style-gate.md` +
+`references/voice-gate-examples.md`（如可用，再加 renwei 的 AI 句式清单）；
+扫高曝光字段（标题、lede、坑、最值得学的一招、症状、Therefore、为什么
+长这样、可偷的招、callout、glossary 各字段）；逐处命中（位置 + 命中哪条
+规则 + 原文摘录 + 一句改法 + 严重度）；不改文件，把否决权留给作者。
+reviewer 的命中清单和你的逐处处置（改了／驳回+理由）记进 brief 的 voice
+gate log——独立 review 跑了没、改了几处，要可查。
+
+**工程缩写要清单驱动、逐行全文扫，不能只采样或只看改动 diff。** 门／下游／
+落盘／锚点／降级／消费（作动词）／归属／真相源／信息池／硬节点 这类工程
+缩写是作者的肌肉记忆，作者和泛泛找 AI 味的 reviewer 都会脱敏；只复查改动
+diff 更会整段漏掉没动过的存量 jargon。给 reviewer 一张 voice-style-gate
+第 7/8 条的缩写清单，让它 grep 全文、逐处判「换人话／就地解释过可留／是源
+skill 真实术语可留」。（实测病历：last30days 手册「一回合门／前置条件门／
+下游接管／消费／归属」连漏两轮——第一轮采样没命中，第二轮只复查改动 diff
+没扫存量；第三轮清单驱动全文扫才一次清干净 13 处。）
+
+**金句位置是 AI 味高发区，告诉 reviewer 重点盯。** 模板里那些要求「收一句」
+的位置——难点档案的 Therefore、产物卡的「为什么长这样」收尾、预览卡的
+「最值得学的一招」、收尾的「可偷的招」——诱导作者写「一句点睛金句」，
+于是反复落到「不是X而是Y」「与其不如」「这是『……抽象名词』」三种对仗
+公式上；那不是在解释，是在表演。叙事段往往反而达标，AI 味集中在这几个要
+「收一句」的地方。（实测病历：last30days 解剖手册首版，overview /
+walkthrough 的叙事段口语达标，AI 味全聚集在 archive 的 Therefore 和
+dataflow 的「为什么长这样」——作者自查时把这些当成点睛之笔放了水，独立
+subagent 一扫即现。）
 
 The gate is NOT a banned-word grep. Its hard half is the read-aloud /
 Feynman pass, and that pass must leave a trace: per page, pick 5 random

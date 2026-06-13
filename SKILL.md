@@ -159,6 +159,11 @@ Before finishing, check:
   run `scripts/build-data.py` + `scripts/check-content.py`.
 - If producing a web handbook, use code-native diagrams for exact relationships
   and verify referenced SVG files exist.
+- Author self-review is not enough for the voice gate. After self-checking,
+  dispatch an independent subagent to scan high-exposure fields — the author
+  is blind to their own prose and self-review systematically passes AI-slop
+  in the "summary" fields (Therefore, 为什么长这样, 最值得学的一招). See the
+  mandatory independent-reviewer step in `references/web-production-flow.md` §6.
 
 ## Resources
 
