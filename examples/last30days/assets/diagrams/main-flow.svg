@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 120">
+  <defs>
+    <marker id="arrow" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#555"/>
+    </marker>
+  </defs>
+  <style>
+    .box { fill: #f5f5f5; stroke: #333; stroke-width: 1.5; rx: 6; }
+    .label { font-family: system-ui, sans-serif; font-size: 11px; fill: #333; text-anchor: middle; }
+    .id { font-family: system-ui, sans-serif; font-size: 9px; fill: #888; text-anchor: middle; }
+    .line { stroke: #555; stroke-width: 1.5; marker-end: url(#arrow); }
+  </style>
+  <!-- stage-01 -->
+  <rect class="box" x="10" y="25" width="120" height="50"/>
+  <text class="label" x="70" y="47">话题理解</text>
+  <text class="id" x="70" y="62">stage-01</text>
+  <!-- arrow -->
+  <line class="line" x1="130" y1="50" x2="150" y2="50"/>
+  <!-- stage-02 -->
+  <rect class="box" x="155" y="25" width="120" height="50"/>
+  <text class="label" x="215" y="47">前置情报</text>
+  <text class="id" x="215" y="62">stage-02</text>
+  <line class="line" x1="275" y1="50" x2="295" y2="50"/>
+  <!-- stage-03 -->
+  <rect class="box" x="300" y="25" width="120" height="50"/>
+  <text class="label" x="360" y="47">查询计划</text>
+  <text class="id" x="360" y="62">stage-03</text>
+  <line class="line" x1="420" y1="50" x2="440" y2="50"/>
+  <!-- stage-04 -->
+  <rect class="box" x="445" y="25" width="120" height="50"/>
+  <text class="label" x="505" y="47">引擎+补充</text>
+  <text class="id" x="505" y="62">stage-04</text>
+  <line class="line" x1="565" y1="50" x2="585" y2="50"/>
+  <!-- stage-05 -->
+  <rect class="box" x="590" y="25" width="120" height="50"/>
+  <text class="label" x="650" y="47">合成输出</text>
+  <text class="id" x="650" y="62">stage-05</text>
+  <line class="line" x1="710" y1="50" x2="730" y2="50"/>
+  <!-- stage-06 -->
+  <rect class="box" x="735" y="25" width="120" height="50"/>
+  <text class="label" x="795" y="47">对话续接</text>
+  <text class="id" x="795" y="62">stage-06</text>
+  <!-- input/output labels -->
+  <text class="id" x="70" y="18">用户话题</text>
+  <text class="id" x="795" y="95">综述+对话</text>
+</svg>
