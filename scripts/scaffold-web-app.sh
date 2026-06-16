@@ -13,9 +13,9 @@ Convention: each handbook lives under generation/<skill-slug>/ where
     --skill-name="女娲 Skill 造人术" \
     --source-path="/path/to/nuwa-skill"
 
-Creates the fixed static web handbook skeleton (五章 + 附录):
+Creates the fixed static web handbook skeleton (六章 + 附录):
   index.html
-  pages/{overview,walkthrough,dataflow,archive,apply-it,glossary}.html
+  pages/{overview,walkthrough,dataflow,source-guide,archive,apply-it,glossary}.html
   content/                  <- write content/*.md here (the only hand-written layer)
   assets/{data.js,site.js,styles.css,diagrams/.gitkeep}
 

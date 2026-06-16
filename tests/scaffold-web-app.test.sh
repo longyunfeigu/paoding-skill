@@ -41,7 +41,7 @@ OUT="$TMP/generation/demo-skill"
 assert_dir "$TMP/generation"
 
 assert_file "$OUT/index.html"
-for page in overview walkthrough dataflow archive apply-it glossary; do
+for page in overview walkthrough dataflow source-guide archive apply-it glossary; do
   assert_file "$OUT/pages/$page.html"
   assert_grep "data-page=\"$page\"" "$OUT/pages/$page.html"
 done

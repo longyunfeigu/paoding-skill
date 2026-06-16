@@ -85,7 +85,7 @@ skill 怎么解（贴原文）❯ 「每个 subagent 必须把调研结果写入
 
 [女娲.skill](https://github.com/alchaincyf/nuwa-skill) 把一个人名变成一个人物 skill，效果惊艳。但它**为什么**好用？
 
-挑它开刀只有一个原因：公认效果好、材料齐全、值得精读——这是第一个标本，不是最后一个。庖丁把它整个解开了——产出是一本可以直接在浏览器里翻的解剖手册（`examples/huashu-nuwa/`，本地起个服务就能看），五章 + 两个附录：
+挑它开刀只有一个原因：公认效果好、材料齐全、值得精读——这是第一个标本，不是最后一个。庖丁把它整个解开了——产出是一本可以直接在浏览器里翻的解剖手册（`examples/huashu-nuwa/`，本地起个服务就能看；这是旧版五章样例，当前模板已新增「源包导读」章），五章 + 两个附录：
 
 | 章 | 回答的问题 |
 |---|---|
@@ -153,7 +153,7 @@ git clone https://github.com/longyunfeigu/paoding-skill.git ~/.claude/skills/pao
 > 用庖丁解一下 /path/to/some-skill        # 默认给最轻的有用产出
 > 帮我评审这个 skill，哪些该删该留          # Keep/Cut 评审
 > 把这个 skill 的可迁移模式提出来           # 难点卡片
-> 给这个 skill 做一本解剖手册              # 五章 Web 手册（重产出）
+> 给这个 skill 做一本解剖手册              # 六章 Web 手册（重产出）
 ```
 
 三种产出按需取用，手册是输出模式，不是这个 skill 的本体。
@@ -184,7 +184,8 @@ paoding/
 │   ├── pain-dimensions.md        # 方法论核心：六维框架 + 三问判定 + 证据分级
 │   ├── evidence-collection.md    # 证据获取阶梯：挖标本 / 活体切片 / 定点消融 + 脚本必跑铁律
 │   ├── steal-scan.md             # 六镜头带走点扫描 + 📌 callout + 自动聚合的带走工具箱
-│   ├── handbook-spec.md          # 五章手册的内容契约
+│   ├── handbook-spec.md          # 六章手册的内容契约
+│   ├── source-guide-writing.md   # 源包导读：文件分工、阅读优先级、学习边界
 │   ├── content-format.md         # 写作 AI / 构建脚本 / 渲染器的三方契约
 │   ├── voice-style-gate.md       # 七条硬规则 + 反黑话 + 教学口吻检查
 │   └── ...

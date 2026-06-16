@@ -55,6 +55,13 @@ def iter_blocks(handbook):
         for name in ("sceneBody", "predictBody", "mechanismBody", "outputBody"):
             for b in stage.get(name, []):
                 yield f"walkthrough.{stage.get('id', i)}.{name}", b
+    sg = handbook.get("sourceGuide", {})
+    for name in ("framework", "entryGuide", "referenceMap", "readingPath"):
+        for b in sg.get(name, []):
+            yield f"sourceGuide.{name}", b
+    for f in sg.get("files", []):
+        for b in f.get("body", []):
+            yield f"sourceGuide.{f.get('path', '')}", b
     ap = handbook.get("applyIt", {})
     for name in ("scenario", "referenceAnswer"):
         for b in ap.get(name, []):

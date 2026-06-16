@@ -42,6 +42,17 @@ window.handbook = {
     artifacts: []
   },
 
+  sourceGuide: {
+    h1: "源包导读",
+    summary: "",
+    framework: [],
+    entryGuide: [],
+    referenceMap: [],
+    files: [],
+    priorities: [],
+    readingPath: []
+  },
+
   archive: {
     panoramaDiagramId: "",
     cards: [],

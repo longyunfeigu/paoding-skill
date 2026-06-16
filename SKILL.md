@@ -122,14 +122,14 @@ cards.
 
 Use one running example through the whole handbook. Follow:
 
-1. `references/handbook-spec.md` for the content contract (五章 + 附录).
+1. `references/handbook-spec.md` for the content contract (六章 + 附录).
 2. `references/web-production-flow.md` for `generation/<skill-slug>/`,
    `handbook-brief.md`, page packets, scaffold, build, and final checks.
 3. `references/content-format.md` when writing `content/*.md` — the only
    hand-written layer; `scripts/build-data.py` turns it into `data.js`.
 4. `references/stage-writing.md`, `references/cards-patterns.md`,
-   `references/visuals-and-quality.md`, and `references/voice-style-gate.md`
-   only for the sections that need them.
+   `references/source-guide-writing.md`, `references/visuals-and-quality.md`,
+   and `references/voice-style-gate.md` only for the sections that need them.
 
 ### 5. Quality Check
 
@@ -140,6 +140,8 @@ Before finishing, check:
 - Did you preserve both workflow and package structure?
 - Did every pattern say when it is useful and when it is too heavy?
 - Did you avoid turning one project's generated output into the rule?
+- Did the source guide explain referenced files enough that the reader knows
+  what to read, what to skip, and what each load-bearing file controls?
 
 ## Non-Negotiables
 
@@ -174,12 +176,15 @@ Before finishing, check:
 - `references/steal-scan.md` — the six-lens carry-away scan, two tiers,
   the `!steal` callout, and the auto-aggregated 带走工具箱 appendix.
 - `references/handbook-spec.md` — content contract for multi-page handbooks
-  (五章 + 附录) and the ordinary-view pain scan format.
+  (六章 + 附录) and the ordinary-view pain scan format.
 - `references/web-production-flow.md` — concise web production flow: scaffold,
   brief, packets, build, check, verification.
 - `references/content-format.md` — the `content/*.md` format contract shared
   by the writing agent, the build script, and the renderer.
 - `references/stage-writing.md` — walkthrough-specific writing rules.
+- `references/source-guide-writing.md` — source-package reading guide rules:
+  package layers, referenced-file cards, reading priorities, and learning
+  boundaries.
 - `references/cards-patterns.md` — difficulty-archive card rules.
 - `references/visuals-and-quality.md` — diagram rules and final quality checks.
 - `references/voice-style-gate.md` — seven hard rules plus voice gate rules.

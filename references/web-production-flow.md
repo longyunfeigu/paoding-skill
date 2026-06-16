@@ -13,7 +13,7 @@ The hand-written layer is `content/*.md`. Everything below it is generated:
 generation/<skill-slug>/
   handbook-brief.md     # sweep output: pain scan, inventory, threads (hand-written)
   page-packets/         # per-page writing instructions (hand-written)
-  content/              # the seven content files (hand-written, the deliverable)
+  content/              # the eight content files (hand-written, the deliverable)
   assets/data.js        # BUILD ARTIFACT — never hand-edit
   index.html  pages/  assets/{site.js,styles.css,diagrams/}   # scaffold-owned
 ```
@@ -30,8 +30,8 @@ bash scripts/scaffold-web-app.sh generation/<skill-slug> \
   --source-path="<source skill path>"
 ```
 
-The scaffold owns the page shells (五章 + 附录: overview, walkthrough,
-dataflow, archive, apply-it, glossary), the renderer, the CSS, a starter
+The scaffold owns the page shells (六章 + 附录: overview, walkthrough,
+dataflow, source-guide, archive, apply-it, glossary), the renderer, the CSS, a starter
 `data.js`, and `assets/diagrams/`. Edit `site.js`, page shells, or CSS only
 when the schema, page list, or visual system actually changes.
 
@@ -63,6 +63,7 @@ Before producing every page, write a small anchor slice in `content/`:
 - one full walkthrough stage (all seven skeleton parts);
 - one archive card;
 - one artifact card.
+- one source-guide file card.
 
 Run `build-data.py` + `check-content.py` on it early — the parser is part of
 the contract, and the anchor is the cheapest place to discover format
@@ -122,6 +123,7 @@ Page jobs (details in `references/handbook-spec.md`):
 | Overview | ordinary failure first, baseline, panorama last | TOC or abstract praise |
 | Walkthrough | panorama, then the seven-part stage skeleton per stage | checklist with no scene or evidence |
 | Dataflow | follow the data; 为什么长这样 per artifact | directory listing |
+| Source guide | package layers, reference chain, load-bearing file cards, reading priorities | source directory pasted as prose |
 | Archive | three-question pain cards + residue + blind spots | renamed section headings |
 | Apply it | transfer exercise with collapsed reference answer | motivational summary |
 | Glossary | lookup appendix, 3-8 design-heavy terms | chapter-sized dictionary |

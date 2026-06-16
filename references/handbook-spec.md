@@ -104,7 +104,7 @@ Every handbook preserves three layers:
 
 ## Page map
 
-Five chapters plus one appendix, in fixed reading order. Each chapter only
+Six chapters plus appendices, in fixed reading order. Each chapter only
 depends on concepts established by earlier chapters.
 
 | # | Page | Job | Common failure |
@@ -112,8 +112,9 @@ depends on concepts established by earlier chapters.
 | 1 | Overview | show the ordinary failure first, then the high-level map and baseline | table of contents, abstract praise, or source terms before the problem |
 | 2 | Walkthrough | panorama first, then the agent moving stage by stage through one running example | checklist with no scene, real material, or handoff |
 | 3 | 中间产物与数据流 (dataflow) | follow the data: user input -> intermediate artifacts -> delivery; for each artifact, who writes, who reads, why this shape | directory listing, or ownership rows with no "why this shape" |
-| 4 | 难点档案 (archive) | every pain as a card: symptom, baseline, evidence, mechanism, transferability; plus residue and cut candidates | generic best practices, or patterns as renamed section headings |
-| 5 | Apply it | transfer exercises: the reader picks cards, combines them, sketches a mini-skill skeleton | motivational advice, or a summary disguised as exercises |
+| 4 | 源包导读 (source guide) | teach how to read the source package: package layers, reference chain, load-bearing files, reading priority | directory listing, or line-by-line commentary |
+| 5 | 难点档案 (archive) | every pain as a card: symptom, baseline, evidence, mechanism, transferability; plus residue and cut candidates | generic best practices, or patterns as renamed section headings |
+| 6 | Apply it | transfer exercises: the reader picks cards, combines them, sketches a mini-skill skeleton | motivational advice, or a summary disguised as exercises |
 | 附录 1 | Glossary | lookup utility for design-heavy terms, off the main reading path | a chapter-sized dictionary interrupting the narrative |
 | 附录 2 | 带走工具箱 | auto-aggregated from in-context `!steal` callouts (see `references/steal-scan.md`); grouped by tier, each item links back to its spot | hand-writing the page (a second copy that drifts), or marking so many callouts the highlight stops meaning anything |
 
@@ -227,6 +228,25 @@ artifact card: one real-valued instance (code block after the field lines)
 plus field-level annotation — what design decision each field encodes, what
 breaks downstream when written badly. The instance lives here only;
 walkthrough and glossary reference it instead of re-pasting it.
+
+## 源包导读 standard
+
+Read `references/source-guide-writing.md` before writing this chapter.
+
+This chapter is for readers who ask "how is this skill written?" It should
+not repeat the Walkthrough and should not become a file-by-file summary.
+
+- Open with the package's role layers, then the reference/call chain.
+- Explain load-bearing referenced files and scripts with responsibility,
+  actual content, reading focus, handoffs, and skippable parts.
+- Group by role, not by directory order.
+- Give reading priorities and a practical通读路线.
+- State the learning boundary: humans need the behavior contract, package
+  structure, and reusable design moves; line-by-line reading is only for
+  modification, mechanism copying, or debugging.
+- Add an `入口文件导读` before file cards. It must narrate what `SKILL.md`
+  actually says, using the source skill's own phase names, rules, and output
+  modes. A generic "entry file controls workflow" paragraph is not enough.
 
 ## 难点档案 standard
 

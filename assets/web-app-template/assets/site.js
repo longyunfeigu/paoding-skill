@@ -33,6 +33,7 @@
     const counts = {
       stages: (handbook.walkthrough || []).length,
       artifacts: (handbook.dataflow?.artifacts || []).length,
+      sourceFiles: (handbook.sourceGuide?.files || []).length,
       cards: (handbook.archive?.cards || []).length,
       glossary: (handbook.glossary || []).length,
       toolbox: (handbook.toolbox || []).length
@@ -41,8 +42,9 @@
       { num: "01", label: "Overview", sub: "失败场景 · 基线 · 全景图", href: `${root}pages/overview.html`, slug: "overview" },
       { num: "02", label: "Walkthrough", sub: `运行轨迹 · ${counts.stages} 个 stage`, href: `${root}pages/walkthrough.html`, slug: "walkthrough" },
       { num: "03", label: "中间产物与数据流", sub: `跟着数据走 · ${counts.artifacts} 个产物`, href: `${root}pages/dataflow.html`, slug: "dataflow" },
-      { num: "04", label: "难点档案", sub: `症状 · 机制 · 可迁移性 · ${counts.cards} 张卡`, href: `${root}pages/archive.html`, slug: "archive" },
-      { num: "05", label: "Apply It", sub: "迁移练习 · 画你自己的骨架", href: `${root}pages/apply-it.html`, slug: "apply-it" },
+      { num: "04", label: "源包导读", sub: `入口和引用文件 · ${counts.sourceFiles} 个文件`, href: `${root}pages/source-guide.html`, slug: "source-guide" },
+      { num: "05", label: "难点档案", sub: `症状 · 机制 · 可迁移性 · ${counts.cards} 张卡`, href: `${root}pages/archive.html`, slug: "archive" },
+      { num: "06", label: "Apply It", sub: "迁移练习 · 画你自己的骨架", href: `${root}pages/apply-it.html`, slug: "apply-it" },
       { num: counts.toolbox ? "附1" : "附", label: "Glossary", sub: `查阅用 · ${counts.glossary} 个术语`, href: `${root}pages/glossary.html`, slug: "glossary" }
     ];
     if (counts.toolbox) {
@@ -82,6 +84,18 @@
           const tail = (f.path || "").split("/").pop() || f.path;
           return { anchor: slugify(f.path), label: tail };
         });
+      case "source-guide":
+        return [
+          { anchor: "framework", label: "总框架" },
+          { anchor: "entry-guide", label: "入口文件导读" },
+          { anchor: "reference-map", label: "引用关系" },
+          ...((handbook.sourceGuide?.files || []).map((f) => ({
+            anchor: `src-${slugify(f.path)}`,
+            label: (f.path || "").split("/").pop() || f.path
+          }))),
+          { anchor: "priorities", label: "阅读优先级" },
+          { anchor: "reading-path", label: "通读路线" }
+        ];
       case "archive": {
         const cards = (handbook.archive?.cards || []).map((c) => ({
           anchor: (c.id || "").toLowerCase(),
@@ -649,7 +663,70 @@
     `);
   }
 
-  // ===== 难点档案 (章 04) =====
+  // ===== 源包导读 (章 04) =====
+  function sourceGuidePage() {
+    const guide = handbook.sourceGuide || {};
+    const files = guide.files || [];
+    const priorities = guide.priorities || [];
+
+    const fileCards = files.map((f) => `
+      <article class="card filemap-card source-file-card" id="src-${slugify(f.path)}">
+        <h3>${escapeHtml(f.path)}</h3>
+        <div class="card-row"><span class="label">文件类型</span><p>${renderInline(f.fileType || "")}</p></div>
+        <div class="card-row why-shape"><span class="label">文件里实际讲了什么</span><p>${renderInline(f.actualContent || "")}</p></div>
+        <div class="card-row"><span class="label">读它时先抓什么</span><p>${renderInline(f.readingFocus || "")}</p></div>
+        <div class="card-row"><span class="label">它把细节交给谁</span><p>${renderInline(f.handoff || "")}</p></div>
+        <div class="card-row"><span class="label">读完你应该能复述</span><p>${renderInline(f.takeaway || "")}</p></div>
+        <div class="card-row"><span class="label">可以先略过什么</span><p>${renderInline(f.skippable || "")}</p></div>
+        ${Array.isArray(f.body) && f.body.length ? `<div class="artifact-specimen">${renderBlocks(f.body)}</div>` : ""}
+      </article>
+    `).join("");
+
+    const priorityCards = priorities.map((p) => `
+      <article class="card apply-card">
+        <h4>${escapeHtml(p.level || "")}</h4>
+        <div class="card-row"><span class="label">文件</span><p>${renderInline(p.files || "")}</p></div>
+        <div class="card-row"><span class="label">原因</span><p>${renderInline(p.reason || "")}</p></div>
+      </article>
+    `).join("");
+
+    layout("源包导读", `
+      <article class="page">
+        <header class="wt-hero">
+          <p class="eyebrow">源包导读 · 章 04</p>
+          <h1>${escapeHtml(guide.h1 || "源包导读")}</h1>
+          <p class="lede">${renderInline(guide.summary || "")} 这一章不复刻目录，也不逐行翻译源码；它先讲入口文件的大致逻辑，再解释承重文件实际写了什么、读时抓什么、哪些可以略过。</p>
+          <span class="hero-rule"></span>
+        </header>
+        <section class="section" id="framework">
+          <p class="eyebrow">总框架 · 先知道这些文件分哪几层</p>
+          <div class="narrative">${renderBlocks(guide.framework)}</div>
+        </section>
+        <section class="section" id="entry-guide">
+          <p class="eyebrow">入口文件导读 · 先读懂 SKILL.md 的主线</p>
+          <div class="narrative">${renderBlocks(guide.entryGuide)}</div>
+        </section>
+        <section class="section" id="reference-map">
+          <p class="eyebrow">引用关系 · 不是目录树，是调用链</p>
+          <div class="narrative">${renderBlocks(guide.referenceMap)}</div>
+        </section>
+        <section class="section" id="source-files">
+          <p class="eyebrow">承重文件 · 实际内容 / 抓手 / 可略过部分</p>
+          <div class="card-grid artifact-list">${fileCards}</div>
+        </section>
+        <section class="section" id="priorities">
+          <p class="eyebrow">阅读优先级 · 不需要每行都读</p>
+          <div class="card-grid two">${priorityCards}</div>
+        </section>
+        <section class="section" id="reading-path">
+          <p class="eyebrow">通读路线 · 真要学它怎么写，照这条线走</p>
+          <div class="narrative">${renderBlocks(guide.readingPath)}</div>
+        </section>
+      </article>
+    `);
+  }
+
+  // ===== 难点档案 (章 05) =====
   function archivePage() {
     const archive = handbook.archive || {};
     const cards = archive.cards || [];
@@ -774,7 +851,7 @@
     layout("难点档案", `
       <article class="page">
         <header class="wt-hero">
-          <p class="eyebrow">难点档案 · 章 04</p>
+          <p class="eyebrow">难点档案 · 章 05</p>
           <h1>${cards.length} 张难点卡</h1>
           <p class="lede">每张卡从一个可观察的症状出发：基线会怎么坏（带证据等级）、skill 用哪几行原文防住、解法属于哪个层次、能不能搬走。卡片末尾的"力度对比"告诉你这招什么时候管用、什么时候是负担。章末是诚实账：没过三问的残渣，和它没防住的盲区。</p>
           <span class="hero-rule"></span>
@@ -793,13 +870,13 @@
         ${blindHtml}
         <div class="end-mark">
           <span class="end-mark-glyph">❖ &nbsp; ❖ &nbsp; ❖</span>
-          <span class="end-mark-text">章 04 / 难点档案 — 完</span>
+          <span class="end-mark-text">章 05 / 难点档案 — 完</span>
         </div>
       </article>
     `);
   }
 
-  // ===== Apply It (章 05) =====
+  // ===== Apply It (章 06) =====
   function applyItPage() {
     const apply = handbook.applyIt || {};
     const scenarioHtml = renderBlocks(apply.scenario);
@@ -810,7 +887,7 @@
     layout("Apply It", `
       <article class="page">
         <header class="wt-hero">
-          <p class="eyebrow">Apply It · 章 05</p>
+          <p class="eyebrow">Apply It · 章 06</p>
           <h1>${escapeHtml(apply.h1 || "拿这套招，自己画一个骨架")}</h1>
           <p class="lede">${renderInline(apply.summary || "")} 这一章不是总结——是练习。下面给你一个新场景，你从难点档案里选卡、组合，画出一个 mini-skill 的骨架。先做，再看参考答案。</p>
           <span class="hero-rule"></span>
@@ -898,6 +975,7 @@
       overview: "Overview",
       walkthrough: "Walkthrough",
       dataflow: "中间产物与数据流",
+      "source-guide": "源包导读",
       "apply-it": "Apply It"
     };
 
@@ -959,7 +1037,7 @@
         </header>
         <section class="section">
           <p class="eyebrow">章节</p>
-          <h2>五章 + ${(handbook.toolbox || []).length ? "两个附录" : "一个附录"}</h2>
+          <h2>六章 + ${(handbook.toolbox || []).length ? "两个附录" : "一个附录"}</h2>
           <div class="chapter-grid">
             ${chapters.map((ch) => `
               <a class="chapter-card" href="${ch.href}">
@@ -972,7 +1050,7 @@
         </section>
         <section class="section">
           <p class="eyebrow">怎么读这本手册</p>
-          <p class="intro-prose">想 10 分钟知道这个 skill 在干嘛——看 <strong>Overview</strong>。想看我怎样被它一步步带着跑——看 <strong>Walkthrough</strong>。想知道它的中间产物为什么长那样——看 <strong>中间产物与数据流</strong>。想偷招——看 <strong>难点档案</strong>，然后到 <strong>Apply It</strong> 动手画一遍。每章左边 sidebar 会自动展开二级目录。</p>
+          <p class="intro-prose">想 10 分钟知道这个 skill 在干嘛——看 <strong>Overview</strong>。想看我怎样被它一步步带着跑——看 <strong>Walkthrough</strong>。想知道它的中间产物为什么长那样——看 <strong>中间产物与数据流</strong>。想知道源包每个承重文件怎么读——看 <strong>源包导读</strong>。想偷招——看 <strong>难点档案</strong>，然后到 <strong>Apply It</strong> 动手画一遍。每章左边 sidebar 会自动展开二级目录。</p>
         </section>
       </article>
     `);
@@ -983,6 +1061,7 @@
     overview: overviewPage,
     walkthrough: walkthroughPage,
     dataflow: dataflowPage,
+    "source-guide": sourceGuidePage,
     archive: archivePage,
     "apply-it": applyItPage,
     glossary: glossaryPage,

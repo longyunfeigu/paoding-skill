@@ -573,6 +573,83 @@ def build_dataflow(path):
     }
 
 
+SOURCE_FILE_LABELS = {
+    "文件类型": "fileType",
+    "文件里实际讲了什么": "actualContent",
+    "读它时先抓什么": "readingFocus",
+    "它把细节交给谁": "handoff",
+    "读完你应该能复述": "takeaway",
+    "可以先略过什么": "skippable",
+}
+
+SOURCE_PRIORITY_LABELS = {
+    "文件": "files",
+    "原因": "reason",
+}
+
+SENTENCE_RE = re.compile(r"[^。！？!?；;]+[。！？!?；;]?")
+
+
+def validate_actual_content(value, path, line, title):
+    compact = re.sub(r"\s+", "", value)
+    sentences = [s.strip() for s in SENTENCE_RE.findall(value) if s.strip()]
+    if len(sentences) < 2:
+        err(path, line,
+            f"承重文件 {title} 的 **文件里实际讲了什么:** 至少写 2 句；"
+            "它是小型内容导览，不是一句话职责摘要")
+    if len(sentences) > 5:
+        err(path, line,
+            f"承重文件 {title} 的 **文件里实际讲了什么:** 最多写 5 句；"
+            "详细逐段解释放到原文阅读，不放导读卡")
+    if len(compact) < 60:
+        err(path, line,
+            f"承重文件 {title} 的 **文件里实际讲了什么:** 信息量太低（少于 60 字）；"
+            "需要写出主线、真实锚点和关键转折")
+
+
+def build_source_guide(path):
+    front, nodes = tokenize(path)
+    sections = split_sections(nodes)
+    for required in ("总框架", "入口文件导读", "引用关系", "承重文件", "阅读优先级", "通读路线"):
+        if required not in sections:
+            err(path, 1, f"source-guide.md 缺少 `## {required}`")
+
+    files = []
+    for title, line, item_nodes in split_items(sections["承重文件"]):
+        fields = fields_map(item_nodes, path, SOURCE_FILE_LABELS, f"承重文件 {title}")
+        for label, key in SOURCE_FILE_LABELS.items():
+            if key not in fields:
+                err(path, line, f"承重文件 {title} 缺少 **{label}:**")
+        actual_node = next((n for n in item_nodes
+                            if n["kind"] == "field" and n["name"] == "文件里实际讲了什么"), None)
+        if actual_node:
+            validate_actual_content(fields["actualContent"], path, actual_node["line"], title)
+        files.append({
+            "path": title.strip("`"),
+            **fields,
+            "body": to_blocks([n for n in item_nodes if n["kind"] != "field"], path),
+        })
+
+    priorities = []
+    for title, line, item_nodes in split_items(sections["阅读优先级"]):
+        fields = fields_map(item_nodes, path, SOURCE_PRIORITY_LABELS, f"阅读优先级 {title}")
+        for label, key in SOURCE_PRIORITY_LABELS.items():
+            if key not in fields:
+                err(path, line, f"阅读优先级 {title} 缺少 **{label}:**")
+        priorities.append({"level": title, **fields})
+
+    return {
+        "h1": front.get("h1", "源包导读"),
+        "summary": front.get("summary", ""),
+        "framework": to_blocks(sections["总框架"], path),
+        "entryGuide": to_blocks(sections["入口文件导读"], path),
+        "referenceMap": to_blocks(sections["引用关系"], path),
+        "files": files,
+        "priorities": priorities,
+        "readingPath": to_blocks(sections["通读路线"], path),
+    }
+
+
 CARD_HEAD_RE = re.compile(r"^(A\d+)\s+(.+?)\s*·\s*维度：(.+)$")
 CARD_LABELS = {
     "症状": "symptom", "Therefore": "therefore", "机制说明": "mechanismNote",
@@ -756,6 +833,14 @@ def collect_toolbox(handbook):
             walk(stage.get(key), "walkthrough", where)
     for art in handbook.get("dataflow", {}).get("artifacts", []):
         walk(art.get("body"), "dataflow", f"产物卡 · {art.get('path', '')}")
+    sg = handbook.get("sourceGuide", {})
+    for key, label in (("framework", "源包导读 · 总框架"),
+                       ("entryGuide", "源包导读 · 入口文件导读"),
+                       ("referenceMap", "源包导读 · 引用关系"),
+                       ("readingPath", "源包导读 · 通读路线")):
+        walk(sg.get(key), "source-guide", label)
+    for f in sg.get("files", []):
+        walk(f.get("body"), "source-guide", f"承重文件 · {f.get('path', '')}")
     ap = handbook.get("applyIt", {})
     for key in ("skeleton", "scenario", "referenceAnswer"):
         walk(ap.get(key), "apply-it", "Apply It")
@@ -765,7 +850,7 @@ def collect_toolbox(handbook):
 # ---------------------------------------------------------------- main
 
 REQUIRED_FILES = ["meta.md", "overview.md", "walkthrough.md", "dataflow.md",
-                  "archive.md", "apply-it.md", "glossary.md"]
+                  "source-guide.md", "archive.md", "apply-it.md", "glossary.md"]
 
 
 def main():
@@ -791,6 +876,7 @@ def main():
             "overview": build_overview(content / "overview.md"),
             "walkthrough": build_walkthrough(content / "walkthrough.md"),
             "dataflow": build_dataflow(content / "dataflow.md"),
+            "sourceGuide": build_source_guide(content / "source-guide.md"),
             "archive": build_archive(content / "archive.md"),
             "applyIt": build_apply(content / "apply-it.md"),
             "glossary": build_glossary(content / "glossary.md"),
@@ -811,8 +897,9 @@ def main():
     )
     stages = len(handbook["walkthrough"])
     cards = len(handbook["archive"]["cards"])
+    source_files = len(handbook["sourceGuide"]["files"])
     print(f"OK {out} （{stages} 个 stage / {cards} 张难点卡 / "
-          f"{len(handbook['glossary'])} 个术语 / {len(diagrams)} 张图 / "
+          f"{source_files} 个源包文件 / {len(handbook['glossary'])} 个术语 / {len(diagrams)} 张图 / "
           f"{len(handbook['toolbox'])} 个可带走点）")
     return 0
 

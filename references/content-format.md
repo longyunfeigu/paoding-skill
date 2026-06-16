@@ -15,12 +15,13 @@ generation/<skill-slug>/content/
   overview.md    # chapter 1
   walkthrough.md # chapter 2
   dataflow.md    # chapter 3 中间产物与数据流
-  archive.md     # chapter 4 难点档案
-  apply-it.md    # chapter 5 transfer exercises
+  source-guide.md # chapter 4 源包导读
+  archive.md     # chapter 5 难点档案
+  apply-it.md    # chapter 6 transfer exercises
   glossary.md    # appendix
 ```
 
-All seven files are required. Build fails on a missing file.
+All eight files are required. Build fails on a missing file.
 
 ## Shared syntax
 
@@ -179,6 +180,40 @@ Frontmatter keys: `flowDiagram`, `intro` (one-sentence total task).
 ＋逐字段注释段。glossary 收录的承重工件必须带标本；来源与「模拟样本」
 标注规则见 references/evidence-collection.md。）
 ```
+
+## source-guide.md
+
+Frontmatter keys: `h1`, `summary`.
+
+This chapter teaches how to read the source package. It explains
+load-bearing files, not every line.
+
+```markdown
+## 总框架        (blocks — package layers, not a directory list)
+## 入口文件导读  (blocks — the actual logic of SKILL.md, in prose)
+## 引用关系      (blocks — who points to whom, preferably a small tree/table)
+## 承重文件
+### SKILL.md
+**文件类型:** 入口调度层 / 任务认知层 / 手册规格层 / 生产流程层 / 写作质量层 / 呈现层 / 验证层
+**文件里实际讲了什么:** 2-5 句的小型内容导览；包含文件主线、2-4 个真实锚点、一个关键转折。
+**读它时先抓什么:** ...
+**它把细节交给谁:** ...
+**读完你应该能复述:** ...
+**可以先略过什么:** ...
+
+## 阅读优先级
+### 必读
+**文件:** `SKILL.md`, `references/pain-dimensions.md`
+**原因:** ...
+
+## 通读路线      (blocks — the practical reading path)
+```
+
+Write one card per load-bearing referenced file or script. The first long
+field is a small content guide, not a one-line responsibility summary: it
+must be 2-5 sentences, name source-specific section names / concepts / rules,
+and point out the file's main turn. Do not card every asset. For exact
+writing rules, read `references/source-guide-writing.md`.
 
 ## archive.md
 
