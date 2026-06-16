@@ -117,6 +117,7 @@ depends on concepts established by earlier chapters.
 | 6 | Apply it | transfer exercises: the reader picks cards, combines them, sketches a mini-skill skeleton | motivational advice, or a summary disguised as exercises |
 | 附录 1 | Glossary | lookup utility for design-heavy terms, off the main reading path | a chapter-sized dictionary interrupting the narrative |
 | 附录 2 | 带走工具箱 | auto-aggregated from in-context `!steal` callouts (see `references/steal-scan.md`); grouped by tier, each item links back to its spot | hand-writing the page (a second copy that drifts), or marking so many callouts the highlight stops meaning anything |
+| 附录 3 | 源码 | the source skill's real source (`SKILL.md` + references + scripts) mirrored verbatim by `scripts/gen-source-data.py` so the reader sees the actual code without leaving for the repo; complements 源包导读 (which teaches how to read, not what the bytes are) | hand-writing it (it is a build artifact from `source-data.js`), or dumping examples/ and generated output as if they were source |
 
 Whole-before-parts is enforced at two levels:
 

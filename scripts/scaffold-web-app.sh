@@ -15,13 +15,16 @@ Convention: each handbook lives under generation/<skill-slug>/ where
 
 Creates the fixed static web handbook skeleton (六章 + 附录):
   index.html
-  pages/{overview,walkthrough,dataflow,source-guide,archive,apply-it,glossary}.html
+  pages/{overview,walkthrough,dataflow,source-guide,archive,apply-it,glossary,source}.html
   content/                  <- write content/*.md here (the only hand-written layer)
-  assets/{data.js,site.js,styles.css,diagrams/.gitkeep}
+  assets/{data.js,source-data.js,site.js,styles.css,diagrams/.gitkeep}
 
-The page shells and renderer are meant to stay stable. assets/data.js is a
-build artifact: write content/*.md per references/content-format.md, then run
-scripts/build-data.py. Never hand-edit data.js.
+The page shells and renderer are meant to stay stable. Two build artifacts,
+both never hand-edited:
+  assets/data.js        <- from content/*.md via scripts/build-data.py
+  assets/source-data.js <- the source skill's real source code, mirrored into
+                           附录 · 源码 by scripts/gen-source-data.py (ships
+                           empty; the 源码 page/nav appear once it is filled).
 USAGE
 }
 
@@ -139,5 +142,7 @@ Next:
   3. Draw real SVGs under $TARGET/assets/diagrams/ and register them in content/meta.md.
   4. Build:  python3 scripts/build-data.py "$TARGET"
   5. Check:  python3 scripts/check-content.py "$TARGET"
-  6. Serve:  python3 -m http.server --directory "$TARGET" 8000
+  6. Source: python3 scripts/gen-source-data.py "${SOURCE_PATH:-<源 skill 路径>}" "$TARGET"
+            （镜像源 skill 真实源码到「附录 · 源码」；不跑则该附录不出现）
+  7. Serve:  python3 -m http.server --directory "$TARGET" 8000
 EOF

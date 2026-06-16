@@ -193,6 +193,10 @@ Before finishing, check:
 - `references/web-app-visuals.md` — short visual constraints for the static web
   template.
 - `scripts/scaffold-web-app.sh` — creates the static handbook skeleton from
-  `assets/web-app-template/`.
+  `assets/web-app-template/` (六章 + 附录, including the 源码 page shell).
 - `scripts/build-data.py` — builds `assets/data.js` from `content/*.md`.
+- `scripts/gen-source-data.py` — mirrors the source skill's real source
+  (`SKILL.md` + `references/**` + `scripts/**`) into `assets/source-data.js`,
+  which feeds the 附录 · 源码 page so readers see the actual source without
+  leaving for the repo. Runs by default for every web handbook.
 - `scripts/check-content.py` — machine half of the hard gate.

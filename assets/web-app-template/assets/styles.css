@@ -2070,3 +2070,31 @@ blockquote .inline-code { background: rgba(0, 0, 0, 0.07); }
 .md-table-wrap { margin: 20px 0; }
 .narrative > p + .narrative-quote,
 .narrative > p + .md-table-wrap { margin-top: 16px; }
+
+/* ===== 附录 · 源码 viewer ===== */
+.src-toc {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 10px;
+  margin: 28px 0 40px;
+}
+.src-toc-item {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 12px 14px;
+  border: 1px solid var(--ink);
+  border-radius: 8px;
+  text-decoration: none;
+  color: inherit;
+  background: rgba(255, 255, 255, 0.5);
+  transition: background 0.15s ease, transform 0.15s ease;
+}
+.src-toc-item:hover { background: rgba(0, 0, 0, 0.04); transform: translateY(-1px); }
+.src-toc-name { font-family: var(--mono); font-size: 13px; font-weight: 600; }
+.src-toc-meta { font-size: 11px; color: var(--muted, #777); }
+.src-file { margin: 0 0 40px; scroll-margin-top: 90px; }
+.src-file-head { margin-bottom: 12px; }
+.src-file-head h3 { font-family: var(--mono); font-size: 15px; margin: 0 0 2px; }
+.src-file-note { font-size: 12px; color: var(--muted, #777); margin: 0; }
+.code-block-source pre { max-height: 70vh; overflow: auto; }

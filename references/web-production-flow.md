@@ -14,9 +14,16 @@ generation/<skill-slug>/
   handbook-brief.md     # sweep output: pain scan, inventory, threads (hand-written)
   page-packets/         # per-page writing instructions (hand-written)
   content/              # the eight content files (hand-written, the deliverable)
-  assets/data.js        # BUILD ARTIFACT — never hand-edit
+  assets/data.js        # BUILD ARTIFACT — never hand-edit (from content/*.md)
+  assets/source-data.js # BUILD ARTIFACT — never hand-edit (源 skill 真实源码镜像)
   index.html  pages/  assets/{site.js,styles.css,diagrams/}   # scaffold-owned
 ```
+
+`assets/source-data.js` 喂的是「附录 · 源码」页——把源 skill 的真实源码
+（SKILL.md + references + scripts）逐字镜像进手册，读者不必回 repo 翻原文。
+它和 data.js 一样是构建产物，由 `scripts/gen-source-data.py` 从源 skill 路径
+自动收集生成（见第 5 步）。脚手架先放一个空的，跑了生成脚本「源码」页和
+导航项才出现。
 
 `<skill-slug>` is derived from the source skill's `name:` field. ASCII
 letters, digits, and hyphens only.
@@ -131,14 +138,21 @@ Page jobs (details in `references/handbook-spec.md`):
 For `walkthrough.packet`, add a short **Mechanism threads** block saying
 which thread each relevant stage touches.
 
-## 5. Build and machine-check
+## 5. Build, mirror source, machine-check
 
 ```bash
 python3 scripts/build-data.py generation/<skill-slug>
+python3 scripts/gen-source-data.py <source skill path> generation/<skill-slug>
 python3 scripts/check-content.py generation/<skill-slug>
 ```
 
-Both must pass with zero errors. The build rejects format violations
+`gen-source-data.py` 自动收源 skill 的 `SKILL.md` + `references/**` +
+`scripts/**`（文本文件），逐字写进 `assets/source-data.js`，喂「附录 · 源码」页。
+默认每本手册都跑——这是让读者「不用回 repo 翻源码」的那一步。源码本身不进
+机器门（它是源 skill 的原文，不是手写 content），但跑完后开页面要肉眼确认
+源码页渲染、导航多了「源码」一项。
+
+Both build and check must pass with zero errors. The build rejects format violations
 (unknown fields, missing evidence grades, pain-carrying stages without a
 predict point). The checker rejects broken diagram references, empty
 contrast pairs, illegal effect values, and dangling card links. Fix the
