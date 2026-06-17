@@ -575,6 +575,7 @@ def build_dataflow(path):
 
 SOURCE_FILE_LABELS = {
     "文件类型": "fileType",
+    "先给读者搭桥": "readerBridge",
     "文件里实际讲了什么": "actualContent",
     "读它时先抓什么": "readingFocus",
     "它把细节交给谁": "handoff",
@@ -588,6 +589,19 @@ SOURCE_PRIORITY_LABELS = {
 }
 
 SENTENCE_RE = re.compile(r"[^。！？!?；;]+[。！？!?；;]?")
+SOURCE_GUIDE_PLUS_RE = re.compile(r"[\w一-龥][^。！？!?；;]{0,24}\s*[+＋]\s*[^。！？!?；;]{1,24}[\w一-龥]")
+SOURCE_GUIDE_JARGON_RE = re.compile(r"(外包给|甩给|丢给)\s*`?references/?`?", re.I)
+
+
+def reject_source_guide_compression(value, path, line, title, field):
+    if SOURCE_GUIDE_PLUS_RE.search(value):
+        err(path, line,
+            f"承重文件 {title} 的 **{field}:** 出现 `A + B` 式压缩；"
+            "源包导读要把锚点展开成读者能跟上的动作链")
+    if SOURCE_GUIDE_JARGON_RE.search(value):
+        err(path, line,
+            f"承重文件 {title} 的 **{field}:** 使用了“外包/甩给 references”式项目内行说法；"
+            "请说明什么细节移到哪个文件、读者什么时候该打开它")
 
 
 def validate_actual_content(value, path, line, title):
@@ -605,6 +619,21 @@ def validate_actual_content(value, path, line, title):
         err(path, line,
             f"承重文件 {title} 的 **文件里实际讲了什么:** 信息量太低（少于 60 字）；"
             "需要写出主线、真实锚点和关键转折")
+    reject_source_guide_compression(value, path, line, title, "文件里实际讲了什么")
+
+
+def validate_reader_bridge(value, path, line, title):
+    compact = re.sub(r"\s+", "", value)
+    sentences = [s.strip() for s in SENTENCE_RE.findall(value) if s.strip()]
+    if len(sentences) > 3:
+        err(path, line,
+            f"承重文件 {title} 的 **先给读者搭桥:** 最多写 3 句；"
+            "这是读前垫脚石，不是另一段文件摘要")
+    if len(compact) < 35:
+        err(path, line,
+            f"承重文件 {title} 的 **先给读者搭桥:** 信息量太低（少于 35 字）；"
+            "需要先把陌生术语或文件用途翻成读者能懂的话")
+    reject_source_guide_compression(value, path, line, title, "先给读者搭桥")
 
 
 def build_source_guide(path):
@@ -624,6 +653,10 @@ def build_source_guide(path):
                             if n["kind"] == "field" and n["name"] == "文件里实际讲了什么"), None)
         if actual_node:
             validate_actual_content(fields["actualContent"], path, actual_node["line"], title)
+        bridge_node = next((n for n in item_nodes
+                            if n["kind"] == "field" and n["name"] == "先给读者搭桥"), None)
+        if bridge_node:
+            validate_reader_bridge(fields["readerBridge"], path, bridge_node["line"], title)
         files.append({
             "path": title.strip("`"),
             **fields,

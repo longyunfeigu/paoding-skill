@@ -138,6 +138,13 @@ Page jobs (details in `references/handbook-spec.md`):
 For `walkthrough.packet`, add a short **Mechanism threads** block saying
 which thread each relevant stage touches.
 
+For `source-guide.packet`, add a mandatory **Learner review** block: after
+drafting `content/source-guide.md`, an independent reviewer/subagent must read
+`references/source-guide-writing.md`, the source `SKILL.md`, and the draft
+source guide, then report where a first-time learner would be lost. The author
+fixes or explicitly rejects each finding and records the result in
+`handbook-brief.md`.
+
 ## 5. Build, mirror source, machine-check
 
 ```bash
@@ -162,6 +169,12 @@ content, rebuild — never patch data.js.
 
 After each page is drafted and building, run the voice gate before marking
 it done.
+
+Before the general voice gate, run the source-guide learner review if
+`content/source-guide.md` changed. This is separate from AI-voice review:
+it checks whether the page teaches a new reader how to open the source package,
+not whether the prose sounds polished. Required trace in `handbook-brief.md`:
+reviewer used / fields scanned / findings / author disposition.
 
 - `references/voice-style-gate.md` — the seven hard rules (H1-H7), then
   anti-jargon and teaching-voice checks.

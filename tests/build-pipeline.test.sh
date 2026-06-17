@@ -29,6 +29,7 @@ grep -q '"outputBody"' "$OUT/assets/data.js" || fail "stage outputBody missing f
 grep -q 'interview-1995' "$OUT/assets/data.js" || fail "dataflow specimen block missing from data.js"
 grep -q '"sourceGuide"' "$OUT/assets/data.js" || fail "source guide missing from data.js"
 grep -q 'references/pain.md' "$OUT/assets/data.js" || fail "source guide file card missing from data.js"
+grep -q '"readerBridge"' "$OUT/assets/data.js" || fail "source guide reader bridge missing from data.js"
 
 # check-content：缺 SVG 时必须失败
 if python3 "$ROOT/scripts/check-content.py" "$OUT" >/dev/null 2>&1; then
@@ -60,6 +61,30 @@ if python3 "$ROOT/scripts/build-data.py" "$OUT" >/dev/null 2>"$TMP/source-guide.
   fail "build-data.py should reject a one-sentence source-guide actual-content field"
 fi
 grep -q "source-guide.md" "$TMP/source-guide.err" || fail "source-guide build error should name the offending file"
+
+# 报错路径：源包导读「先给读者搭桥」太短 -> 构建必须失败
+sed '0,/^\*\*先给读者搭桥:\*\*.*/s//**先给读者搭桥:** 看这个文件。/' \
+  "$FIXTURE/source-guide.md" > "$OUT/content/source-guide.md"
+if python3 "$ROOT/scripts/build-data.py" "$OUT" >/dev/null 2>"$TMP/source-guide-bridge.err"; then
+  fail "build-data.py should reject a too-short source-guide reader bridge"
+fi
+grep -q "source-guide.md" "$TMP/source-guide-bridge.err" || fail "source-guide bridge error should name the offending file"
+
+# 报错路径：源包导读不能用 A + B 压缩锚点
+sed '0,/^\*\*文件里实际讲了什么:\*\*.*/s//**文件里实际讲了什么:** 它先介绍 Phase 0 的入口分流表 + Phase 1 的六维任务表。然后说明这些表如何把默认 agent 从直接写答案拉回调研流程。/' \
+  "$FIXTURE/source-guide.md" > "$OUT/content/source-guide.md"
+if python3 "$ROOT/scripts/build-data.py" "$OUT" >/dev/null 2>"$TMP/source-guide-plus.err"; then
+  fail "build-data.py should reject plus-compressed source-guide anchors"
+fi
+grep -q "source-guide.md" "$TMP/source-guide-plus.err" || fail "source-guide plus error should name the offending file"
+
+# 报错路径：源包导读不能用“外包给 references”替代解释
+sed '0,/^\*\*文件里实际讲了什么:\*\*.*/s//**文件里实际讲了什么:** 它先介绍 Phase 0 的入口分流表，然后说明主流程如何从调研走到测试。一个关键转折是它把方法论外包给 references，自己只保留调度骨架。/' \
+  "$FIXTURE/source-guide.md" > "$OUT/content/source-guide.md"
+if python3 "$ROOT/scripts/build-data.py" "$OUT" >/dev/null 2>"$TMP/source-guide-jargon.err"; then
+  fail "build-data.py should reject unexplained references-outsourcing jargon"
+fi
+grep -q "source-guide.md" "$TMP/source-guide-jargon.err" || fail "source-guide jargon error should name the offending file"
 cp "$FIXTURE/source-guide.md" "$OUT/content/source-guide.md"
 
 # 报错路径：有难点但删掉预测点 -> 构建必须失败

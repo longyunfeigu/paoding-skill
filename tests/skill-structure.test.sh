@@ -41,15 +41,17 @@ assert_grep '^generation/' .gitignore
 [[ -f examples/huashu-nuwa/index.html ]] || fail "expected sample handbook at examples/huashu-nuwa/"
 
 assert_max_lines references/web-app-visuals.md 120
-assert_max_lines references/web-production-flow.md 240
+assert_max_lines references/web-production-flow.md 270
 assert_max_lines references/stage-writing.md 300
 assert_max_lines references/pain-dimensions.md 240
 assert_max_lines references/content-format.md 330
 assert_max_lines references/handbook-spec.md 330
-assert_max_lines references/source-guide-writing.md 160
+assert_max_lines references/source-guide-writing.md 270
 
 assert_grep 'data.js 是构建产物' SKILL.md
 assert_grep 'pain-dimensions' SKILL.md
 assert_grep 'source-guide-writing' SKILL.md
+assert_grep 'Independent learner review' references/source-guide-writing.md
+assert_grep 'source-guide learner review' references/web-production-flow.md
 
 echo "skill structure tests passed"

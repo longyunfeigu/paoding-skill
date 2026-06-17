@@ -142,6 +142,9 @@ Before finishing, check:
 - Did you avoid turning one project's generated output into the rule?
 - Did the source guide explain referenced files enough that the reader knows
   what to read, what to skip, and what each load-bearing file controls?
+- Did an independent learner reviewer check `content/source-guide.md` from
+  a first-time reader stance, and did you record fixes/rejections in the
+  brief?
 
 ## Non-Negotiables
 
@@ -166,6 +169,11 @@ Before finishing, check:
   is blind to their own prose and self-review systematically passes AI-slop
   in the "summary" fields (Therefore, 为什么长这样, 最值得学的一招). See the
   mandatory independent-reviewer step in `references/web-production-flow.md` §6.
+- Source-guide self-review is also not enough. After drafting
+  `content/source-guide.md`, dispatch an independent learner reviewer to check
+  whether a first-time reader can understand the entry logic, file cards, and
+  private terms before opening the source. See
+  `references/source-guide-writing.md` §Independent learner review.
 
 ## Resources
 

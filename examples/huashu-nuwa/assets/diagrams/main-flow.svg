@@ -1,83 +1,62 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 980 430" font-family="-apple-system, 'PingFang SC', 'Noto Sans CJK SC', sans-serif">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1048 232">
   <defs>
-    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
-      <path d="M 0 0 L 10 5 L 0 10 z" fill="#8a8f98"/>
+    <marker id="arrow" markerWidth="9" markerHeight="7" refX="8" refY="3.5" orient="auto">
+      <path d="M0,0 L9,3.5 L0,7 Z" fill="#4a3f33"/>
+    </marker>
+    <marker id="arrow-accent" markerWidth="9" markerHeight="7" refX="8" refY="3.5" orient="auto">
+      <path d="M0,0 L9,3.5 L0,7 Z" fill="#8a1c0f"/>
     </marker>
   </defs>
   <style>
-    .box { fill: #f6f7f9; stroke: #c9cdd4; }
-    .stage { fill: #eef2ff; stroke: #6473c8; }
-    .gate { fill: #fff7e6; stroke: #d99a2b; }
-    .out { fill: #e9f7ef; stroke: #3d9a5f; }
-    .lbl { font-size: 14px; fill: #1f2329; font-weight: 600; }
-    .sub { font-size: 11px; fill: #5c6370; }
-    .edge { stroke: #8a8f98; stroke-width: 1.6; fill: none; marker-end: url(#arrow); }
-    .gatelbl { font-size: 12px; fill: #8a5a10; font-weight: 600; }
+    .box { fill: #ede6d4; stroke: #4a3f33; stroke-width: 1.5; }
+    .gate { fill: #e3dac0; stroke: #94701f; stroke-width: 1.5; }
+    .label { font-family: system-ui, sans-serif; font-size: 13px; fill: #1a1410; text-anchor: middle; }
+    .id { font-family: system-ui, sans-serif; font-size: 10px; fill: #8a7a66; text-anchor: middle; }
+    .line { stroke: #4a3f33; stroke-width: 1.6; marker-end: url(#arrow); fill: none; }
+    .loop { stroke: #8a1c0f; stroke-width: 1.6; marker-end: url(#arrow-accent); fill: none; stroke-dasharray: 5 4; }
+    .io { font-family: system-ui, sans-serif; font-size: 11px; fill: #8a1c0f; text-anchor: middle; }
+    .looptxt { font-family: system-ui, sans-serif; font-size: 11px; fill: #8a1c0f; text-anchor: middle; }
   </style>
 
-  <!-- Row 1: input + stages 1-4 -->
-  <rect class="box" x="20" y="40" width="120" height="70" rx="8"/>
-  <text class="lbl" x="80" y="70" text-anchor="middle">用户输入</text>
-  <text class="sub" x="80" y="90" text-anchor="middle">「蒸馏孙宇晨」</text>
+  <text class="io" x="76" y="26">人名 / 主题 / 模糊需求</text>
+  <text class="io" x="972" y="26">可运行的人物 SKILL.md</text>
 
-  <rect class="stage" x="180" y="40" width="160" height="70" rx="8"/>
-  <text class="lbl" x="260" y="63" text-anchor="middle">① 入口分流</text>
-  <text class="sub" x="260" y="82" text-anchor="middle">人名 → 直接路径</text>
-  <text class="sub" x="260" y="97" text-anchor="middle">困惑 → 诊断推荐</text>
+  <rect class="box" x="12" y="44" width="128" height="56"/>
+  <text class="label" x="76" y="69">入口分流</text>
+  <text class="id" x="76" y="88">stage-01</text>
 
-  <rect class="stage" x="380" y="40" width="160" height="70" rx="8"/>
-  <text class="lbl" x="460" y="63" text-anchor="middle">② 目录先行</text>
-  <text class="sub" x="460" y="82" text-anchor="middle">建自包含 skill 目录</text>
-  <text class="sub" x="460" y="97" text-anchor="middle">定死 6 个落盘文件名</text>
+  <line class="line" x1="140" y1="72" x2="158" y2="72"/>
+  <rect class="box" x="160" y="44" width="120" height="56"/>
+  <text class="label" x="220" y="69">建自包含目录</text>
+  <text class="id" x="220" y="88">stage-02</text>
 
-  <rect class="stage" x="580" y="30" width="170" height="90" rx="8"/>
-  <text class="lbl" x="665" y="53" text-anchor="middle">③ 六路取证</text>
-  <text class="sub" x="665" y="72" text-anchor="middle">著作 · 对话 · 表达</text>
-  <text class="sub" x="665" y="87" text-anchor="middle">他者 · 决策 · 时间线</text>
-  <text class="sub" x="665" y="105" text-anchor="middle">6 个并行 agent 各写一份档案</text>
+  <line class="line" x1="280" y1="72" x2="298" y2="72"/>
+  <rect class="box" x="300" y="44" width="128" height="56"/>
+  <text class="label" x="364" y="69">六 Agent 采集</text>
+  <text class="id" x="364" y="88">stage-03</text>
 
-  <rect class="stage" x="790" y="30" width="170" height="90" rx="8"/>
-  <text class="lbl" x="875" y="53" text-anchor="middle">④ 三重验证提炼</text>
-  <text class="sub" x="875" y="72" text-anchor="middle">跨域复现 · 生成力 · 排他性</text>
-  <text class="sub" x="875" y="87" text-anchor="middle">三筛全过才算心智模型</text>
-  <text class="sub" x="875" y="105" text-anchor="middle">矛盾保留为张力</text>
+  <line class="line" x1="428" y1="72" x2="446" y2="72"/>
+  <rect class="gate" x="448" y="44" width="124" height="56"/>
+  <text class="label" x="510" y="69">Review 检查点</text>
+  <text class="id" x="510" y="88">stage-04</text>
 
-  <!-- Gates under stage 3 and 4 -->
-  <rect class="gate" x="580" y="160" width="170" height="56" rx="8"/>
-  <text class="gatelbl" x="665" y="183" text-anchor="middle">⏸ 检查点 1.5</text>
-  <text class="sub" x="665" y="201" text-anchor="middle">调研摘要表 → 用户确认</text>
+  <line class="line" x1="572" y1="72" x2="590" y2="72"/>
+  <rect class="box" x="592" y="44" width="120" height="56"/>
+  <text class="label" x="652" y="69">框架提炼</text>
+  <text class="id" x="652" y="88">stage-05</text>
 
-  <rect class="gate" x="790" y="160" width="170" height="56" rx="8"/>
-  <text class="gatelbl" x="875" y="183" text-anchor="middle">⏸ 检查点 2.5</text>
-  <text class="sub" x="875" y="201" text-anchor="middle">提炼摘要 → 用户确认</text>
+  <line class="line" x1="712" y1="72" x2="730" y2="72"/>
+  <rect class="box" x="732" y="44" width="120" height="56"/>
+  <text class="label" x="792" y="69">构建 Skill</text>
+  <text class="id" x="792" y="88">stage-06</text>
 
-  <!-- Row 2: stages 5-6 + output -->
-  <rect class="stage" x="180" y="290" width="180" height="80" rx="8"/>
-  <text class="lbl" x="270" y="315" text-anchor="middle">⑤ 组装人格</text>
-  <text class="sub" x="270" y="334" text-anchor="middle">按 skill-template 填充</text>
-  <text class="sub" x="270" y="349" text-anchor="middle">从心智模型推导 Agentic Protocol</text>
+  <line class="line" x1="852" y1="72" x2="870" y2="72"/>
+  <rect class="box" x="872" y="44" width="128" height="56"/>
+  <text class="label" x="936" y="69">验证 · 精炼</text>
+  <text class="id" x="936" y="88">stage-07</text>
 
-  <rect class="stage" x="400" y="290" width="200" height="80" rx="8"/>
-  <text class="lbl" x="500" y="315" text-anchor="middle">⑥ 三面测试与精炼</text>
-  <text class="sub" x="500" y="334" text-anchor="middle">独立子agent:已知 / 边缘 / 风格</text>
-  <text class="sub" x="500" y="349" text-anchor="middle">quality_check.py + 双Agent精炼</text>
+  <line class="line" x1="1000" y1="72" x2="1024" y2="72"/>
 
-  <rect class="out" x="640" y="290" width="200" height="80" rx="8"/>
-  <text class="lbl" x="740" y="315" text-anchor="middle">人物 SKILL.md</text>
-  <text class="sub" x="740" y="334" text-anchor="middle">心智模型 + 启发式 + 表达DNA</text>
-  <text class="sub" x="740" y="349" text-anchor="middle">+ 诚实边界 + 调研来源附录</text>
-
-  <!-- edges row 1 -->
-  <path class="edge" d="M140 75 H178"/>
-  <path class="edge" d="M340 75 H378"/>
-  <path class="edge" d="M540 75 H578"/>
-  <path class="edge" d="M750 75 H788"/>
-  <!-- stage3 -> gate1.5, stage4 -> gate2.5 -->
-  <path class="edge" d="M665 120 V158"/>
-  <path class="edge" d="M875 120 V158"/>
-  <!-- gate2.5 -> stage5 (wrap to row 2 via free lane y=253) -->
-  <path class="edge" d="M875 216 V253 H140 V330 H178"/>
-  <!-- stage5 -> stage6 -> output -->
-  <path class="edge" d="M360 330 H398"/>
-  <path class="edge" d="M600 330 H638"/>
+  <path class="loop" d="M872,100 C792,180 720,180 652,104"/>
+  <text class="looptxt" x="762" y="196">不通过 → 回炉（≤2 次）</text>
 </svg>

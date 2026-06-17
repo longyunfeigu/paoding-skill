@@ -684,6 +684,7 @@
       <article class="card filemap-card source-file-card" id="src-${slugify(f.path)}">
         <h3>${escapeHtml(f.path)}</h3>
         <div class="card-row"><span class="label">文件类型</span><p>${renderInline(f.fileType || "")}</p></div>
+        <div class="card-row source-bridge"><span class="label">先给读者搭桥</span><p>${renderInline(f.readerBridge || "")}</p></div>
         <div class="card-row why-shape"><span class="label">文件里实际讲了什么</span><p>${renderInline(f.actualContent || "")}</p></div>
         <div class="card-row"><span class="label">读它时先抓什么</span><p>${renderInline(f.readingFocus || "")}</p></div>
         <div class="card-row"><span class="label">它把细节交给谁</span><p>${renderInline(f.handoff || "")}</p></div>

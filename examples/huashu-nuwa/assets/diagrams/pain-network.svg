@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 340">
+  <style>
+    .card { fill: #ede6d4; stroke: #4a3f33; stroke-width: 1.4; }
+    .empty { fill: #f6f1e6; stroke: #8a7a66; stroke-width: 1.2; stroke-dasharray: 4 3; }
+    .dim { font-family: system-ui, sans-serif; font-size: 15px; fill: #8a1c0f; text-anchor: middle; font-weight: 600; }
+    .ids { font-family: ui-monospace, Menlo, monospace; font-size: 13px; fill: #1a1410; text-anchor: middle; }
+    .desc { font-family: system-ui, sans-serif; font-size: 11px; fill: #4a3f33; text-anchor: middle; }
+    .title { font-family: system-ui, sans-serif; font-size: 13px; fill: #8a7a66; text-anchor: middle; }
+  </style>
+
+  <text class="title" x="500" y="30">女娲防住的难点 · 按七维度分布（一个执行者，接输入，在环境里，按标准做任务，受规模约束）</text>
+
+  <rect class="card" x="20" y="56" width="222" height="96"/>
+  <text class="dim" x="131" y="88">领域-认知</text>
+  <text class="ids" x="131" y="112">A1</text>
+  <text class="desc" x="131" y="134">心智模型而非金句</text>
+
+  <rect class="card" x="262" y="56" width="222" height="96"/>
+  <text class="dim" x="373" y="88">行为</text>
+  <text class="ids" x="373" y="112">A2 · A4</text>
+  <text class="desc" x="373" y="134">先查再答 / 双检查点</text>
+
+  <rect class="card" x="504" y="56" width="222" height="96"/>
+  <text class="dim" x="615" y="88">编排</text>
+  <text class="ids" x="615" y="112">A3</text>
+  <text class="desc" x="615" y="134">六维并行 + 必落盘</text>
+
+  <rect class="card" x="746" y="56" width="222" height="96"/>
+  <text class="dim" x="857" y="88">品味</text>
+  <text class="ids" x="857" y="112">A6 · A7 · A9</text>
+  <text class="desc" x="857" y="134">认人 / 降级 / 黑名单</text>
+
+  <rect class="card" x="141" y="180" width="222" height="96"/>
+  <text class="dim" x="252" y="212">需求</text>
+  <text class="ids" x="252" y="236">A5</text>
+  <text class="desc" x="252" y="258">入口分流反推对象</text>
+
+  <rect class="card" x="383" y="180" width="222" height="96"/>
+  <text class="dim" x="494" y="212">领域-工程</text>
+  <text class="ids" x="494" y="236">A8 · A10</text>
+  <text class="desc" x="494" y="258">字幕脚本 / 浅统计</text>
+
+  <rect class="empty" x="625" y="180" width="222" height="96"/>
+  <text class="dim" x="736" y="212" fill="#8a7a66">平台</text>
+  <text class="ids" x="736" y="236" fill="#8a7a66">确无独立卡</text>
+  <text class="desc" x="736" y="258">来源黑名单并入品味</text>
+</svg>

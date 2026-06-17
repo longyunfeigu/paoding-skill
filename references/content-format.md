@@ -195,6 +195,7 @@ load-bearing files, not every line.
 ## 承重文件
 ### SKILL.md
 **文件类型:** 入口调度层 / 任务认知层 / 手册规格层 / 生产流程层 / 写作质量层 / 呈现层 / 验证层
+**先给读者搭桥:** 1-3 句；假设读者没读过源包，把陌生术语或项目背景翻成任务语境。
 **文件里实际讲了什么:** 2-5 句的小型内容导览；包含文件主线、2-4 个真实锚点、一个关键转折。
 **读它时先抓什么:** ...
 **它把细节交给谁:** ...
@@ -210,10 +211,12 @@ load-bearing files, not every line.
 ```
 
 Write one card per load-bearing referenced file or script. The first long
-field is a small content guide, not a one-line responsibility summary: it
-must be 2-5 sentences, name source-specific section names / concepts / rules,
-and point out the file's main turn. Do not card every asset. For exact
-writing rules, read `references/source-guide-writing.md`.
+field is a reader bridge: write for someone who has not read the package and
+does not know its project terms. The second long field is a small content
+guide, not a one-line responsibility summary: it must be 2-5 sentences, name
+source-specific section names / concepts / rules, and point out the file's
+main turn. Do not card every asset. For exact writing rules, read
+`references/source-guide-writing.md`.
 
 ## archive.md
 
